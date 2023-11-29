@@ -4,10 +4,12 @@
 
 <instance-profile id="g"
                  name="Gamification"
-                 start-page="starter-topic.md">
+                 start-page="Gamification.md">
 
     <toc-element topic="Scénarios.md">
+        <toc-element topic="DHT.md"/>
         <toc-element topic="Kafka.md"/>
         <toc-element topic="Scraping.md"/>
     </toc-element>
+    <toc-element topic="Gamification.md"/>
 </instance-profile>
