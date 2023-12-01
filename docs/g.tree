@@ -6,7 +6,7 @@
                  name="Gamification"
                  start-page="Gamification.md">
 
-    <toc-element topic="Scénarios.md">
+    <toc-element topic="Scenarios.md">
         <toc-element topic="DHT.md"/>
         <toc-element topic="Kafka.md"/>
         <toc-element topic="Scraping.md"/>
