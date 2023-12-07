@@ -17,6 +17,9 @@ module.exports = {
         'bgTable':'#D7D7D7',
         'borderTable':'#9c9c9c',
         
+      },
+      boxShadow: {
+        'shadow_img' : '8px 8px 6px 0px #BFBFBF'
       }
     },
   },

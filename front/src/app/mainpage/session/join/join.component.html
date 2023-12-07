@@ -1,16 +1,17 @@
 
-
+<!-- <h1>{{ title }}</h1>
+<p>{{ message }}</p> -->
 <div class="w-[934px] h-[465px] relative">
     <div class="w-[934px] h-[465px] left-0 top-0 absolute">
-        <div class="left-[310px] top-[130px] absolute text-black text-2xl font-medium font-['Inter'] leading-9">Session :<br/>Date :<br/>Début :<br/>Fin :</div>
-        <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute shadow-2xl p-4 shadow-gray-500">
+        <div class="left-[310px] top-[130px] absolute text-black text-2xl font-medium font-['Inter'] leading-9">Session : {{session[0].Name}} <br/>Date : {{session[0].Date}} <br/>Début : {{session[0].Debut}} <br/>Fin : {{session[0].Fin}} </div>
+        <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute ">
             <div class="w-[206px] h-[206.54px] left-[1px] top-[3.46px] absolute bg-zinc-300"></div>
             <div class="w-[206px] h-[132px] left-[1px] top-0 absolute bg-white"></div>
             <div class="w-[207px] h-[62.31px] left-0 top-[147.69px] absolute text-center text-black text-2xl font-medium font-['Inter'] leading-9">TP Kafka TRO G1</div>
-            <img class="w-[62px] h-[103px] left-[73px] top-[18px] absolute" src="/assets/imgJoin/kafka.png" />
+            <img class="w-[62px] h-[103px] left-[73px] top-[18px] absolute" src="/assets/imgJoin/Kafka.png" />
         </div>
-        <div class="w-[448px] h-[59px] left-[310px] top-[67px] absolute text-black text-2xl font-medium font-['Inter'] leading-9">Voulez-vous rejoindre cette session ?</div>
-        <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute bg-zinc-300 bg-opacity-0 border-4 border-black"></div>
+        <div class="w-[448px] h-[59px] left-[310px] top-[67px] absolute text-black text-2xl font-medium font-['Inter'] leading-9 ">Voulez-vous rejoindre cette session ?</div>
+        <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute bg-zinc-300 bg-opacity-0 border-4 border-black shadow-shadow_img"></div>
     </div>
     <div class="w-[38px] h-[38px] left-[876px] top-[19px] absolute">
         <button (click)="closeDialog()">

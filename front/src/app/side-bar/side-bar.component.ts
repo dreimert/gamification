@@ -1,5 +1,5 @@
 import { Component,Output, EventEmitter } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterLink,RouterLinkActive } from '@angular/router';
 import { sidebars_stu } from './side-bar';
 import { SidebarButtonComponent } from './sidebar-button/sidebar-button.component';

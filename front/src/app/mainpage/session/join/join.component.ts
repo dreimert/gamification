@@ -2,6 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 
+import { Session, sessions } from '../session';
+
+
 @Component({
   selector: 'app-join',
   standalone: true,
@@ -20,4 +23,6 @@ export class JoinComponent {
   }
 
   inputValue: string = '';
+  session = [...sessions];
+  
 }
