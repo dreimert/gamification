@@ -15,7 +15,7 @@ export const sidebars_stu: SidebarButton[] = [
     {
         id:3,
         name: "Session",
-        url:"/session",
+        url:"/sessions",
         open: false,
     },
 ]

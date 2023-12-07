@@ -1,3 +1,17 @@
-<div>
-    <p class="text-black">notes works!</p>
+<div class="flex flex-col w-full min-h-screen bg-grey">
+    <app-header [section]="section"></app-header>
+    <div class="flex flex-col mt-5 m-3">
+        <div class="flex flex-row justify-center items-center bg-bgHeaderTable border border-borderTable rounded-t-lg" >
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">TP</p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">Note</p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">Moyenne</p>
+            <p class="flex w-full py-2 ">Coefficient</p>
+        </div>
+        <div *ngFor = "let note of notes_stu" class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable" >
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{note.name}}</p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{note.note}}</p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{note.moyenne}}</p>
+            <p class="flex w-full py-2 ">{{note.coefficient}}</p>
+        </div>
+    </div>
 </div>

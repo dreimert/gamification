@@ -4,9 +4,14 @@ import {NotesComponent} from './mainpage/notes/notes.component';
 import { SessionComponent } from './mainpage/session/session.component';
 export const routes: Routes = [
       {
+        path: 'sessions',
+        component: SessionComponent,
+        title: 'Sessions',
+      },
+      {
         path: 'notes',
         component: NotesComponent,
-        title: 'Note',
+        title: 'Notes',
       },
       {
         path: 'session',
