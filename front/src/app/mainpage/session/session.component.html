@@ -1,9 +1,9 @@
 
 <!-- <div class="w-[1920px] h-[1080px] relative bg-gray-200 border border-neutral-500"> -->
-<div class="relative bg-gray-200 border border-neutral-500">
+<div class="min-h-screen flex-col flex relative bg-gray-200 border border-neutral-500">
     <app-header [section]="section"></app-header>
     <div class="items-start justify-start min-h-screen flex ">
-        <div *ngFor="let session of sessions"class="items-start justify-start max-h-screen flex w-[207px] h-[279px] left-[100px] top-[54px] relative">
+        <div *ngFor="let session of sessions"class="w-[207px] h-[279px] left-[50px] top-[54px] ml-10 relative">
             <div class="w-[206px] h-[275px] left-[1px] top-[4px] absolute bg-zinc-300"></div>
             <div class="w-[92px] h-[34.09px] left-[59px] top-[231px] absolute">
                 <div class="w-[92px] h-[34.09px] left-0 top-0 absolute bg-blue-600 rounded-[15px]"></div>

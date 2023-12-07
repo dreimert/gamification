@@ -21,7 +21,7 @@ export class SessionComponent {
     const dialogRef = this.dialog.open(JoinComponent, {
       width: '934px',
       height: '465px',
-      data: {session: session, title: 'Dialog Title', message: 'Hello, this is a message!'},
+      data: {session: session},
     });
 
     dialogRef.afterClosed().subscribe(result => {
