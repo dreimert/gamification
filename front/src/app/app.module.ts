@@ -10,17 +10,11 @@ import { SideBarComponent } from './side-bar/side-bar.component';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    // RouterModule.forRoot([
-    //   { path: '', component: ProductListComponent },
-    // ])
   ],
   declarations: [
-    // AppComponent,
-    SideBarComponent,
+
   ],
-//   bootstrap: [
-//     AppComponent,
-//   ]
+
 })
 export class AppModule { }
 
