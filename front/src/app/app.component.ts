@@ -13,10 +13,4 @@ import {AccueilComponent} from './mainpage/accueil/accueil.component';
 })
 export class AppComponent {
   title = 'front';
-
-  // constructor(private router:Router){}
-
-  // onNavigate(route: string){
-  //   this.router.navigate([route]);
-  // }
 }
