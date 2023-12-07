@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import {SideBarComponent} from './side-bar/side-bar.component'
 import { RouterModule } from '@angular/router';
 import {AccueilComponent} from './mainpage/accueil/accueil.component';
+import {User,userInfo} from'./user';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -13,4 +14,5 @@ import {AccueilComponent} from './mainpage/accueil/accueil.component';
 })
 export class AppComponent {
   title = 'front';
+  user=userInfo;
 }
