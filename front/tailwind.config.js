@@ -15,6 +15,7 @@ module.exports = {
         'blueButton':'#004FFF',
         'bgHeaderTable':'#C3C3C3',
         'bgTable':'#D7D7D7',
+        'bgCreateSession':'#D9D9D9',
         'borderTable':'#9c9c9c',
         
       },

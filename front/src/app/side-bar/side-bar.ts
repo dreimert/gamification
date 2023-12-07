@@ -14,7 +14,7 @@ export const sidebars_stu: SidebarButton[] = [
     },
     {
         id:3,
-        name: "Session",
+        name: "Sessions",
         url:"/sessions",
         open: false,
     },
@@ -30,19 +30,19 @@ export const sidebars_prof = [
     {
         id:2,
         name: "Notes",
-        url:"",
+        url:"/notes",
         open: false,
     },
     {
         id:3,
-        name: "Session",
-        url:"",
+        name: "Sessions",
+        url:"/sessions",
         open: false,
     },
     {
         id:4,
         name: "Création de session",
-        url:"",
+        url:"/session/create",
         open: false,
     },
 ]
@@ -57,25 +57,25 @@ export const sidebars_admin = [
     {
         id:2,
         name: "Notes",
-        url:"",
+        url:"/notes",
         open: false,
     },
     {
         id:3,
-        name: "Session",
-        url:"",
+        name: "Sessions",
+        url:"/sessions",
         open: false,
     },
     {
         id:4,
         name: "Création de session",
-        url:"",
+        url:"/session/create",
         open: false,
     },
     {
         id:4,
         name: "Admin",
-        url:"",
+        url:"/admin",
         open: false,
     },
 ]

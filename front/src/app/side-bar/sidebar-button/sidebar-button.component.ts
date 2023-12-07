@@ -7,7 +7,6 @@ import { RouterLink,RouterLinkActive } from '@angular/router';
   standalone: true,
   imports: [CommonModule,RouterLink,RouterLinkActive],
   templateUrl: './sidebar-button.component.html',
-  //styleUrl: './sidebar-button.component.css'
 })
 export class SidebarButtonComponent {
   @Input() sidebarButton!: SidebarButton;

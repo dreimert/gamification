@@ -1,0 +1,35 @@
+<div class="flex flex-col w-full min-h-screen bg-grey">
+    <app-header [section]="section"></app-header>
+    <div class="ml-8 my-3">
+        <p> Création de session</p>
+        <div class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
+            <div class="flex flex-row justify-center mt-5 mx-3">
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">Nom de la session</p>
+                <input type="text" class="flex w-3/4 rounded-r-lg">
+            </div>
+            <div class="flex flex-row justify-center mt-3 mx-3">
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">Mot de passe</p>
+                <input type="text" class="flex w-3/4 rounded-r-lg">
+            </div>
+            <div class="flex flex-row justify-center mt-3 mx-3">
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">TP</p>
+                <select class="flex w-3/4 rounded-r-lg">
+                    <option value="">Choisissez un TP</option>
+                    <option value="TP Kafka">TP Kafka</option>
+                    <option value="TP scrapping">TP scrapping</option>
+                </select>
+            </div>
+            <div class="flex flex-row justify-center mt-3 mx-3">
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">Heure de début</p>
+                <input type="datetime-local" class="flex w-3/4 rounded-r-lg">
+            </div>
+            <div class="flex flex-row justify-center mt-3 mx-3">
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">Heure de fin</p>
+                <input type="datetime-local" class="flex w-3/4 rounded-r-lg">
+            </div>
+            <button class="flex justify-center items-center w-fit bg-blueButton rounded-lg py-2 ml-auto mr-3 mb-3 mt-5">
+                <p  class="flex text-white mx-3">Créer une session</p>
+            </button>
+        </div>
+    </div>
+</div>

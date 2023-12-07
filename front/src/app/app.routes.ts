@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import {AccueilComponent} from './mainpage/accueil/accueil.component';
 import {NotesComponent} from './mainpage/notes/notes.component';
 import { SessionComponent } from './mainpage/session/session.component';
+import { SessionCreateComponent } from './mainpage/session/session-create/session-create.component';
+import { AdminComponent } from './mainpage/admin/admin.component';
 export const routes: Routes = [
       {
         path: 'sessions',
@@ -14,9 +16,14 @@ export const routes: Routes = [
         title: 'Notes',
       },
       {
-        path: 'session',
-        component: SessionComponent,
+        path: 'session/create',
+        component: SessionCreateComponent,
         title: 'Session',
+      },
+      {
+        path: 'admin',
+        component: AdminComponent,
+        title: 'Admin',
       },
       {
         path: '',
