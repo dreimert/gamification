@@ -6,6 +6,9 @@ import { calculateFontSize } from "../utils";
 import { Session, TeacherSession } from "../../../models/session.model";
 
 
+import { Session, sessions } from '../session';
+
+
 @Component({
     selector: "app-join",
     standalone: true,
