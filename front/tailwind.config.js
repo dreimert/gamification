@@ -7,12 +7,16 @@ module.exports = {
     extend: {
       colors:{
         'grey':{
-          light:'#EAEAEA',
-          DEFAULT:'#D7D7D7',
+          DEFAULT:'#EAEAEA',
+          dark:'#D7D7D7',
         },
         'sidebar':'#45504F',
         'redButton':'#CF2700',
         'blueButton':'#004FFF',
+        'bgHeaderTable':'#C3C3C3',
+        'bgTable':'#D7D7D7',
+        'borderTable':'#9c9c9c',
+        
       }
     },
   },
