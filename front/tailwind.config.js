@@ -17,6 +17,8 @@ module.exports = {
         'bgTable':'#D7D7D7',
         'bgCreateSession':'#D9D9D9',
         'borderTable':'#9c9c9c',
+        'greenPellet':'#23CE6B',
+        'redPellet':'#FC7A57',
         
       },
       boxShadow: {

@@ -1,21 +1,26 @@
 
-<div class="flex flex-col w-full min-h-screen bg-grey">
+<div class="flex-col flex min-h-screen bg-grey">
     <app-header [section]="section"></app-header>
-    <div class="flex my-8 flex-wrap">
-        <div *ngFor="let session of sessions" class="w-52 h-72 ml-10 relative">
-            <div class="w-52 h-36 bg-white flex items-center justify-center">
-                <img class="object-contain" [src]="session.imgpath" />
-                <div class="w-12 h-4 left-[150px] top-2 absolute rounded-lg text-center text-white text-[10px] font-medium font-['Inter']" 
-                    [class.bg-green-500]="session.state == 'en cours' "
-                    [class.bg-red-400]="session.state == 'Terminée' "
-                >{{session.state}}</div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        <div *ngFor="let session of sessions"class="flex flex-col justify-center mt-5 mx-5 bg-grey-dark rounded-b-lg">
+            <div class="container mx-auto w-full relative border-b bg-white">
+                <img class="w-full top-0" [src]="session.imgpath" />
+                <div class=" absolute top-0 right-0 mt-1 mr-1 h-fit rounded-lg"
+                        [class.bg-greenPellet]="session.state == 'En cours' "
+                        [class.bg-redPellet]="session.state == 'Terminée' ">
+                    <p class=" my-1 mx-1 text-center text-white text-xs font-medium font-inter">
+                        {{session.state}}
+                    </p>
+                </div>
             </div>
-            <div class="w-52 h-24 bg-zinc-300 flex flex-col items-center justify-center ">
-                <span class="text-center text-black font-medium font-['Inter']"
-                    [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }"
-                >{{session.Name}}</span>
-                <button (click)="openDialog(session)" class="w-20 h-9 my-1 bg-blue-600 rounded-2xl text-center text-white text-xs font-medium font-['Inter']">
-                    {{ session.state == 'en cours' ? 'Rejoindre' : 'Consulter'}}
+            <div class=" flex flex-col justify-center w-full mt-5">
+                <p class=" mb-5 mx-1 text-center text-xl font-medium font-inter" [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }">
+                    {{session.Name}}
+                </p>
+                <button (click)="openDialog(session)" class="w-fit mx-auto mt-auto mb-3 justify-center bg-blueButton rounded-lg text-white">
+                    <p class="cursor-pointer text-base my-3 mx-3 leading-3 text-white font-inter">
+                        {{ session.state == 'En cours' ? 'Rejoindre' : 'Consulter'}}
+                    </p>
                 </button>
             </div>
         </div>

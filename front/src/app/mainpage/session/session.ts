@@ -14,9 +14,9 @@ export const sessions: Session[] = [
         Date: "07/12/2023",
         Debut: "10:10",
         Fin: "12:00",
-        state: "en cours",
+        state: "En cours",
         password: 'kafka',
-        imgpath: "/assets/imgJoin/Kafka.png",
+        imgpath: "/assets/imgJoin/kafka.png",
     },
     {
         Name: "TP Scraping TRO G1",
