@@ -23,5 +23,13 @@ export const sessions: Session[] = [
         Fin: "24:00",
         state: "Terminée",
         imgpath: "/assets/imgJoin/Scrapping.png",
-    }
+    },
+    {
+        Name: "TP2",
+        Date: "01/01/2023",
+        Debut: "00:00",
+        Fin: "24:00",
+        state: "Terminée",
+        imgpath: "/assets/imgJoin/Scrapping.png",
+    },
 ]

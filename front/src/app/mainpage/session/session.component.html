@@ -3,17 +3,9 @@
 <div class="min-h-screen flex-col flex relative bg-gray-200 border border-neutral-500">
     <app-header [section]="section"></app-header>
     <div class="items-start justify-start min-h-screen flex ">
-        <div *ngFor="let session of sessions"class="w-[207px] h-[279px] left-[50px] top-[54px] ml-10 relative">
-            <div class="w-[206px] h-[275px] left-[1px] top-[4px] absolute bg-zinc-300"></div>
-            <div class="w-[92px] h-[34.09px] left-[59px] top-[231px] absolute">
-                <div class="w-[92px] h-[34.09px] left-0 top-0 absolute bg-blue-600 rounded-[15px]"></div>
-                <button (click)="openDialog(session)" class="w-[69.62px] h-[28.95px] left-[11.44px] top-[2.57px] absolute text-center text-white text-xs font-medium font-['Inter'] leading-[18px]">
-                    {{ session.state == 'en cours' ? 'Rejoindre' : 'Consulter'}}
-                </button>
-            </div>
+        <div *ngFor="let session of sessions"class="w-[207px] h-[279px] left-[50px] top-[54px] ml-10 relative max-w-full">
+            <div class="w-[206px] h-[235px] left-[1px] top-[4px] absolute bg-zinc-300"></div>
             <div class="w-[206px] h-[132px] left-[1px] top-0 absolute bg-white "></div>
-            <img class="w-[206px] h-[132px] left-[1px] top-0 absolute" [src]="session.imgpath" />
-            <div class="w-[207px] h-[78px] left-0 top-[132px] absolute text-center text-black text-2xl font-medium font-['Inter'] leading-9">{{session.Name}}</div>
             <div class="w-[51px] h-[15px] left-[147px] top-[7px] absolute">
                 <div class="w-[51px] h-3.5 left-0 top-[1px] absolute bg-green-500 rounded-[10px]" 
                     [class.bg-green-500]="session.state == 'en cours' "
@@ -21,20 +13,15 @@
                 ></div>
                 <div class="w-[51px] h-[15px] left-0 top-0 absolute text-center text-white text-[10px] font-medium font-['Inter'] leading-[15px]">{{session.state}}</div>
             </div>
+            <img class="object-contain w-[196px] h-[122px] left-[5.3px] top-[5px] absolute" [src]="session.imgpath" />
+            <span class="w-[207px] h-[78px] left-0 top-[140px] absolute text-center text-black font-medium font-['Inter'] leading-9 text-2xl"
+                [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }">{{session.Name}}</span>
+            <div class="w-[92px] h-[34.09px] left-[59px] top-[185px] absolute">
+                <div class="w-[92px] h-[34.09px] left-0 top-0 absolute bg-blue-600 rounded-[15px]"></div>
+                <button (click)="openDialog(session)" class="w-[69.62px] h-[28.95px] left-[11.44px] top-[2.57px] absolute text-center text-white text-xs font-medium font-['Inter'] leading-[18px]">
+                    {{ session.state == 'en cours' ? 'Rejoindre' : 'Consulter'}}
+                </button>
+            </div>
         </div>
     </div>
-    <!-- <div class="w-[207px] h-[279px] left-[400px] top-[-204px] relative">
-        <div class="w-[206px] h-[275px] left-[1px] top-[4px] absolute bg-zinc-300"></div>
-        <div class="w-[92px] h-[34.09px] left-[59px] top-[231px] absolute">
-            <div class="w-[92px] h-[34.09px] left-0 top-0 absolute bg-blue-600 rounded-[15px]"></div>
-            <button (click)="openDialog()" class="w-[69.62px] h-[28.95px] left-[11.44px] top-[2.57px] absolute text-center text-white text-xs font-medium font-['Inter'] leading-[18px]">Consulter</button>
-        </div>
-        <div class="w-[206px] h-[128.95px] left-[1px] top-0 absolute bg-white"></div>
-        <div class="w-[51px] h-[15px] left-[151px] top-[6px] absolute">
-            <div class="w-[51px] h-3.5 left-0 top-[1px] absolute bg-red-400 rounded-[10px]"></div>
-            <div class="w-[51px] h-[15px] left-0 top-0 absolute text-center text-white text-[10px] font-medium font-['Inter'] leading-[15px]">Terminée</div>
-        </div>
-        <div class="w-[207px] h-[77.14px] left-0 top-[132.41px] absolute text-center text-black text-2xl font-medium font-['Inter'] leading-9">TP Scraping TRO G1</div>
-        <img class="w-[206px] h-[92px] left-[1px] top-[20px] absolute" src="https://via.placeholder.com/206x92" />
-    </div> -->
 </div>
