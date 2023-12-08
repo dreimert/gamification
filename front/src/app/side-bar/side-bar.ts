@@ -41,7 +41,7 @@ export const sidebars_prof = [
     },
     {
         id:4,
-        name: "Création de session",
+        name: "Créer une session",
         url:"/session/create",
         open: false,
     },
@@ -68,7 +68,7 @@ export const sidebars_admin = [
     },
     {
         id:4,
-        name: "Création de session",
+        name: "Créer une session",
         url:"/session/create",
         open: false,
     },
