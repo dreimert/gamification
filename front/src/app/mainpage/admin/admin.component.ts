@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { Header } from '../header/header';
+import { teachers } from './teacher';
+import { CommonModule, NgFor } from '@angular/common';
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [CommonModule,HeaderComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
+  teachers=teachers;
+  max=teachers.length-1;
   section : Header={
     name:"Admin",
   }

@@ -2,26 +2,48 @@
     <app-header [section]="section"></app-header>
     
     <div class="flex flex-col mt-5 m-3">
-        <div class="flex flex-row">
-            <p> Liste des Encadrants</p>
-            <button class="w-fit ml-auto mt-auto mb-3 justify-center bg-blueButton rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-3 leading-3 text-white font-inter">
+        <div class="flex flex-row items-center">
+            <p class="text-black ml-3 mb-3"> Liste des Encadrants</p>
+            <button class="w-fit ml-auto mb-3 justify-center bg-blueButton rounded-lg text-white">
+                    <p class="cursor-pointer text-base my-2 mx-3 text-white font-inter">
                         Ajouter un encadrant
                     </p>
             </button>
         </div>
         
-        <div class="grid grid-cols-2">
-            <p class="flex w-full py-2 bg-bgHeaderTable border border-borderTable rounded-tl-lg">Encadrants</p>
-            <p class="flex w-full py-2 bg-bgHeaderTable border border-borderTable rounded-tr-lg">Actions</p>
+        <div class="flex flex-col">
+            <div class="flex flex-row">
+                <div class="flex md:w-5/6 w-1/2 py-2 bg-bgHeaderTable border  border-borderTable rounded-tl-lg">
+                    <p class=" ml-3">Encadrants</p>
+                </div>
+                <div class="flex md:w-1/6 w-1/2 py-2 bg-bgHeaderTable border  border-borderTable rounded-tr-lg">
+                    <p class="ml-3">Actions</p>
+                </div>
+            </div>
+            <div *ngFor="let teacher of teachers; let index=index" class="flex flex-row">
+                <div class="flex md:w-5/6 w-1/2 py-2 bg-bgTable items-center border border-borderTable"
+                    [class.rounded-bl-lg]="index== max ">
+                    <p class=" ml-3">{{teacher.firstname+" "+teacher.lastname}}</p>
+                </div>
+                <div class="flex md:w-1/6 w-1/2 py-2 bg-bgTable border border-borderTable"
+                    [class.rounded-br-lg]="index== max ">
+                    <button class="flex ml-3 px-1 bg-blueButton rounded py-1">
+                        <svg fill="#FFFFFF" width="24px" height="24px" viewBox="0 0 0.72 0.72" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.63 0.36a0.03 0.03 0 0 0 -0.03 0.03v0.18a0.03 0.03 0 0 1 -0.03 0.03H0.15a0.03 0.03 0 0 1 -0.03 -0.03V0.15a0.03 0.03 0 0 1 0.03 -0.03h0.18a0.03 0.03 0 0 0 0 -0.06H0.15a0.09 0.09 0 0 0 -0.09 0.09v0.42a0.09 0.09 0 0 0 0.09 0.09h0.42a0.09 0.09 0 0 0 0.09 -0.09v-0.18a0.03 0.03 0 0 0 -0.03 -0.03Zm-0.45 0.023V0.51a0.03 0.03 0 0 0 0.03 0.03h0.127a0.03 0.03 0 0 0 0.021 -0.009l0.208 -0.208L0.651 0.24a0.03 0.03 0 0 0 0 -0.043l-0.127 -0.129a0.03 0.03 0 0 0 -0.043 0l-0.085 0.085 -0.208 0.208a0.03 0.03 0 0 0 -0.009 0.021Zm0.323 -0.251 0.085 0.085 -0.043 0.043 -0.085 -0.085ZM0.24 0.395l0.178 -0.178 0.085 0.085L0.325 0.48H0.24Z"/>
+                        </svg>
+                    </button>
+                    <button class="flex ml-3 px-1 bg-redButton rounded py-1">
+                        <svg fill="#FFFFFF" width="24px" height="24px" viewBox="0 0 1.08 1.08" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path class="clr-i-outline clr-i-outline-path-1" d="M0.814 1.02H0.266A0.088 0.088 0 0 1 0.18 0.93V0.337h0.06V0.93a0.028 0.028 0 0 0 0.026 0.03h0.548a0.028 0.028 0 0 0 0.026 -0.03V0.337h0.06V0.93a0.088 0.088 0 0 1 -0.086 0.09Z"/>
+                            <path class="clr-i-outline clr-i-outline-path-2" d="M0.923 0.27H0.15a0.03 0.03 0 0 1 0 -0.06h0.773a0.03 0.03 0 0 1 0 0.06Z"/>
+                            <path class="clr-i-outline clr-i-outline-path-3" x="21" y="13" width="2" height="15" d="M0.63 0.39H0.69V0.84H0.63V0.39z"/>
+                            <path class="clr-i-outline clr-i-outline-path-4" x="13" y="13" width="2" height="15" d="M0.39 0.39H0.45V0.84H0.39V0.39z"/>
+                            <path class="clr-i-outline clr-i-outline-path-5" d="M0.69 0.176h-0.057V0.12h-0.186v0.056H0.39V0.12a0.06 0.06 0 0 1 0.057 -0.06h0.186A0.06 0.06 0 0 1 0.69 0.12Z"/>
+                            <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H1.08V1.08H0V0z"/>
+                          </svg>
+                    </button>
+                </div>
+            </div>
         </div>
-            
-        
-        <!-- <div *ngFor = "let note of notes_stu" class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable" >
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{note.name}}</p>
-            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{note.note}}</p>
-            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{note.moyenne}}</p>
-            <p class="flex w-full py-2 ">{{note.coefficient}}</p>
-        </div> -->
     </div>
 </div>
