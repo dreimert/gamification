@@ -1,25 +1,20 @@
-
-<div class="justify-start min-h-screen flex-col flex relative bg-gray-200 border border-neutral-500">
+<div class="flex flex-col min-h-screen bg-grey">
     <app-header [section]="section"></app-header>
-    <div class="items-start justify-start flex ">
-        <div *ngFor="let session of sessions"class="w-[207px] h-[279px] left-[50px] top-[54px] ml-10 relative max-w-full">
-            <div class="w-[206px] h-[235px] left-[1px] top-[4px] absolute bg-zinc-300"></div>
-            <!-- <div class="w-auto h-auto left-[1px] top-[4px] absolute bg-zinc-300"></div> -->
-            <div class="w-[206px] h-[132px] left-[1px] top-0 absolute bg-white "></div>
-            <div class="w-[51px] h-[15px] left-[147px] top-[7px] absolute">
-                <div class="w-[51px] h-3.5 left-0 top-[1px] absolute bg-green-500 rounded-[10px]" 
-                    [class.bg-green-500]="session.state == 'en cours' "
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        <div *ngFor="let session of sessions" class="flex flex-col justify-center mt-5 mx-5 relative rounded-b-lg">
+            <div class="container w-52 h-36 bg-white flex items-center justify-center border-b">
+                <img class="object-contain" [src]="session.imgpath" />
+                <div class="w-12 h-4 left-[150px] top-2 absolute rounded-lg text-center text-white text-[10px] font-medium font-['Inter']" 
+                    [class.bg-green-500]="session.state == 'En cours' "
                     [class.bg-red-400]="session.state == 'Terminée' "
-                ></div>
-                <div class="w-[51px] h-[15px] left-0 top-0 absolute text-center text-white text-[10px] font-medium font-['Inter'] leading-[15px]">{{session.state}}</div>
+                >{{session.state}}</div>
             </div>
-            <img class="object-contain w-[196px] h-[122px] left-[5.3px] top-[5px] absolute" [src]="session.imgpath" />
-            <span class="w-[207px] h-[78px] left-0 top-[140px] absolute text-center text-black font-medium font-['Inter'] leading-9 text-2xl"
-                [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }">{{session.Name}}</span>
-            <div class="w-[92px] h-[34.09px] left-[59px] top-[185px] absolute">
-                <div class="w-[92px] h-[34.09px] left-0 top-0 absolute bg-blue-600 rounded-[15px]"></div>
-                <button (click)="openDialog(session)" class="w-[69.62px] h-[28.95px] left-[11.44px] top-[2.57px] absolute text-center text-white text-xs font-medium font-['Inter'] leading-[18px]">
-                    {{ session.state == 'en cours' ? 'Rejoindre' : 'Consulter'}}
+            <div class="w-52 h-24 bg-zinc-300 flex flex-col items-center justify-center ">
+                <span class="text-center text-black font-medium font-['Inter']"
+                    [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }"
+                >{{session.Name}}</span>
+                <button (click)="openDialog(session)" class="w-20 h-9 my-1 bg-blue-600 rounded-2xl text-center text-white text-xs font-medium font-['Inter']">
+                    {{ session.state == 'En cours' ? 'Rejoindre' : 'Consulter'}}
                 </button>
             </div>
         </div>
