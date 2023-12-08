@@ -19,12 +19,22 @@ export class JoinComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  enteredPassword: string = '';
+  session = [...sessions];
+  passwordMatch: boolean | undefined;
+
   closeDialog(): void {
     this.dialogRef.close();
   }
 
-  inputValue: string = '';
-  session = [...sessions];
+  rejoindre(): void {
+    if (this.enteredPassword == this.data.session.password){
+      this.passwordMatch = true;
+      this.dialogRef.close();
+    }else{
+      this.passwordMatch = false;
+    }
+  }
 
   calculateFontSize(textLength: number): string{
     const baseSize = 28; 
