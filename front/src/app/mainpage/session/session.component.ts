@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+
+import { Component, Directive, ElementRef, Input, Renderer2, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
@@ -33,4 +34,15 @@ export class SessionComponent {
     name:"Session"
   }
   sessions = [...sessions]
+
+  calculateFontSize(textLength: number): string{
+    const baseSize = 28; 
+    const minSize = 10; 
+    const scalingFactor = 0.5;
+
+    const calculatedSize = baseSize - textLength * scalingFactor;
+    
+    return Math.max(calculatedSize, minSize) + 'px';
+  }
+
 }

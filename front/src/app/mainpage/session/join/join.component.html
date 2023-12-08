@@ -6,8 +6,9 @@
         <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute ">
             <div class="w-[206px] h-[206.54px] left-[1px] top-[3.46px] absolute bg-zinc-300"></div>
             <div class="w-[206px] h-[132px] left-[1px] top-0 absolute bg-white"></div>
-            <div class="w-[207px] h-[62.31px] left-0 top-[147.69px] absolute text-center text-black text-2xl font-medium font-['Inter'] leading-9">{{data.session.Name}}</div>
-            <img class="w-[62px] h-[103px] left-[73px] top-[18px] absolute" src="/assets/imgJoin/Kafka.png" />
+            <div class="w-[207px] h-[62.31px] left-0 top-[147.69px] absolute text-center text-black text-2xl font-medium font-['Inter'] leading-9"
+                [ngStyle]="{ 'font-size': calculateFontSize(data.session.Name.length) }">{{data.session.Name}}</div>
+            <img class="object-contain w-[196px] h-[122px] left-[5.3px] top-[5px] absolute" [src]="data.session.imgpath" />
         </div>
         <div class="w-[448px] h-[59px] left-[310px] top-[67px] absolute text-black text-2xl font-medium font-['Inter'] leading-9 ">Voulez-vous rejoindre cette session ?</div>
         <div class="w-[207px] h-[210px] left-[57px] top-[126px] absolute bg-zinc-300 bg-opacity-0 border-4 border-black shadow-shadow_img"></div>
@@ -18,9 +19,13 @@
         </button>
     </div>
     <div class="w-[416px] h-16 left-[479px] top-[361px] relative">
-        <button (click)="closeDialog()" class="w-28 h-16 left-[304px] top-0 absolute bg-blue-600 rounded-tr-xl rounded-br-xl text-white">Rejoindre</button>
-        <div class="w-[303px] h-16 left-0 top-0 absolute">
-        <input class="w-[303px] h-16 left-[1px] top-0 absolute bg-white bg-opacity-0 rounded-tl-xl rounded-bl-xl border-l border-r border-t border-b border-zinc-400 border-opacity-80 pl-5" type="text" [(ngModel)]="inputValue" placeholder="Mot de passe">
+        <div *ngIf="data.session.password" class="w-[303px] h-16 left-0 top-0 absolute">
+            <input class="w-[303px] h-16 left-[1px] top-0 absolute bg-white bg-opacity-0 rounded-tl-xl rounded-bl-xl border-l border-r border-t border-b border-zinc-400 border-opacity-80 pl-5" type="text" [(ngModel)]="enteredPassword" placeholder="Mot de passe">
+            <button (click)="rejoindre()" class="w-28 h-16 left-[304px] top-0 absolute bg-blue-600 rounded-tr-xl rounded-br-xl text-white">Rejoindre</button>
+            <div *ngIf="passwordMatch === false" class="left-[5px] top-[64px] absolute text-orange-700 text-xs font-normal font-['Inter']">mot de passe incorrect</div>
+        </div>
+        <div *ngIf="!data.session.password" class="w-[303px] h-16 left-0 top-0 absolute">
+            <button (click)="rejoindre()" class="w-28 h-16 left-[304px] top-0 absolute bg-blue-600 rounded-tr-xl rounded-br-xl rounded-tl-xl rounded-bl-xl text-white">Rejoindre</button>
         </div>
     </div>
     
