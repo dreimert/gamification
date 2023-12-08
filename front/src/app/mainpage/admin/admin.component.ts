@@ -3,10 +3,11 @@ import { HeaderComponent } from '../header/header.component';
 import { Header } from '../header/header';
 import { teachers } from './teacher';
 import { CommonModule, NgFor } from '@angular/common';
+import { RouterLink,RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule,HeaderComponent],
+  imports: [CommonModule,HeaderComponent,RouterLink,RouterLinkActive],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
