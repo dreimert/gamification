@@ -18,6 +18,10 @@ services:
     networks:
       - web
       - db
+    volumes:
+      - ./back:/app
+    stdin_open: true # docker run -i
+    tty: true
   frontend:
     build: ./front
     restart: always
