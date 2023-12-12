@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { Session, sessions } from '../session';
+import { FunctionsService } from '../functions.service';
 
 
 @Component({
@@ -11,12 +12,14 @@ import { Session, sessions } from '../session';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './join.component.html',
-  styleUrl: './join.component.css'
+  styleUrl: './join.component.css',
+  providers:[FunctionsService]
 })
 export class JoinComponent {
   constructor(
     public dialogRef: MatDialogRef<JoinComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(FunctionsService) private functions: FunctionsService,
   ) {}
 
   enteredPassword: string = '';
@@ -37,13 +40,7 @@ export class JoinComponent {
   }
 
   calculateFontSize(textLength: number): string{
-    const baseSize = 28; 
-    const minSize = 10; 
-    const scalingFactor = 0.5;
-
-    const calculatedSize = baseSize - textLength * scalingFactor;
-    
-    return Math.max(calculatedSize, minSize) + 'px';
+    return this.functions.calculateFontSize(textLength)
   }
   
 }
