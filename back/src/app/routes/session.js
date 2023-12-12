@@ -7,7 +7,7 @@ const sessionRouter = express.Router();
 sessionRouter.get("/available", isAuthenticated, async (req, res) => {
 	try {
 		const sessions = await SessionModel.find({startDate: {$lte: Date.now()}, endDate: {$gte: Date.now()}});
-		return res.status(200).json(sessions.map((session) => session.serializeDefault()));
+		return res.status(200).json(sessions.map((session) => session.serialize()));
 	} catch (e) {
 		console.log(e);
 		return res.status(500).json({message: "Internal server error"});

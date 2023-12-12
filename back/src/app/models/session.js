@@ -1,5 +1,19 @@
+/**
+ * @fileoverview This file defines the Session model using mongoose.
+ * @author 28Pollux28
+ */
+
+
 import mongoose from "mongoose";
 
+/**
+ * @typedef Session
+ * @property {Object} name - The name of the session. It is required.
+ * @property {Array} teachers - The list of teachers' IDs. It is an array of ObjectIds referencing the User model. It must contain at least one teacher.
+ * @property {Array} students - The list of students' IDs. It is an array of ObjectIds referencing the User model. It is optional.
+ * @property {Date} startDate - The start date of the session. It is required.
+ * @property {Date} endDate - The end date of the session. It is required and must be after the start date.
+ */
 const sessionSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -42,6 +56,11 @@ const sessionSchema = new mongoose.Schema({
 	// },
 });
 
+/**
+ * Method to serialize the session data for a teacher
+ * @function serializeTeacher
+ * @returns {Object} The serialized session data for a teacher
+ */
 sessionSchema.methods.serializeTeacher = function () {
 	return {
 		id: this.id,
@@ -51,10 +70,15 @@ sessionSchema.methods.serializeTeacher = function () {
 		startDate: this.startDate,
 		endDate: this.endDate,
 		// TP: this.TP.map(e => e.serialize()),
-		status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "progressing") : "scheduled",
+		status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
 	};
 };
 
+/**
+ * Method to serialize the session data for a student
+ * @function serializeStudent
+ * @returns {Object} The serialized session data for a student
+ */
 sessionSchema.methods.serializeStudent = function () {
 	return {
 		id: this.id,
@@ -63,10 +87,15 @@ sessionSchema.methods.serializeStudent = function () {
 		startDate: this.startDate,
 		endDate: this.endDate,
 		// TP: this.TP.map(e => e.serialize()),
-		status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "progressing")
+		status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress")
 	};
 };
 
+/**
+ * Method to serialize the session data. By default, it uses the serializeStudent method.
+ * @function serialize
+ * @returns {Object} The serialized session data
+ */
 sessionSchema.methods.serialize = sessionSchema.methods.serializeStudent;
 
 export default mongoose.model("Session", sessionSchema);

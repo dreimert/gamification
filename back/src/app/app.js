@@ -38,6 +38,19 @@ async function (username, password, done) {
 	// check if user exists in db and password is correct
 	const user = await UserModel.findOne({username: username});
 	if (!user) {
+		// create user if dev mode
+		if (process.env.ENV === "dev") {
+			const newUser = new UserModel({
+				username: username,
+				password: password,
+				name: "test",
+				surname: "test",
+				email: "abc@abc.com",
+				type: "student",
+			});
+			await newUser.save();
+			return done(null, newUser);
+		}
 		return done(null, false, {message: "Incorrect username."});
 	}
 	if (!user.validPassword(password)) {
@@ -93,6 +106,12 @@ function setCreds(req, res, next) {
 	next();
 }
 
+if(process.env.ENV === "dev") {
+	app.use(setCreds, passport.authenticate("local", {
+		failureRedirect: process.env.FRONTEND_URL + "/login",
+	}));
+}
+
 app.get("/login", setCreds, passport.authenticate("local", {
 	failureRedirect: process.env.FRONTEND_URL + "/login",
 }), function (req, res) {
@@ -121,5 +140,5 @@ https.createServer(
 	}
 	, app)
 	.listen(port, () => {
-		console.log("server is running at port 3000");
+		console.log("Server is running at port 3000");
 	});

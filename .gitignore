@@ -131,8 +131,3 @@ dist
 
 .idea
 .vscode
-# https certificates
-selfsigned.*
-# https certificates
-selfsigned.*
-.vscode
