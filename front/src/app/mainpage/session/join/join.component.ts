@@ -31,12 +31,13 @@ export class JoinComponent {
   }
 
   rejoindre(): void {
-    if (this.enteredPassword == this.data.session.password){
-      this.passwordMatch = true;
-      this.dialogRef.close();
-    }else{
-      this.passwordMatch = false;
-    }
+    console.log("send password to backend")
+    // if (this.enteredPassword == this.data.session.password){
+    //   this.passwordMatch = true;
+    //   this.dialogRef.close();
+    // }else{
+    //   this.passwordMatch = false;
+    // }
   }
 
   calculateFontSize(textLength: number): string{
