@@ -88,6 +88,7 @@ userSchema.methods.isStudent = function () {
  */
 userSchema.methods.serialize = function () {
 	return {
+		id: this.id,
 		username: this.username,
 		name: this.name,
 		surname: this.surname,
@@ -102,8 +103,10 @@ userSchema.methods.serialize = function () {
  */
 userSchema.methods.serializePublic = function () {
 	return {
+		id: this.id,
 		name: this.name,
 		surname: this.surname,
+		type: this.type,
 	};
 };
 
