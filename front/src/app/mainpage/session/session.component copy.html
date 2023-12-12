@@ -1,0 +1,22 @@
+<div class="flex flex-col min-h-screen bg-grey">
+    <app-header [section]="section"></app-header>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+        <div *ngFor="let session of sessions" class="flex flex-col justify-center mt-5 mx-5 relative rounded-b-lg">
+            <div class="container w-52 h-36 bg-white flex items-center justify-center border-b">
+                <img class="object-contain" [src]="session.imgpath" />
+                <div class="w-12 h-4 left-[150px] top-2 absolute rounded-lg text-center text-white text-[10px] font-medium font-['Inter']" 
+                    [class.bg-green-500]="session.state == 'En cours' "
+                    [class.bg-red-400]="session.state == 'Terminée' "
+                >{{session.state}}</div>
+            </div>
+            <div class="w-52 h-24 bg-zinc-300 flex flex-col items-center justify-center ">
+                <span class="text-center text-black font-medium font-['Inter']"
+                    [ngStyle]="{ 'font-size': calculateFontSize(session.Name.length) }"
+                >{{session.Name}}</span>
+                <button (click)="openDialog(session)" class="w-20 h-9 my-1 bg-blue-600 rounded-2xl text-center text-white text-xs font-medium font-['Inter']">
+                    {{ session.state == 'En cours' ? 'Rejoindre' : 'Consulter'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
