@@ -1,0 +1,101 @@
+/**
+ * @fileoverview This file defines the Session model using mongoose.
+ * @author 28Pollux28
+ */
+
+
+import mongoose from "mongoose";
+
+/**
+ * @typedef Session
+ * @property {Object} name - The name of the session. It is required.
+ * @property {Array} teachers - The list of teachers' IDs. It is an array of ObjectIds referencing the User model. It must contain at least one teacher.
+ * @property {Array} students - The list of students' IDs. It is an array of ObjectIds referencing the User model. It is optional.
+ * @property {Date} startDate - The start date of the session. It is required.
+ * @property {Date} endDate - The end date of the session. It is required and must be after the start date.
+ */
+const sessionSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+	},
+	teachers: {
+		type: [mongoose.Schema.Types.ObjectId],
+		ref: "User",
+		validate: [
+			function (v) {
+				return Array.isArray(v) && v.length > 0;
+			},
+			"There must be at least one teacher"
+		],
+		default: [],
+	},
+	students: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		default: [],
+	}],
+	startDate: {
+		type: Date,
+		required: true,
+	},
+	endDate: {
+		type: Date,
+		required: true,
+		validate: [
+			function (value) {
+				return this.startDate <= value;
+			},
+			"endDate must be after startDate"
+		]
+	},
+	// TP: {
+	// 	type: mongoose.Schema.Types.ObjectId,
+	// 	ref: "TP",
+	// 	required: true,
+	// },
+});
+
+/**
+ * Method to serialize the session data for a teacher
+ * @function serializeTeacher
+ * @returns {Object} The serialized session data for a teacher
+ */
+sessionSchema.methods.serializeTeacher = function () {
+	return {
+		id: this.id,
+		name: this.name,
+		teachers: this.teachers,
+		students: this.students,
+		startDate: this.startDate,
+		endDate: this.endDate,
+		// TP: this.TP.map(e => e.serialize()),
+		status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
+	};
+};
+
+/**
+ * Method to serialize the session data for a student
+ * @function serializeStudent
+ * @returns {Object} The serialized session data for a student
+ */
+sessionSchema.methods.serializeStudent = function () {
+	return {
+		id: this.id,
+		name: this.name,
+		teachers: this.teachers,
+		startDate: this.startDate,
+		endDate: this.endDate,
+		// TP: this.TP.map(e => e.serialize()),
+		status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress")
+	};
+};
+
+/**
+ * Method to serialize the session data. By default, it uses the serializeStudent method.
+ * @function serialize
+ * @returns {Object} The serialized session data
+ */
+sessionSchema.methods.serialize = sessionSchema.methods.serializeStudent;
+
+export default mongoose.model("Session", sessionSchema);
