@@ -1,13 +1,4 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class FunctionsService {
-
-  constructor() { }
-  
-  calculateFontSize(textLength: number): string{
+export function calculateFontSize(textLength: number): string{
     const baseSize = 28; 
     const minSize = 10; 
     const scalingFactor = 0.5;
@@ -16,4 +7,3 @@ export class FunctionsService {
     
     return Math.max(calculatedSize, minSize) + 'px';
   }
-}

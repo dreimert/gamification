@@ -7,7 +7,8 @@ import { JoinComponent } from './join/join.component';
 import { HeaderComponent } from '../header/header.component'
 import { Header } from '../header/header'
 import { Session, sessions } from './session';
-import { FunctionsService } from './functions.service';
+// import { FunctionsService } from './functions.service';
+import { calculateFontSize } from './utils';
 
 @Component({
   selector: 'app-session',
@@ -15,12 +16,12 @@ import { FunctionsService } from './functions.service';
   imports: [CommonModule, HeaderComponent],
   templateUrl: './session.component.html',
   styleUrl: './session.component.css',
-  providers:[FunctionsService]
+  // providers:[FunctionsService]
 })
 export class SessionComponent {
   constructor(
     public dialog: MatDialog,
-    private functions: FunctionsService
+    // private functions: FunctionsService
   ) {}
 
   openDialog(session: Session): void {
@@ -40,8 +41,14 @@ export class SessionComponent {
   }
   sessions = [...sessions]
 
+  // calculateFontSize(textLength: number): string{
+  //   return this.functions.calculateFontSize(textLength)
+  // }
+
   calculateFontSize(textLength: number): string{
-    return this.functions.calculateFontSize(textLength)
+    return calculateFontSize(textLength)
   }
+
+
 
 }
