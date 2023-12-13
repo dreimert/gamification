@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {HeaderComponent} from '../header/header.component'
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-
 import { JoinComponent } from '../session/join/join.component';
 import { Session, sessions } from '../session/session';
 import {Header} from '../header/header'
