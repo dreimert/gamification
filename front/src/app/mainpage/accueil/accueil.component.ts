@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { JoinComponent } from '../session/join/join.component';
 import { Session, sessions } from '../session/session';
 import {Header} from '../header/header'
-// import { FunctionsService } from '../session/functions.service';
 import { calculateFontSize } from '../session/utils';
 
 @Component({
@@ -15,7 +14,6 @@ import { calculateFontSize } from '../session/utils';
   imports: [HeaderComponent,CommonModule],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css',
-  // providers:[FunctionsService]
 })
 export class AccueilComponent {
   section: Header = {
@@ -24,7 +22,6 @@ export class AccueilComponent {
 
   constructor(
     public dialog: MatDialog,
-    // private functions: FunctionsService
   ) {}
   
   openDialog(session: Session): void {
