@@ -1,27 +1,28 @@
-
-import { Component, Directive, ElementRef, Input, Renderer2, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-
 import { JoinComponent } from './join/join.component';
 import { HeaderComponent } from '../header/header.component'
 import { Header } from '../header/header'
 import { Session, sessions } from './session';
+import { calculateFontSize } from './utils';
 
 @Component({
   selector: 'app-session',
   standalone: true,
   imports: [CommonModule, HeaderComponent],
   templateUrl: './session.component.html',
-  styleUrl: './session.component.css'
+  styleUrl: './session.component.css',
 })
 export class SessionComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+  ) {}
 
   openDialog(session: Session): void {
     const dialogRef = this.dialog.open(JoinComponent, {
-      width: '934px',
-      height: '465px',
+      width: '60%',
+      height: '70%',
       data: {session: session},
     });
 
@@ -36,13 +37,9 @@ export class SessionComponent {
   sessions = [...sessions]
 
   calculateFontSize(textLength: number): string{
-    const baseSize = 28; 
-    const minSize = 10; 
-    const scalingFactor = 0.5;
-
-    const calculatedSize = baseSize - textLength * scalingFactor;
-    
-    return Math.max(calculatedSize, minSize) + 'px';
+    return calculateFontSize(textLength)
   }
+
+
 
 }
