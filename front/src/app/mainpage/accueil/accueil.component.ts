@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
 import { JoinComponent } from '../session/join/join.component';
 import { Session, sessions } from '../session/session';
 import {Header} from '../header/header'
-import { FunctionsService } from '../session/functions.service';
+// import { FunctionsService } from '../session/functions.service';
+import { calculateFontSize } from '../session/utils';
 
 @Component({
   selector: 'app-accueil',
@@ -14,7 +15,7 @@ import { FunctionsService } from '../session/functions.service';
   imports: [HeaderComponent,CommonModule],
   templateUrl: './accueil.component.html',
   styleUrl: './accueil.component.css',
-  providers:[FunctionsService]
+  // providers:[FunctionsService]
 })
 export class AccueilComponent {
   section: Header = {
@@ -23,7 +24,7 @@ export class AccueilComponent {
 
   constructor(
     public dialog: MatDialog,
-    private functions: FunctionsService
+    // private functions: FunctionsService
   ) {}
   
   openDialog(session: Session): void {
@@ -41,7 +42,7 @@ export class AccueilComponent {
   sessions = [...sessions]
 
   calculateFontSize(textLength: number): string{
-    return this.functions.calculateFontSize(textLength)
+    return calculateFontSize(textLength)
   }
   
 }
