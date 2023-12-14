@@ -14,3 +14,20 @@ export const userInfo : User={
     student:false,
     admin:true,
 }
+export const userInfo_stu : User={
+    id:1111111,
+    firstname:"xinyi",
+    lastname:"zhao",
+    mail:"xinyi.zhao@insa-lyon.fr",
+    student:true,
+    admin:false,
+}
+
+export const userInfo_prof : User={
+    id:9999999,
+    firstname:"david",
+    lastname:"louis",
+    mail:"david.louis@insa-lyon.fr",
+    student:false,
+    admin:false,
+}
