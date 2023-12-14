@@ -50,20 +50,119 @@ sessionRouter.get("/all", isAuthenticated, async (req, res) => {
 });
 sessionRouter.get("/testNew", async (req, res) => {
 	let newSession = new SessionModel({
-		name: "test",
+		name: "test12345",
+		password: "test",
 		startDate: Date.now() - 1000 * 60 * 60 * 24 * 14,
-		endDate: Date.now() - 1000 * 60 * 60 * 24 * 7,
-		students: [req.user.id],
+		endDate: Date.now() + 1000 * 60 * 60 * 24 * 7,
+		students: [],
 		teachers: [req.user.id],
 	});
 	try {
 		const savedSession = await newSession.save();
-		return res.status(200).json(savedSession);
+		return res.status(200).json(savedSession.serializeTeacher());
 	} catch (e) {
 		console.log(e);
 		if (e.name === "ValidationError") {
 			return res.status(400).json({message: e.message});
 		}
+		return res.status(500).json({message: "Internal server error"});
+	}
+});
+
+sessionRouter.post("/new", isAuthenticated, async (req, res) => {
+	if (!req.user.isTeacher()) {
+		return res.status(403).json({message: "Forbidden"});
+	}
+	const {name, password, startDate, endDate} = req.body;
+	let newSession = new SessionModel({
+		name,
+		password,
+		startDate,
+		endDate,
+		teachers: [req.user.id],
+	});
+	try {
+		const savedSession = await newSession.save();
+		return res.status(200).json(savedSession.serializeTeacher());
+	} catch (e) {
+		console.log(e);
+		if (e.name === "ValidatorError") {
+			return res.status(400).json({message: e.message});
+		}
+		return res.status(500).json({message: "Internal server error"});
+	}
+});
+
+sessionRouter.delete("/:id", isAuthenticated, async (req, res) => {
+	if (!req.user.isTeacher()) {
+		return res.status(403).json({message: "Forbidden"});
+	}
+	try {
+		const session = await SessionModel.findById(req.params.id);
+		if (!session) {
+			return res.status(404).json({message: "Session not found"});
+		}
+		if (!session.teachers.includes(req.user.id)) {
+			return res.status(403).json({message: "Forbidden"});
+		}
+		if (session.startDate < Date.now()) {
+			return res.status(400).json({message: "Session already started"});
+		}
+		await SessionModel.deleteOne({_id: req.params.id});
+		return res.status(200).json({message: "Session deleted"});
+	} catch (e) {
+		console.log(e);
+		return res.status(500).json({message: "Internal server error"});
+	}
+});
+
+sessionRouter.post("/:id/end", isAuthenticated, async (req, res) => {
+	if (!req.user.isTeacher()) {
+		return res.status(403).json({message: "Forbidden"});
+	}
+	try {
+		const session = await SessionModel.findById(req.params.id);
+		if (!session) {
+			return res.status(404).json({message: "Session not found"});
+		}
+		if (!session.teachers.includes(req.user.id)) {
+			return res.status(403).json({message: "Forbidden"});
+		}
+		if (session.endDate < Date.now()) {
+			return res.status(400).json({message: "Session already ended"});
+		}
+		session.endDate = Date.now();
+		await session.save();
+		return res.status(200).json(session.serializeTeacher());
+	} catch (e) {
+		console.log(e);
+		return res.status(500).json({message: "Internal server error"});
+	}
+});
+
+sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
+	if (!req.user.isStudent()) {
+		return res.status(403).json({message: "Forbidden"});
+	}
+	try {
+		const session = await SessionModel.findById(req.params.id);
+		if (!session) {
+			return res.status(404).json({message: "Session not found"});
+		}
+		if (session.startDate > Date.now()) {
+			return res.status(400).json({message: "Session not started"});
+		}
+		if (session.endDate < Date.now()) {
+			return res.status(400).json({message: "Session already ended"});
+		}
+		if (session.students.includes(req.user.id)) {
+			return res.status(400).json({message: "Already joined"});
+		}
+		session.students.push(req.user.id);
+		await session.save();
+		return res.status(200).json(session.serializeStudent());
+	} catch (e) {
+		console.log(e);
 		return res.status(500).json({message: "Internal server error"});
 	}
 });

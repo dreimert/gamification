@@ -81,8 +81,9 @@ const port = 3000;
 const connectionString = process.env.MONGO_URI || "mongodb://root:example@localhost:27017";
 db.connect(connectionString);
 app.use(function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL + ", https://localhost:3000");
+	res.header("Access-Control-Allow-Origin", process.env.FRONTEND_URL);
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
 	res.header("Access-Control-Allow-Credentials", "true");
 	next();
 });
@@ -106,11 +107,11 @@ function setCreds(req, res, next) {
 	next();
 }
 
-if(process.env.ENV === "dev") {
-	app.use(setCreds, passport.authenticate("local", {
-		failureRedirect: process.env.FRONTEND_URL + "/login",
-	}));
-}
+// if(process.env.ENV === "dev") {
+// 	app.use(setCreds, passport.authenticate("local", {
+// 		failureRedirect: process.env.FRONTEND_URL + "/login",
+// 	}));
+// }
 
 app.get("/login", setCreds, passport.authenticate("local", {
 	failureRedirect: process.env.FRONTEND_URL + "/login",
