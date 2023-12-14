@@ -1,48 +1,19 @@
-
-import { Component, Directive, ElementRef, Input, Renderer2, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { JoinComponent } from './join/join.component';
 import { HeaderComponent } from '../header/header.component'
 import { Header } from '../header/header'
-import { Session, sessions } from './session';
+import { SessionCardComponent } from '../session-card/session-card.component';
 
 @Component({
   selector: 'app-session',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, SessionCardComponent],
   templateUrl: './session.component.html',
-  styleUrl: './session.component.css'
+  styleUrl: './session.component.css',
 })
 export class SessionComponent {
-  constructor(public dialog: MatDialog) {}
-
-  openDialog(session: Session): void {
-    const dialogRef = this.dialog.open(JoinComponent, {
-      width: '934px',
-      height: '465px',
-      data: {session: session},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
   section: Header = {
     name:"Session"
   }
-  sessions = [...sessions]
-
-  calculateFontSize(textLength: number): string{
-    const baseSize = 28; 
-    const minSize = 10; 
-    const scalingFactor = 0.5;
-
-    const calculatedSize = baseSize - textLength * scalingFactor;
-    
-    return Math.max(calculatedSize, minSize) + 'px';
-  }
-
 }

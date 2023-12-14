@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
-// import { AppComponent } from './app.component';
-import { SideBarComponent } from './side-bar/side-bar.component';
-
 @NgModule({
   imports: [
     BrowserModule,
