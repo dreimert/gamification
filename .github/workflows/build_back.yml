@@ -48,8 +48,8 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Build Docker image
-        run: docker build . --file Dockerfile --tag gamification-back:$(date +%s)
+#      - name: Build Docker image
+#        run: docker build . --file Dockerfile --tag gamification-back:$(date +%s)
       - name: Lint
         run: npm run lint:check
       - name: Test

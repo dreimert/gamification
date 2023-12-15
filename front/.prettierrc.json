@@ -9,5 +9,6 @@
                 "bracketSameLine": true
             }
         }
-    ]
+    ],
+    "endOfLine": "crlf"
 }
