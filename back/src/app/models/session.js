@@ -5,6 +5,7 @@
 
 
 import mongoose from "mongoose";
+import crypto from "crypto";
 
 /**
  * @typedef Session
@@ -18,6 +19,17 @@ const sessionSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
+	},
+	// password: contains the hash of the password, the salt and the number of iterations
+	password: {
+		type: String,
+		required: true,
+	},
+	salt: {
+		type: String,
+	},
+	iterations: {
+		type: Number,
 	},
 	teachers: {
 		type: [mongoose.Schema.Types.ObjectId],
@@ -43,10 +55,22 @@ const sessionSchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 		validate: [
-			function (value) {
-				return this.startDate <= value;
+			{
+				validator: function (value) {
+					return this.startDate <= value;
+				},
+				msg: "endDate must be after startDate"
 			},
-			"endDate must be after startDate"
+			{
+				validator: function (value) {
+					if (this.isNew) {
+						return value >= Date.now();
+					}
+					return true;
+				},
+				msg: "endDate must be in the future"
+			}
+
 		]
 	},
 	// TP: {
@@ -97,5 +121,26 @@ sessionSchema.methods.serializeStudent = function () {
  * @returns {Object} The serialized session data
  */
 sessionSchema.methods.serialize = sessionSchema.methods.serializeStudent;
+
+sessionSchema.methods.validatePassword = async function (password) {
+	const hash = crypto.pbkdf2Sync(password, this.salt, this.iterations, 64, "sha512").toString("hex");
+	return this.password === hash;
+};
+
+sessionSchema.pre("save", async function (next) {
+	if (this.isNew) {
+		//hash and salt password
+		const salt = crypto.randomBytes(16).toString("hex");
+		this.salt = salt;
+		this.iterations = 50000;
+		try {
+			this.password = crypto.pbkdf2Sync(this.password, salt, this.iterations, 64, "sha512").toString("hex");
+		} catch (e) {
+			console.log(e);
+			return next(e);
+		}
+	}
+	next();
+});
 
 export default mongoose.model("Session", sessionSchema);

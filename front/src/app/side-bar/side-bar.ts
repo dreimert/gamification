@@ -1,9 +1,10 @@
-import { SidebarButton } from './sidebar-button/sidebarButton';
+import {SidebarButton} from './sidebar-button/sidebarButton';
+
 export const sidebars_stu: SidebarButton[] = [
     {
         id:1,
         name: "Accueil",
-        url:"",
+        url: "/home",
         open: true,
     },
     {
@@ -24,7 +25,7 @@ export const sidebars_prof = [
     {
         id:1,
         name: "Accueil",
-        url:"",
+        url: "/home",
         open: true,
     },
     {
@@ -51,7 +52,7 @@ export const sidebars_admin = [
     {
         id:1,
         name: "Accueil",
-        url:"",
+        url: "/home",
         open: true,
     },
     {
