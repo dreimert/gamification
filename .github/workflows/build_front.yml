@@ -16,6 +16,11 @@ on:
 env:
   NODE_VERSION: 20.x
 
+defaults:
+  run:
+    working-directory: ./front
+
+
 # Gives the workflow permissions to clone the repo
 permissions:
   contents: read
@@ -43,7 +48,7 @@ jobs:
             ${{ runner.os }}-
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: npm ci
       - name: Build
         run: npm run build
       - name: Lint
@@ -72,7 +77,7 @@ jobs:
             ${{ runner.os }}-
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install --production
+        run: npm ci --only=production
       - name: Build
         run: npm run build
 
