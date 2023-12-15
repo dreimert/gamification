@@ -1,31 +1,117 @@
-<button routerLink={{sidebarButton.url}} routerLinkActive="active" class="flex justify-start items-center w-full pl-4 space-x-6 text-white focus:bg-gray-600 hover:bg-gray-600 rounded py-2">
-    <svg *ngIf="sidebarButton.name == 'Accueil'" class="fill-stroke " width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="3,10 12,2 21,10 "/>
-<polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" points="4,10 4,20 9,20 9,13 15,13 15,20 20,20 20,10 "/> 
+<button
+    routerLink="{{ sidebarButton.url }}"
+    routerLinkActive="active"
+    class="flex justify-start items-center w-full pl-4 space-x-6 text-white focus:bg-gray-600 hover:bg-gray-600 rounded py-2">
+    <svg
+        *ngIf="sidebarButton.name === 'Accueil'"
+        class="fill-stroke"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <polyline
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            points="3,10 12,2 21,10 " />
+        <polyline
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            points="4,10 4,20 9,20 9,13 15,13 15,20 20,20 20,10 " />
         <!-- <path d="M9 4H5C4.44772 4 4 4.44772 4 5V9C4 9.55228 4.44772 10 5 10H9C9.55228 10 10 9.55228 10 9V5C10 4.44772 9.55228 4 9 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         <path d="M19 4H15C14.4477 4 14 4.44772 14 5V9C14 9.55228 14.4477 10 15 10H19C19.5523 10 20 9.55228 20 9V5C20 4.44772 19.5523 4 19 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         <path d="M9 14H5C4.44772 14 4 14.4477 4 15V19C4 19.5523 4.44772 20 5 20H9C9.55228 20 10 19.5523 10 19V15C10 14.4477 9.55228 14 9 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         <path d="M19 14H15C14.4477 14 14 14.4477 14 15V19C14 19.5523 14.4477 20 15 20H19C19.5523 20 20 19.5523 20 19V15C20 14.4477 19.5523 14 19 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /> -->
     </svg>
-    <svg *ngIf="sidebarButton.name == 'Notes'" width="24px" height="24px" viewBox="0 0 30.72 30.72" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M27.178 7.133a0.96 0.96 0 0 0 -1.574 1.094A12.48 12.48 0 1 1 2.88 15.36a12.557 12.557 0 0 1 8.918 -11.962 0.96 0.96 0 1 0 -0.547 -1.843A14.4 14.4 0 1 0 29.76 15.36a14.314 14.314 0 0 0 -2.582 -8.227z" fill="#FFFFFF"/>
-        <path d="M18.922 3.398a12.413 12.413 0 0 1 4.118 2.16 0.96 0.96 0 0 0 1.19 -1.507 14.304 14.304 0 0 0 -4.8 -2.496 0.96 0.96 0 0 0 -0.547 1.843zM14.678 2.602a1.104 1.104 0 0 0 0.317 0.202 0.902 0.902 0 0 0 0.73 0 1.114 1.114 0 0 0 0.317 -0.202A0.96 0.96 0 0 0 16.32 1.92a1.008 1.008 0 0 0 -0.278 -0.682A0.96 0.96 0 0 0 15.168 0.96a0.624 0.624 0 0 0 -0.173 0.058 0.71 0.71 0 0 0 -0.173 0.086l-0.144 0.115a0.96 0.96 0 0 0 -0.202 0.317A0.96 0.96 0 0 0 14.4 1.92a0.96 0.96 0 0 0 0.077 0.365 1.114 1.114 0 0 0 0.202 0.317zM10.675 9.408a1.104 1.104 0 0 0 -0.394 0.557L7.056 19.354a1.123 1.123 0 0 0 0.077 1.066 0.96 0.96 0 0 0 0.749 0.317 0.835 0.835 0 0 0 0.518 -0.173A1.315 1.315 0 0 0 8.717 20.16a3.005 3.005 0 0 0 0.211 -0.461l0.144 -0.384 0.528 -1.498h3.562l0.749 2.093a1.373 1.373 0 0 0 0.326 0.576 0.864 0.864 0 0 0 0.614 0.25h0.067a0.826 0.826 0 0 0 0.835 -0.47 1.238 1.238 0 0 0 0 -0.883l-3.235 -9.408a1.104 1.104 0 0 0 -0.403 -0.576 1.325 1.325 0 0 0 -1.44 0.01zm0.73 2.88 1.248 3.763h-2.496zM17.846 16.32a1.997 1.997 0 0 0 0.768 0.125h1.872v2.362a0.874 0.874 0 0 0 0.96 0.96 0.787 0.787 0 0 0 0.816 -0.49 2.198 2.198 0 0 0 0.125 -0.787v-2.006h2.208a0.835 0.835 0 0 0 0.883 -0.96 0.797 0.797 0 0 0 -0.48 -0.816 1.92 1.92 0 0 0 -0.691 -0.125h-1.92v-2.275a0.845 0.845 0 0 0 -0.96 -0.902 0.797 0.797 0 0 0 -0.816 0.47 1.92 1.92 0 0 0 -0.125 0.72v2.006h-1.882a2.083 2.083 0 0 0 -0.768 0.125 0.797 0.797 0 0 0 -0.47 0.816 0.778 0.778 0 0 0 0.48 0.778z" fill="#FFFFFF"/>
+    <svg
+        *ngIf="sidebarButton.name === 'Notes'"
+        width="24px"
+        height="24px"
+        viewBox="0 0 30.72 30.72"
+        class="icon"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M27.178 7.133a0.96 0.96 0 0 0 -1.574 1.094A12.48 12.48 0 1 1 2.88 15.36a12.557 12.557 0 0 1 8.918 -11.962 0.96 0.96 0 1 0 -0.547 -1.843A14.4 14.4 0 1 0 29.76 15.36a14.314 14.314 0 0 0 -2.582 -8.227z"
+            fill="#FFFFFF" />
+        <path
+            d="M18.922 3.398a12.413 12.413 0 0 1 4.118 2.16 0.96 0.96 0 0 0 1.19 -1.507 14.304 14.304 0 0 0 -4.8 -2.496 0.96 0.96 0 0 0 -0.547 1.843zM14.678 2.602a1.104 1.104 0 0 0 0.317 0.202 0.902 0.902 0 0 0 0.73 0 1.114 1.114 0 0 0 0.317 -0.202A0.96 0.96 0 0 0 16.32 1.92a1.008 1.008 0 0 0 -0.278 -0.682A0.96 0.96 0 0 0 15.168 0.96a0.624 0.624 0 0 0 -0.173 0.058 0.71 0.71 0 0 0 -0.173 0.086l-0.144 0.115a0.96 0.96 0 0 0 -0.202 0.317A0.96 0.96 0 0 0 14.4 1.92a0.96 0.96 0 0 0 0.077 0.365 1.114 1.114 0 0 0 0.202 0.317zM10.675 9.408a1.104 1.104 0 0 0 -0.394 0.557L7.056 19.354a1.123 1.123 0 0 0 0.077 1.066 0.96 0.96 0 0 0 0.749 0.317 0.835 0.835 0 0 0 0.518 -0.173A1.315 1.315 0 0 0 8.717 20.16a3.005 3.005 0 0 0 0.211 -0.461l0.144 -0.384 0.528 -1.498h3.562l0.749 2.093a1.373 1.373 0 0 0 0.326 0.576 0.864 0.864 0 0 0 0.614 0.25h0.067a0.826 0.826 0 0 0 0.835 -0.47 1.238 1.238 0 0 0 0 -0.883l-3.235 -9.408a1.104 1.104 0 0 0 -0.403 -0.576 1.325 1.325 0 0 0 -1.44 0.01zm0.73 2.88 1.248 3.763h-2.496zM17.846 16.32a1.997 1.997 0 0 0 0.768 0.125h1.872v2.362a0.874 0.874 0 0 0 0.96 0.96 0.787 0.787 0 0 0 0.816 -0.49 2.198 2.198 0 0 0 0.125 -0.787v-2.006h2.208a0.835 0.835 0 0 0 0.883 -0.96 0.797 0.797 0 0 0 -0.48 -0.816 1.92 1.92 0 0 0 -0.691 -0.125h-1.92v-2.275a0.845 0.845 0 0 0 -0.96 -0.902 0.797 0.797 0 0 0 -0.816 0.47 1.92 1.92 0 0 0 -0.125 0.72v2.006h-1.882a2.083 2.083 0 0 0 -0.768 0.125 0.797 0.797 0 0 0 -0.47 0.816 0.778 0.778 0 0 0 0.48 0.778z"
+            fill="#FFFFFF" />
     </svg>
 
-    <svg *ngIf="sidebarButton.name == 'Sessions'" fill="#FFFFFF" width="24px" height="24px" viewBox="0 0 1.08 1.08" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M0.632 1.02h-0.42A0.032 0.032 0 0 1 0.18 0.99V0.36a0.032 0.032 0 0 1 0.032 -0.032h0.42A0.032 0.032 0 0 1 0.665 0.36v0.63a0.032 0.032 0 0 1 -0.032 0.03ZM0.245 0.956H0.6V0.39H0.245Z" class="clr-i-outline clr-i-outline-path-1"/>
-        <path x="10.08" y="14.96" width="8" height="2" class="clr-i-outline clr-i-outline-path-2" d="M0.302 0.449H0.542V0.509H0.302V0.449z"/>
-        <path d="M0.783 0.834h-0.06V0.27h-0.36V0.21h0.39a0.03 0.03 0 0 1 0.03 0.03Z" class="clr-i-outline clr-i-outline-path-3"/>
-        <path d="M0.902 0.69h-0.06V0.15h-0.33V0.09h0.36a0.03 0.03 0 0 1 0.03 0.03Z" class="clr-i-outline clr-i-outline-path-4"/>
-        <path x="13.08" y="27.88" width="2" height="2.16" class="clr-i-outline clr-i-outline-path-5" d="M0.392 0.836H0.452V0.901H0.392V0.836z"/>
-        <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H1.08V1.08H0V0z"/>
+    <svg
+        *ngIf="sidebarButton.name === 'Sessions'"
+        fill="#FFFFFF"
+        width="24px"
+        height="24px"
+        viewBox="0 0 1.08 1.08"
+        version="1.1"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M0.632 1.02h-0.42A0.032 0.032 0 0 1 0.18 0.99V0.36a0.032 0.032 0 0 1 0.032 -0.032h0.42A0.032 0.032 0 0 1 0.665 0.36v0.63a0.032 0.032 0 0 1 -0.032 0.03ZM0.245 0.956H0.6V0.39H0.245Z"
+            class="clr-i-outline clr-i-outline-path-1" />
+        <path
+            x="10.08"
+            y="14.96"
+            width="8"
+            height="2"
+            class="clr-i-outline clr-i-outline-path-2"
+            d="M0.302 0.449H0.542V0.509H0.302V0.449z" />
+        <path
+            d="M0.783 0.834h-0.06V0.27h-0.36V0.21h0.39a0.03 0.03 0 0 1 0.03 0.03Z"
+            class="clr-i-outline clr-i-outline-path-3" />
+        <path
+            d="M0.902 0.69h-0.06V0.15h-0.33V0.09h0.36a0.03 0.03 0 0 1 0.03 0.03Z"
+            class="clr-i-outline clr-i-outline-path-4" />
+        <path
+            x="13.08"
+            y="27.88"
+            width="2"
+            height="2.16"
+            class="clr-i-outline clr-i-outline-path-5"
+            d="M0.392 0.836H0.452V0.901H0.392V0.836z" />
+        <path x="0" y="0" width="36" height="36" fill-opacity="0" d="M0 0H1.08V1.08H0V0z" />
     </svg>
-    <svg *ngIf="sidebarButton.name == 'Créer une session'" fill="currentColor" width="24px" height="24px" viewBox="0 0 0.72 0.72" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0.57 0.33h-0.18V0.15a0.03 0.03 0 0 0 -0.06 0v0.18H0.15a0.03 0.03 0 0 0 0 0.06h0.18v0.18a0.03 0.03 0 0 0 0.06 0v-0.18h0.18a0.03 0.03 0 0 0 0 -0.06Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    <svg *ngIf="sidebarButton.name == 'Admin'" class="fill-stroke" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M6 21V19C6 17.9391 6.42143 16.9217 7.17157 16.1716C7.92172 15.4214 8.93913 15 10 15H14C15.0609 15 16.0783 15.4214 16.8284 16.1716C17.5786 16.9217 18 17.9391 18 19V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <svg
+        *ngIf="sidebarButton.name === 'Créer une session'"
+        fill="currentColor"
+        width="24px"
+        height="24px"
+        viewBox="0 0 0.72 0.72"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M0.57 0.33h-0.18V0.15a0.03 0.03 0 0 0 -0.06 0v0.18H0.15a0.03 0.03 0 0 0 0 0.06h0.18v0.18a0.03 0.03 0 0 0 0.06 0v-0.18h0.18a0.03 0.03 0 0 0 0 -0.06Z"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
     </svg>
-    <p class="text-base">{{sidebarButton.name}}</p>
+    <svg
+        *ngIf="sidebarButton.name === 'Admin'"
+        class="fill-stroke"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+        <path
+            d="M6 21V19C6 17.9391 6.42143 16.9217 7.17157 16.1716C7.92172 15.4214 8.93913 15 10 15H14C15.0609 15 16.0783 15.4214 16.8284 16.1716C17.5786 16.9217 18 17.9391 18 19V21"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+    </svg>
+    <p class="text-base">{{ sidebarButton.name }}</p>
 </button>

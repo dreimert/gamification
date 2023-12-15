@@ -1,4 +1,4 @@
-export interface SidebarButton{
+export interface SidebarButton {
     id: number;
     name: string;
     url: string;
