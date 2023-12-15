@@ -5,10 +5,10 @@ import sessionRouter from "./session.js";
 const mainRouter = express.Router();
 
 mainRouter.get("/", (req, res) => {
-	res.json({
-		api: "v1",
-		version: "0.0.0",
-	});
+    res.json({
+        api: "v1",
+        version: "0.0.0",
+    });
 });
 
 mainRouter.use("/user", userRouter);

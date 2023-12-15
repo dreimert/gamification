@@ -1,4 +1,3 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
@@ -21,11 +20,11 @@ $front-warn: mat.define-palette(mat.$red-palette);
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $front-theme: mat.define-light-theme((
-  color: (
-    primary: $front-primary,
-    accent: $front-accent,
-    warn: $front-warn,
-  )
+    color: (
+        primary: $front-primary,
+        accent: $front-accent,
+        warn: $front-warn,
+    )
 ));
 
 // Include theme styles for core and each component used in your app.

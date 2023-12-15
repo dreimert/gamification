@@ -3,9 +3,9 @@
  * @author 28Pollux28
  */
 
-
 import mongoose from "mongoose";
 import crypto from "crypto";
+import { logger } from "../app.js";
 
 /**
  * @typedef Session
@@ -16,68 +16,69 @@ import crypto from "crypto";
  * @property {Date} endDate - The end date of the session. It is required and must be after the start date.
  */
 const sessionSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true,
-	},
-	// password: contains the hash of the password, the salt and the number of iterations
-	password: {
-		type: String,
-		required: true,
-	},
-	salt: {
-		type: String,
-	},
-	iterations: {
-		type: Number,
-	},
-	teachers: {
-		type: [mongoose.Schema.Types.ObjectId],
-		ref: "User",
-		validate: [
-			function (v) {
-				return Array.isArray(v) && v.length > 0;
-			},
-			"There must be at least one teacher"
-		],
-		default: [],
-	},
-	students: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-		default: [],
-	}],
-	startDate: {
-		type: Date,
-		required: true,
-	},
-	endDate: {
-		type: Date,
-		required: true,
-		validate: [
-			{
-				validator: function (value) {
-					return this.startDate <= value;
-				},
-				msg: "endDate must be after startDate"
-			},
-			{
-				validator: function (value) {
-					if (this.isNew) {
-						return value >= Date.now();
-					}
-					return true;
-				},
-				msg: "endDate must be in the future"
-			}
-
-		]
-	},
-	// TP: {
-	// 	type: mongoose.Schema.Types.ObjectId,
-	// 	ref: "TP",
-	// 	required: true,
-	// },
+    name: {
+        type: String,
+        required: true,
+    },
+    // password: contains the hash of the password, the salt and the number of iterations
+    password: {
+        type: String,
+        required: true,
+    },
+    salt: {
+        type: String,
+    },
+    iterations: {
+        type: Number,
+    },
+    teachers: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "User",
+        validate: [
+            function (v) {
+                return Array.isArray(v) && v.length > 0;
+            },
+            "There must be at least one teacher",
+        ],
+        default: [],
+    },
+    students: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            default: [],
+        },
+    ],
+    startDate: {
+        type: Date,
+        required: true,
+    },
+    endDate: {
+        type: Date,
+        required: true,
+        validate: [
+            {
+                validator: function (value) {
+                    return this.startDate <= value;
+                },
+                msg: "endDate must be after startDate",
+            },
+            {
+                validator: function (value) {
+                    if (this.isNew) {
+                        return value >= Date.now();
+                    }
+                    return true;
+                },
+                msg: "endDate must be in the future",
+            },
+        ],
+    },
+    // TP: {
+    // 	type: mongoose.Schema.Types.ObjectId,
+    // 	ref: "TP",
+    // 	required: true,
+    // },
 });
 
 /**
@@ -86,16 +87,16 @@ const sessionSchema = new mongoose.Schema({
  * @returns {Object} The serialized session data for a teacher
  */
 sessionSchema.methods.serializeTeacher = function () {
-	return {
-		id: this.id,
-		name: this.name,
-		teachers: this.teachers,
-		students: this.students,
-		startDate: this.startDate,
-		endDate: this.endDate,
-		// TP: this.TP.map(e => e.serialize()),
-		status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
-	};
+    return {
+        id: this.id,
+        name: this.name,
+        teachers: this.teachers,
+        students: this.students,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        // TP: this.TP.map(e => e.serialize()),
+        status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
+    };
 };
 
 /**
@@ -104,15 +105,15 @@ sessionSchema.methods.serializeTeacher = function () {
  * @returns {Object} The serialized session data for a student
  */
 sessionSchema.methods.serializeStudent = function () {
-	return {
-		id: this.id,
-		name: this.name,
-		teachers: this.teachers,
-		startDate: this.startDate,
-		endDate: this.endDate,
-		// TP: this.TP.map(e => e.serialize()),
-		status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress")
-	};
+    return {
+        id: this.id,
+        name: this.name,
+        teachers: this.teachers,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        // TP: this.TP.map(e => e.serialize()),
+        status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress"),
+    };
 };
 
 /**
@@ -123,24 +124,24 @@ sessionSchema.methods.serializeStudent = function () {
 sessionSchema.methods.serialize = sessionSchema.methods.serializeStudent;
 
 sessionSchema.methods.validatePassword = async function (password) {
-	const hash = crypto.pbkdf2Sync(password, this.salt, this.iterations, 64, "sha512").toString("hex");
-	return this.password === hash;
+    const hash = crypto.pbkdf2Sync(password, this.salt, this.iterations, 64, "sha512").toString("hex");
+    return this.password === hash;
 };
 
 sessionSchema.pre("save", async function (next) {
-	if (this.isNew) {
-		//hash and salt password
-		const salt = crypto.randomBytes(16).toString("hex");
-		this.salt = salt;
-		this.iterations = 50000;
-		try {
-			this.password = crypto.pbkdf2Sync(this.password, salt, this.iterations, 64, "sha512").toString("hex");
-		} catch (e) {
-			console.log(e);
-			return next(e);
-		}
-	}
-	next();
+    if (this.isNew) {
+        //hash and salt password
+        const salt = crypto.randomBytes(16).toString("hex");
+        this.salt = salt;
+        this.iterations = 50000;
+        try {
+            this.password = crypto.pbkdf2Sync(this.password, salt, this.iterations, 64, "sha512").toString("hex");
+        } catch (e) {
+            logger.error(e);
+            return next(e);
+        }
+    }
+    next();
 });
 
 export default mongoose.model("Session", sessionSchema);

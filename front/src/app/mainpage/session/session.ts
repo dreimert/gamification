@@ -1,11 +1,11 @@
 export interface Session {
-    Name: string,
-    Date: string,
-    Debut: string,
-    Fin: string,
-    state: string,
-    password: string,
-    imgpath: string,
+    Name: string;
+    Date: string;
+    Debut: string;
+    Fin: string;
+    state: string;
+    password: string;
+    imgpath: string;
 }
 
 export const sessions: Session[] = [
@@ -15,7 +15,7 @@ export const sessions: Session[] = [
         Debut: "10:10",
         Fin: "12:00",
         state: "En cours",
-        password: 'kafka',
+        password: "kafka",
         imgpath: "/assets/imgJoin/kafka.png",
     },
     {
@@ -24,7 +24,7 @@ export const sessions: Session[] = [
         Debut: "00:00",
         Fin: "24:00",
         state: "Terminée",
-        password: '',
+        password: "",
         imgpath: "/assets/imgJoin/Scrapping.png",
     },
     {
@@ -33,7 +33,7 @@ export const sessions: Session[] = [
         Debut: "00:00",
         Fin: "24:00",
         state: "Terminée",
-        password: '',
+        password: "",
         imgpath: "/assets/imgJoin/Scrapping.png",
     },
-]
+];

@@ -1,3 +1,3 @@
-export interface Header{
+export interface Header {
     name: string;
 }

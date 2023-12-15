@@ -1,20 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-  ],
-  declarations: [
-
-  ],
-
+    imports: [BrowserModule, ReactiveFormsModule],
+    declarations: [],
 })
-export class AppModule { }
-
+export class AppModule {}
 
 /*
 Copyright Google LLC. All Rights Reserved.

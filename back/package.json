@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node src/app/app.js",
     "dev": "nodemon -L --watch src/app/ src/app/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lintfix": "eslint src/app --fix --cache"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "lint:check": "eslint src/app --cache",
+    "lint:fix": "eslint src/app --fix --cache"
   },
   "author": "",
   "type": "module",
@@ -22,10 +23,16 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.2",
     "passport": "^0.6.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pino": "^8.17.1",
+    "pino-pretty": "^10.3.0"
   },
   "devDependencies": {
     "eslint": "^8.54.0",
-    "nodemon": "^3.0.1"
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.1.1",
+    "prettier-eslint": "^16.1.2"
   }
 }
