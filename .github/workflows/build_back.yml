@@ -48,37 +48,8 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Lint
-        run: npm run lint:check
-      - name: Test
-        run: npm run test
-      # Now we build without the dev dependencies
-  build_prod:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules-prod
-        with:
-          path: back/node_modules
-          key: ${{ runner.os }}-back-${{ env.cache-name }}-${{ hashFiles('back/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-back-${{ env.cache-name }}-
-            ${{ runner.os }}-back-
-            ${{ runner.os }}-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --only=production
-      - name: Build
-        run: npm run build
+      - name: Build Docker image
+        run: docker build . --file Dockerfile --tag gamification-back:$(date +%s)
       - name: Lint
         run: npm run lint:check
       - name: Test

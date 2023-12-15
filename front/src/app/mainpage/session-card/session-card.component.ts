@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { CommonModule } from "@angular/common";
-
 import { JoinComponent } from "../session/join/join.component";
 import { Header } from "../header/header";
 import { Session, SessionStatus, TeacherSession } from "../../models/session.model";
 import { RouterLink } from "@angular/router";
 import { PrivateUser, UserType } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
+import { SessionService } from "../../services/session.service";
 
 @Component({
     selector: "app-session-card",
@@ -21,7 +21,7 @@ export class SessionCardComponent implements OnInit {
         const dialogRef = this.dialog.open(JoinComponent, {
             width: "60%",
             height: "70%",
-            data: sess,
+            data: session,
         });
 
         dialogRef.afterClosed().subscribe((password) => {
@@ -43,7 +43,7 @@ export class SessionCardComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private userService: UserService,
-        private sessionService: SessionServ,
+        private sessionService: SessionService,
     ) {}
 
     ngOnInit() {
