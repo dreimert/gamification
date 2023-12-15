@@ -5,7 +5,6 @@
 
 import mongoose from "mongoose";
 
-
 /**
  * @typedef User
  * @property {string} username.required - The username - eg: johnDoe
@@ -16,33 +15,33 @@ import mongoose from "mongoose";
  * @property {string} type - The user's type - eg: admin, teacher, student
  */
 const userSchema = new mongoose.Schema({
-	username: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-	name: {
-		type: String,
-		required: true,
-	},
-	surname:  {
-		type: String,
-		required: true,
-	},
-	email:  {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	type:{
-		type: String,
-		enum: ["admin", "teacher", "student"],
-		default: "student",
-	},
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    surname: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    type: {
+        type: String,
+        enum: ["admin", "teacher", "student"],
+        default: "student",
+    },
 });
 
 /**
@@ -51,11 +50,10 @@ const userSchema = new mongoose.Schema({
  * @returns {boolean} - Returns true if the password is valid, false otherwise.
  */
 userSchema.methods.validPassword = function (password) {
-	if (this.password !== password) {
-		return true;//todo
-	}
-	return true;//todo
-
+    if (this.password !== password) {
+        return true; //todo
+    }
+    return true; //todo
 };
 
 /**
@@ -63,7 +61,7 @@ userSchema.methods.validPassword = function (password) {
  * @returns {boolean} - Returns true if the user is an admin, false otherwise.
  */
 userSchema.methods.isAdmin = function () {
-	return this.type === "admin";
+    return this.type === "admin";
 };
 
 /**
@@ -71,7 +69,7 @@ userSchema.methods.isAdmin = function () {
  * @returns {boolean} - Returns true if the user is a teacher or an admin, false otherwise.
  */
 userSchema.methods.isTeacher = function () {
-	return this.type === "teacher" || this.isAdmin();
+    return this.type === "teacher" || this.isAdmin();
 };
 
 /**
@@ -79,7 +77,7 @@ userSchema.methods.isTeacher = function () {
  * @returns {boolean} - Returns true if the user is a student, false otherwise.
  */
 userSchema.methods.isStudent = function () {
-	return this.type === "student";
+    return this.type === "student";
 };
 
 /**
@@ -87,14 +85,14 @@ userSchema.methods.isStudent = function () {
  * @returns {object} - Returns an object with the user's username, name, surname, email, and type.
  */
 userSchema.methods.serialize = function () {
-	return {
-		id: this.id,
-		username: this.username,
-		name: this.name,
-		surname: this.surname,
-		email: this.email,
-		type: this.type,
-	};
+    return {
+        id: this.id,
+        username: this.username,
+        name: this.name,
+        surname: this.surname,
+        email: this.email,
+        type: this.type,
+    };
 };
 
 /**
@@ -102,12 +100,12 @@ userSchema.methods.serialize = function () {
  * @returns {object} - Returns an object with the user's name and surname.
  */
 userSchema.methods.serializePublic = function () {
-	return {
-		id: this.id,
-		name: this.name,
-		surname: this.surname,
-		type: this.type,
-	};
+    return {
+        id: this.id,
+        name: this.name,
+        surname: this.surname,
+        type: this.type,
+    };
 };
 
 export default mongoose.model("User", userSchema);

@@ -1,0 +1,82 @@
+name: Build Backend
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "back/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "back/**"
+    # Specify to run a workflow manually from the Actions tab on GitHub
+    workflow_dispatch:
+
+env:
+  NODE_VERSION: 20.x
+
+# Gives the workflow permissions to clone the repo
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: back/node_modules
+          key: ${{ runner.os }}-back-${{ env.cache-name }}-${{ hashFiles('back/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-back-${{ env.cache-name }}-
+            ${{ runner.os }}-back-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint:check
+      - name: Test
+        run: npm run test
+      # Now we build without the dev dependencies
+  build_prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules-prod
+        with:
+          path: back/node_modules
+          key: ${{ runner.os }}-back-${{ env.cache-name }}-${{ hashFiles('back/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-back-${{ env.cache-name }}-
+            ${{ runner.os }}-back-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --only=production
+      - name: Build
+        run: npm run build
+      - name: Lint
+        run: npm run lint:check
+      - name: Test
+        run: npm run test
+
