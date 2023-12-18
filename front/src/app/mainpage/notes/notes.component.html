@@ -10,9 +10,15 @@
         <div
             *ngFor="let note of notes_stu"
             class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ note.name }}</p>
-            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{ note.note }}</p>
-            <p class="flex w-full py-2 mr-3 border-r border-borderTable">{{ note.moyenne }}</p>
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">
+                {{ note.name }}
+            </p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">
+                {{ note.note }}
+            </p>
+            <p class="flex w-full py-2 mr-3 border-r border-borderTable">
+                {{ note.moyenne }}
+            </p>
             <p class="flex w-full py-2">{{ note.coefficient }}</p>
         </div>
     </div>

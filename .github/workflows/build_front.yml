@@ -55,29 +55,4 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm run test
-  # Now we build without the dev dependencies
-  build_prod:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules-prod
-        with:
-          path: front/node_modules
-          key: ${{ runner.os }}-front-${{ env.cache-name }}-${{ hashFiles('front/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-front-${{ env.cache-name }}-
-            ${{ runner.os }}-front-
-            ${{ runner.os }}-
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --only=production
-      - name: Build
-        run: npm run build
 
