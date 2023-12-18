@@ -13,6 +13,9 @@ describe("HeaderComponent", () => {
 
         fixture = TestBed.createComponent(HeaderComponent);
         component = fixture.componentInstance;
+        component.section = {
+            name: "Accueil",
+        };
         fixture.detectChanges();
     });
 
