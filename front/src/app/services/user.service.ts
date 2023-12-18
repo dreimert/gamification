@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
     providedIn: "root",
 })
 export class UserService {
-    private root: string = environment.backendUrl + "/api/user/";
+    public root: string = environment.backendUrl + "/api/user/";
     private http: HttpClient;
     private user: PrivateUser;
 
