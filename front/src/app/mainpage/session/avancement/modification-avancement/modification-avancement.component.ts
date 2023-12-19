@@ -63,6 +63,18 @@ export class ModificationAvancementComponent implements OnInit {
     },
   )
 
+  // change form of studients data
+  niveaux = Object.entries(niveaux).map(([key, value], index)=>{
+    return{ id:index, key:key, value:value, }
+  })
+  avancements = [...avancements]
+  studients: { [key:string]:string } = this.avancements.reduce((result: Record<string, string>, avancement)=>{
+    result[avancement.name] = avancement.niveau;
+    return result;
+  }, {})
+  studientsList = Object.keys(this.studients);
+
+
   StuAvance!: string | null ;
 
   validateName(control: AbstractControl):ValidationErrors | null{
@@ -87,18 +99,6 @@ export class ModificationAvancementComponent implements OnInit {
       return null
     }
   }
-
-
-  niveaux = Object.entries(niveaux).map(([key, value], index)=>{
-    return{ id:index, key:key, value:value, }
-  })
-  avancements = [...avancements]
-  studients: { [key:string]:string } = this.avancements.reduce((result: Record<string, string>, avancement)=>{
-    result[avancement.name] = avancement.niveau;
-    return result;
-  }, {})
-  studientsList = Object.keys(this.studients);
-
 
   private _filter(value: string | null): string[] {
     if (value){
