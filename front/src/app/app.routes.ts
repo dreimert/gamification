@@ -5,6 +5,8 @@ import { NoteProfComponent } from "./mainpage/note-prof/note-prof.component";
 import { SessionComponent } from "./mainpage/session/session.component";
 import { SessionCreateComponent } from "./mainpage/session/session-create/session-create.component";
 import { AdminComponent } from "./mainpage/admin/admin.component";
+import { AvancementComponent } from "./mainpage/session/avancement/avancement.component";
+import { ModificationAvancementComponent } from "./mainpage/session/avancement/modification-avancement/modification-avancement.component";
 
 export const routes: Routes = [
     {
@@ -30,6 +32,16 @@ export const routes: Routes = [
     {
         path: "session/:id",
         component: SessionCreateComponent,
+        title: "Session",
+    },
+    {
+        path: "session/:id/lookup",
+        component: AvancementComponent,
+        title: "Session",
+    },
+    {
+        path: "session/:id/lookup/modifier",
+        component: ModificationAvancementComponent,
         title: "Session",
     },
     {
