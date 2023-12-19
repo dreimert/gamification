@@ -6,9 +6,10 @@ import { SessionComponent } from "./mainpage/session/session.component";
 import { SessionCreateComponent } from "./mainpage/session/session-create/session-create.component";
 import { AdminComponent } from "./mainpage/admin/admin.component";
 import { ModifyAccessComponent } from "./mainpage/admin/modify-access/modify-access.component";
-import { TeacherListComponent } from "./mainpage/admin/teacher-list/teacher-list.component";
 import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
+import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
+
 export const routes: Routes = [
     {
         path: "sessions",
@@ -51,14 +52,14 @@ export const routes: Routes = [
         title: "Admin",
     },
     {
-        path: "modifyAccess",
+        path: "admin/modifyAccess",
         component: ModifyAccessComponent,
         title: "Modifier accès",
     },
     {
-        path: "",
-        component: TeacherListComponent,
-        title: "Admin",
+        path: "admin/addTeacher",
+        component: AddTeacherComponent,
+        title: "Modifier accès",
     },
     {
         path: "home",
