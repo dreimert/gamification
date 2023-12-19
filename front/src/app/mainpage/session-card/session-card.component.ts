@@ -54,7 +54,7 @@ export class SessionCardComponent implements OnInit {
             this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
                 this.sessions = sessions;
             });
-        } else if (this.Header.name == "Sessions") {
+        } else if (this.Header.name == "Sessions" || this.Header.name == "Notes") {
             this.sessionService.getAllSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
                 this.sessions = sessions;
             });

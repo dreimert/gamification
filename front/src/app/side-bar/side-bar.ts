@@ -31,7 +31,7 @@ export const sidebars_prof = [
     {
         id: 2,
         name: "Notes",
-        url: "/note-prof",
+        url: "/notes-teacher",
         open: false,
     },
     {
