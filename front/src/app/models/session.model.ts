@@ -1,83 +1,89 @@
 export class Session {
-    id: string;
-    name: string;
-    teachers: string[];
-    startDate: Date;
-    endDate: Date;
-    TP: string;
-    status: SessionStatus;
+  id: string;
+  name: string;
+  teachers: string[];
+  startDate: Date;
+  endDate: Date;
+  TP: string;
+  status: SessionStatus;
 
-    constructor(
-        id: string,
-        name: string,
-        teachers: string[],
-        startDate: Date,
-        endDate: Date,
-        TP: string,
-        status: SessionStatus,
-    ) {
-        this.id = id;
-        this.name = name;
-        this.teachers = teachers;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.TP = TP;
-        this.status = status;
-    }
+  constructor(
+    id: string,
+    name: string,
+    teachers: string[],
+    startDate: Date,
+    endDate: Date,
+    TP: string,
+    status: SessionStatus
+  ) {
+    this.id = id;
+    this.name = name;
+    this.teachers = teachers;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.TP = TP;
+    this.status = status;
+  }
 
-    public static compareStatus(a: Session, b: Session): number {
-        if (a.status == b.status) {
-            return 0;
-        }
-        if (a.status == SessionStatus.SCHEDULED) {
-            return -1;
-        }
-        if (a.status == SessionStatus.INPROGRESS) {
-            return b.status == SessionStatus.SCHEDULED ? 1 : -1;
-        }
-        if (a.status == SessionStatus.DONE) {
-            return 1;
-        }
-        return 0;
+  public static compareStatus(a: Session, b: Session): number {
+    if (a.status == b.status) {
+      return 0;
     }
+    if (a.status == SessionStatus.SCHEDULED) {
+      return -1;
+    }
+    if (a.status == SessionStatus.INPROGRESS) {
+      return b.status == SessionStatus.SCHEDULED ? 1 : -1;
+    }
+    if (a.status == SessionStatus.DONE) {
+      return 1;
+    }
+    return 0;
+  }
 }
 
 export class TeacherSession extends Session {
-    students: string[];
+  students: string[];
 
-    constructor(
-        id: string,
-        name: string,
-        teachers: string[],
-        students: string[],
-        startDate: Date,
-        endDate: Date,
-        TP: string,
-        status: SessionStatus,
-    ) {
-        super(id, name, teachers, startDate, endDate, TP, status);
-        this.students = students;
-    }
+  constructor(
+    id: string,
+    name: string,
+    teachers: string[],
+    students: string[],
+    startDate: Date,
+    endDate: Date,
+    TP: string,
+    status: SessionStatus
+  ) {
+    super(id, name, teachers, startDate, endDate, TP, status);
+    this.students = students;
+  }
 }
 
 export class CreateSession {
-    name: string;
-    password: string;
-    TP: string;
-    startDate: Date;
-    endDate: Date;
+  name: string;
+  password: string;
+  TP: string;
+  startDate: Date;
+  endDate: Date;
 
-    constructor(name: string, password: string, TP: string, startDate: Date, endDate: Date) {
-        this.name = name;
-        this.password = password;
-        this.TP = TP;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
+  constructor(
+    name: string,
+    password: string,
+    TP: string,
+    startDate: Date,
+    endDate: Date
+  ) {
+    this.name = name;
+    this.password = password;
+    this.TP = TP;
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
 }
 
 export enum SessionStatus {
-    SCHEDULED = "scheduled",
-    INPROGRESS = "inProgress",
-    DONE = "done",
+  SCHEDULED = 'scheduled',
+  INPROGRESS = 'inProgress',
+  DONE = 'done',
 }

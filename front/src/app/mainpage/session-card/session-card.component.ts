@@ -10,35 +10,53 @@ import { UserService } from "../../services/user.service";
 import { SessionService } from "../../services/session.service";
 
 @Component({
-    selector: "app-session-card",
-    standalone: true,
-    imports: [CommonModule, RouterLink],
-    templateUrl: "./session-card.component.html",
-    styleUrl: "./session-card.component.css",
+  selector: 'app-session-card',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './session-card.component.html',
+  styleUrl: './session-card.component.css',
 })
 export class SessionCardComponent implements OnInit {
-    openDialog(session: Session): void {
-        const dialogRef = this.dialog.open(JoinComponent, {
-            width: "60%",
-            height: "70%",
-            data: session,
-        });
+  openDialog(session: Session): void {
+    const dialogRef = this.dialog.open(JoinComponent, {
+      width: '60%',
+      height: '70%',
+      data: session,
+    });
 
-        dialogRef.afterClosed().subscribe((password) => {
-            if (password) {
-                this.sessionService.joinSession(session, password).subscribe({
-                    next: (session: Session) => {
-                        // TODO: redirect to game page
-                        alert("Vous avez rejoint la session" + session.name);
-                    },
-                    error: (err) => {
-                        console.log(err);
-                        alert("Impossible de rejoindre la session");
-                    },
-                });
-            }
+    dialogRef.afterClosed().subscribe(password => {
+      if (password) {
+        this.sessionService.joinSession(session, password).subscribe({
+          next: (session: Session) => {
+            // TODO: redirect to game page
+            alert('Vous avez rejoint la session' + session.name);
+          },
+          error: err => {
+            console.log(err);
+            alert('Impossible de rejoindre la session');
+          },
+        });
+      }
+    });
+  }
+  ngOnInit() {
+    this.userService.getCurrentUser().subscribe((user: PrivateUser) => {
+      this.user = user;
+    });
+    if (this.Header.name == 'Accueil') {
+      this.sessionService
+        .getAvailableSessions()
+        .subscribe((sessions: Session[] | TeacherSession[]) => {
+          this.sessions = sessions;
+        });
+    } else if (this.Header.name == 'Sessions') {
+      this.sessionService
+        .getAllSessions()
+        .subscribe((sessions: Session[] | TeacherSession[]) => {
+          this.sessions = sessions;
         });
     }
+  }
 
     constructor(
         public dialog: MatDialog,
@@ -47,47 +65,28 @@ export class SessionCardComponent implements OnInit {
         private router: Router,
     ) {}
 
-    ngOnInit() {
-        this.userService.getCurrentUser().subscribe((user: PrivateUser) => {
-            this.user = user;
-        });
-        if (this.Header.name == "Accueil") {
-            this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
-                this.sessions = sessions;
-            });
-        } else if (this.Header.name == "Sessions") {
-            this.sessionService.getAllSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
-                this.sessions = sessions;
-            });
-        }
-    }
+  endSession(session: Session | TeacherSession) {
+    this.sessionService.endSession(session).subscribe({
+      next: () => {
+        this.sessions = this.sessions.filter(
+          (s: Session | TeacherSession) => s.id != session.id
+        );
+      },
+      error: () => {
+        alert('Impossible de terminer la session');
+      },
+    });
+  }
 
-    deleteSession(session: Session | TeacherSession) {
-        this.sessionService.deleteSession(session).subscribe(() => {
-            this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
-        });
-    }
+  calculateFontSize(textLength: number): string {
+    const baseSize = 28;
+    const minSize = 10;
+    const scalingFactor = 0.5;
 
-    endSession(session: Session | TeacherSession) {
-        this.sessionService.endSession(session).subscribe({
-            next: () => {
-                this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
-            },
-            error: () => {
-                alert("Impossible de terminer la session");
-            },
-        });
-    }
+    const calculatedSize = baseSize - textLength * scalingFactor;
 
-    calculateFontSize(textLength: number): string {
-        const baseSize = 28;
-        const minSize = 10;
-        const scalingFactor = 0.5;
-
-        const calculatedSize = baseSize - textLength * scalingFactor;
-
-        return Math.max(calculatedSize, minSize) + "px";
-    }
+    return Math.max(calculatedSize, minSize) + 'px';
+  }
 
     sessions: Session[] | TeacherSession[] = [];
     @Input() Header!: Header;
