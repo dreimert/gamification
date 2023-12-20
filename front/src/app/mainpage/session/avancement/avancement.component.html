@@ -12,7 +12,7 @@
         </div>
         <button
             class="flex items-center justify-center col-span-2 w-4/5 h-full bg-bgTable rounded-xl text-black ml-6"
-            [routerLink]="['/session', sessionId, 'lookup', 'modifier']">
+            [routerLink]="['/session', sessionId, 'progressions', 'edit']">
             Modifier le niveau d'un élève
         </button>
     </div>
@@ -22,10 +22,10 @@
             <p class="flex w-full py-2">Avancement</p>
         </div>
         <div
-            *ngFor="let avancement of avancements"
+            *ngFor="let progression of progressions"
             class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ avancement.name }}</p>
-            <p class="flex w-full py-2">{{ getPercentage(avancement.niveau) }}</p>
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ progression.name }}</p>
+            <p class="flex w-full py-2">{{ getPercentage(progression.level) }}</p>
         </div>
     </div>
 </div>

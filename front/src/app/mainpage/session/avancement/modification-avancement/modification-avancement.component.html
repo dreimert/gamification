@@ -3,7 +3,7 @@
     <div class="ml-8 my-3">
         <p>{{ sessionName }}</p>
         <form
-            [formGroup]="avancementForm"
+            [formGroup]="progressionForm"
             (ngSubmit)="onSubmit()"
             class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
             <div class="flex flex-row justify-center mt-5 mx-3">
@@ -22,60 +22,60 @@
                         matInput
                         [matAutocomplete]="auto" />
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let stu of StuList | async" [value]="stu">
+                            {{ stu }}
                         </mat-option>
                     </mat-autocomplete>
                 </div>
             </div>
             <div
-                *ngIf="avancementForm.controls['name'].errors?.['required']"
+                *ngIf="progressionForm.controls['name'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le nom est obligatoire.
             </div>
             <div
-                *ngIf="avancementForm.controls['name'].errors?.['nameError']"
+                *ngIf="progressionForm.controls['name'].errors?.['nameError']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ avancementForm.controls["name"].errors?.["nameError"] }}
+                {{ progressionForm.controls["name"].errors?.["nameError"] }}
             </div>
-            <div *ngIf="!avancementForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
+            <div *ngIf="!progressionForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
                 Avancement actuel de l'élève:
-                <p class="font-bold ml-1">Niveau {{ this.StuAvance }}</p>
+                <p class="font-bold ml-1">Niveau {{ this.StuProgress }}</p>
             </div>
 
             <div class="flex flex-row justify-center mt-3 mx-3">
                 <label
-                    for="avancement"
+                    for="progression"
                     class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
-                    avancement
+                    Avancement
                 </label>
-                <select id="avancement" class="flex px-2 w-3/4 rounded-r-lg" formControlName="avancement" required>
+                <select id="progression" class="flex px-2 w-3/4 rounded-r-lg" formControlName="progression" required>
                     <option value="">Choisissez un niveau</option>
-                    <option *ngFor="let niveau of niveaux" [value]="niveau.id">
-                        Niveau {{ niveau.key }} : {{ niveau.value }}
+                    <option *ngFor="let level of levels" [value]="level.id">
+                        Niveau {{ level.key }} : {{ level.value }}
                     </option>
                 </select>
             </div>
             <div
-                *ngIf="avancementForm.controls['avancement'].errors?.['required']"
+                *ngIf="progressionForm.controls['progression'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 L'avancement est obligatoire.
             </div>
             <div
-                *ngIf="avancementForm.controls['avancement'].errors?.['avanceError']"
+                *ngIf="progressionForm.controls['progression'].errors?.['progressError']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ avancementForm.controls["avancement"].errors?.["avanceError"] }}
+                {{ progressionForm.controls["progression"].errors?.["progressError"] }}
             </div>
 
             <div class="flex">
                 <button
-                    [routerLink]="['/session', sessionId, 'lookup']"
+                    [routerLink]="['/session', sessionId, 'progressions']"
                     class="flex justify-center items-center w-fit bg-redButton hover:bg-red-800 rounded-lg py-2 ml-3 mr-3 mb-auto mt-5">
                     <p class="flex text-white mx-3">Cancel</p>
                 </button>
                 <button
                     type="submit"
-                    [disabled]="!avancementForm.valid"
+                    [disabled]="!progressionForm.valid"
                     class="flex justify-center items-center w-fit bg-blueButton disabled:bg-blue-400 hover:bg-blue-800 rounded-lg py-2 ml-auto mr-3 mb-3 mt-5">
                     <p class="flex text-white mx-3">Modifier</p>
                 </button>

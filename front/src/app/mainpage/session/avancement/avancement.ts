@@ -1,37 +1,37 @@
-export interface avancement {
+export interface progression {
     id: number;
     name: string;
-    niveau: string;
+    level: string;
 }
 
-export const avancements: avancement[] = [
+export const progressions: progression[] = [
     {
         id: 1,
-        name: "studient 1",
-        niveau: "3",
+        name: "student 1",
+        level: "3",
     },
     {
         id: 2,
-        name: "studient 2",
-        niveau: "1",
+        name: "student 2",
+        level: "1",
     },
     {
         id: 3,
-        name: "studient 3",
-        niveau: "4",
+        name: "student 3",
+        level: "4",
     },
     {
         id: 4,
-        name: "studient 4",
-        niveau: "2",
+        name: "student 4",
+        level: "2",
     },
 ];
 
-export interface Niveaux {
+export interface Levels {
     [key: string]: string;
 }
 
-export const niveaux: Niveaux = {
+export const levels: Levels = {
     "0": "0%",
     "1": "25%",
     "2": "50%",

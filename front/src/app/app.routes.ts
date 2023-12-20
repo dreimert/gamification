@@ -35,12 +35,12 @@ export const routes: Routes = [
         title: "Session",
     },
     {
-        path: "session/:id/lookup",
+        path: "session/:id/progressions",
         component: AvancementComponent,
         title: "Session",
     },
     {
-        path: "session/:id/lookup/modifier",
+        path: "session/:id/progressions/edit",
         component: ModificationAvancementComponent,
         title: "Session",
     },

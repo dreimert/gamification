@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { avancements, niveaux } from "./avancement";
+import { progressions, levels } from "./avancement";
 import { SessionService } from "../../../services/session.service";
 import { TeacherSession, Session } from "../../../models/session.model";
 
@@ -44,14 +44,14 @@ export class AvancementComponent implements OnInit {
 
     StuName = "";
 
-    avancements = [...avancements];
-    niveaux = niveaux;
+    progressions = [...progressions];
+    levels = levels;
 
-    getPercentage(niveau: string): string {
-        if (niveau in niveaux) {
-            return `Niveau ${niveau} (${niveaux[niveau]})`;
+    getPercentage(level: string): string {
+        if (level in levels) {
+            return `Niveau ${level} (${levels[level]})`;
         } else {
-            return `Il n'y a pas de niveau: ${niveau}`;
+            return `Il n'y a pas de niveau: ${level}`;
         }
     }
 }
