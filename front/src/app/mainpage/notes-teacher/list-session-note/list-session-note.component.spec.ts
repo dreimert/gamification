@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ListSessionNoteComponent } from './list-session-note.component';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ListSessionNoteComponent } from "./list-session-note.component";
 import { Observable, of } from "rxjs";
-import { Session, SessionStatus, TeacherSession } from '../../../models/session.model';
-import { SessionService } from '../../../services/session.service';
+import { Session, SessionStatus, TeacherSession } from "../../../models/session.model";
+import { SessionService } from "../../../services/session.service";
 
 let sessionServiceStub: Partial<SessionService>;
 
-describe('ListSessionNoteComponent', () => {
+describe("ListSessionNoteComponent", () => {
     sessionServiceStub = {
         getAllSessions(): Observable<Session[] | TeacherSession[]> {
             return of<Session[]>([
@@ -21,25 +21,22 @@ describe('ListSessionNoteComponent', () => {
                 },
             ]);
         },
-    }; 
-  let component: ListSessionNoteComponent;
-  let fixture: ComponentFixture<ListSessionNoteComponent>;
+    };
+    let component: ListSessionNoteComponent;
+    let fixture: ComponentFixture<ListSessionNoteComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ListSessionNoteComponent],
-      providers:[
-        { provide: SessionService, useValue: sessionServiceStub },
-      ]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(ListSessionNoteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [ListSessionNoteComponent],
+            providers: [{ provide: SessionService, useValue: sessionServiceStub }],
+        }).compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        fixture = TestBed.createComponent(ListSessionNoteComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });
