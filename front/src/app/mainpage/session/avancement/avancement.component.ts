@@ -17,7 +17,9 @@ import { TeacherSession, Session } from "../../../models/session.model";
 })
 export class AvancementComponent implements OnInit {
     session!: Session | TeacherSession;
-    section!: Header;
+    section: Header = { name: `Session//avancement` };
+    sessionName = "";
+    sessionId = "";
     constructor(private sessionService: SessionService) {}
 
     ngOnInit(): void {
@@ -29,11 +31,13 @@ export class AvancementComponent implements OnInit {
             const sessionInfo = sessions.find((s: Session | TeacherSession) => s.id == sessionId);
             if (sessionInfo) {
                 this.session = sessionInfo;
+                this.sessionName = this.session.name;
+                this.sessionId = this.session.id;
             } else {
                 console.log("name of session not found");
             }
             this.section = {
-                name: `Session/${this.session.name}/avancement`,
+                name: `Session/${this.sessionName}/avancement`,
             };
         });
     }

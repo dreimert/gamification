@@ -31,6 +31,7 @@ import { niveaux, avancements } from "../avancement";
 export class ModificationAvancementComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session/SESSION_NAME/avancement/modifier` };
+    sessionName = "";
 
     filteredOptions!: Observable<string[]> | undefined;
 
@@ -53,7 +54,7 @@ export class ModificationAvancementComponent implements OnInit {
                 console.log("name of session not found");
             }
             this.section = {
-                name: `Session/${this.session.name}/avancement/modifier`,
+                name: `Session/${this.sessionName}/avancement/modifier`,
             };
         });
 
