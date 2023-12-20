@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AvancementComponent } from "./avancement.component";
+import { ProgressionComponent } from "./progression.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../../models/session.model";
@@ -8,7 +8,7 @@ import { SessionService } from "../../../services/session.service";
 
 let sessionServiceStub: Partial<SessionService>;
 
-describe("AvancementComponent", () => {
+describe("ProgressionComponent", () => {
     sessionServiceStub = {
         getAvailableSessions(): Observable<Session[] | TeacherSession[]> {
             return of<Session[]>([
@@ -25,16 +25,16 @@ describe("AvancementComponent", () => {
         },
     };
 
-    let component: AvancementComponent;
-    let fixture: ComponentFixture<AvancementComponent>;
+    let component: ProgressionComponent;
+    let fixture: ComponentFixture<ProgressionComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AvancementComponent, RouterTestingModule],
+            imports: [ProgressionComponent, RouterTestingModule],
             providers: [{ provide: SessionService, useValue: sessionServiceStub }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(AvancementComponent);
+        fixture = TestBed.createComponent(ProgressionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

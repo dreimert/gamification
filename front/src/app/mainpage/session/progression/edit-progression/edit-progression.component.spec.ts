@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ModificationAvancementComponent } from "./modification-avancement.component";
+import { EditProgressionComponent } from "./edit-progression.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../../../models/session.model";
@@ -8,7 +8,7 @@ import { SessionService } from "../../../../services/session.service";
 
 let sessionServiceStub: Partial<SessionService>;
 
-describe("ModificationAvancementComponent", () => {
+describe("EditProgressionComponent", () => {
     sessionServiceStub = {
         getAvailableSessions(): Observable<Session[] | TeacherSession[]> {
             return of<Session[]>([
@@ -25,16 +25,16 @@ describe("ModificationAvancementComponent", () => {
         },
     };
 
-    let component: ModificationAvancementComponent;
-    let fixture: ComponentFixture<ModificationAvancementComponent>;
+    let component: EditProgressionComponent;
+    let fixture: ComponentFixture<EditProgressionComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [ModificationAvancementComponent, RouterTestingModule],
+            imports: [EditProgressionComponent, RouterTestingModule],
             providers: [{ provide: SessionService, useValue: sessionServiceStub }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ModificationAvancementComponent);
+        fixture = TestBed.createComponent(EditProgressionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

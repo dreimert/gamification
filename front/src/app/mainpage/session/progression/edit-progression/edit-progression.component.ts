@@ -1,3 +1,16 @@
+// import { Component } from '@angular/core';
+
+// @Component({
+//   selector: 'app-edit-progression',
+//   standalone: true,
+//   imports: [],
+//   templateUrl: './edit-progression.component.html',
+//   styleUrl: './edit-progression.component.css'
+// })
+// export class EditProgressionComponent {
+
+// }
+
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
@@ -11,10 +24,10 @@ import { HeaderComponent } from "../../../header/header.component";
 import { Header } from "../../../header/header";
 import { SessionService } from "../../../../services/session.service";
 import { TeacherSession, Session } from "../../../../models/session.model";
-import { levels, progressions } from "../avancement";
+import { levels, progressions } from "../progression";
 
 @Component({
-    selector: "app-modification-avancement",
+    selector: "app-edit-progression",
     standalone: true,
     imports: [
         CommonModule,
@@ -25,10 +38,10 @@ import { levels, progressions } from "../avancement";
         MatInputModule,
         MatFormFieldModule,
     ],
-    templateUrl: "./modification-avancement.component.html",
-    styleUrl: "./modification-avancement.component.css",
+    templateUrl: "./edit-progression.component.html",
+    styleUrl: "./edit-progression.component.css",
 })
-export class ModificationAvancementComponent implements OnInit {
+export class EditProgressionComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session/SESSION_NAME/avancement/modifier` };
     sessionName = "";
@@ -50,6 +63,7 @@ export class ModificationAvancementComponent implements OnInit {
             const sessionInfo = sessions.find((s: Session | TeacherSession) => s.id == this.sessionId);
             if (sessionInfo) {
                 this.session = sessionInfo;
+                this.sessionName = this.session.name;
             } else {
                 console.log("name of session not found");
             }

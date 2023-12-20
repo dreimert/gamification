@@ -5,8 +5,8 @@ import { NoteProfComponent } from "./mainpage/note-prof/note-prof.component";
 import { SessionComponent } from "./mainpage/session/session.component";
 import { SessionCreateComponent } from "./mainpage/session/session-create/session-create.component";
 import { AdminComponent } from "./mainpage/admin/admin.component";
-import { AvancementComponent } from "./mainpage/session/avancement/avancement.component";
-import { ModificationAvancementComponent } from "./mainpage/session/avancement/modification-avancement/modification-avancement.component";
+import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
+import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 
 export const routes: Routes = [
     {
@@ -36,12 +36,12 @@ export const routes: Routes = [
     },
     {
         path: "session/:id/progressions",
-        component: AvancementComponent,
+        component: ProgressionComponent,
         title: "Session",
     },
     {
         path: "session/:id/progressions/edit",
-        component: ModificationAvancementComponent,
+        component: EditProgressionComponent,
         title: "Session",
     },
     {
