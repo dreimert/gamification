@@ -1,8 +1,8 @@
 <div class="flex flex-col w-full min-h-screen bg-grey">
     <app-header [section]="section"></app-header>
     <div class="ml-8 my-3">
-        <p>{{session.name}}</p>
-        <form 
+        <p>{{ session.name }}</p>
+        <form
             [formGroup]="avancementForm"
             (ngSubmit)="onSubmit()"
             class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
@@ -13,14 +13,17 @@
                     Nom de l'élève
                 </label>
                 <div class="flex w-3/4">
-                    <input 
-                        class="h-full w-full  rounded-r-lg pl-3"
-                        type="text" id="name" placeholder="Entrer le nom de l'élève"
+                    <input
+                        class="h-full w-full rounded-r-lg pl-3"
+                        type="text"
+                        id="name"
+                        placeholder="Entrer le nom de l'élève"
                         formControlName="name"
-                        matInput [matAutocomplete]="auto">
+                        matInput
+                        [matAutocomplete]="auto" />
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{ option }}
+                            {{ option }}
                         </mat-option>
                     </mat-autocomplete>
                 </div>
@@ -35,19 +38,22 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 {{ avancementForm.controls["name"].errors?.["nameError"] }}
             </div>
-            <div
-                *ngIf="!avancementForm.controls['name'].errors"
-                class="flex mt-3 mx-3 pl-6 text-sm">
-                Avancement actuel de l'élève: <p class="font-bold ml-1"> Niveau {{this.StuAvance}}</p>
+            <div *ngIf="!avancementForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
+                Avancement actuel de l'élève:
+                <p class="font-bold ml-1">Niveau {{ this.StuAvance }}</p>
             </div>
 
             <div class="flex flex-row justify-center mt-3 mx-3">
-                <label for="avancement" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
+                <label
+                    for="avancement"
+                    class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
                     avancement
                 </label>
                 <select id="avancement" class="flex px-2 w-3/4 rounded-r-lg" formControlName="avancement" required>
                     <option value="">Choisissez un niveau</option>
-                    <option *ngFor="let niveau of niveaux" [value]="niveau.id">Niveau {{niveau.key}} : {{niveau.value}}</option>
+                    <option *ngFor="let niveau of niveaux" [value]="niveau.id">
+                        Niveau {{ niveau.key }} : {{ niveau.value }}
+                    </option>
                 </select>
             </div>
             <div
@@ -58,7 +64,7 @@
             <div
                 *ngIf="avancementForm.controls['avancement'].errors?.['avanceError']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ avancementForm.controls['avancement'].errors?.['avanceError'] }}
+                {{ avancementForm.controls["avancement"].errors?.["avanceError"] }}
             </div>
 
             <div class="flex">
@@ -77,4 +83,3 @@
         </form>
     </div>
 </div>
-
