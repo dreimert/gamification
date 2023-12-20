@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { HeaderComponent } from "../header/header.component";
 import { Header } from "../header/header";
+import { User, UserType } from "../../models/user.model";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { AdminService } from "./admin.service";
-import { UserType } from "../../models/user.model";
+import { timer } from "rxjs";
 @Component({
     selector: "app-admin",
     standalone: true,
@@ -12,13 +13,18 @@ import { UserType } from "../../models/user.model";
     templateUrl: "./admin.component.html",
     styleUrl: "./admin.component.css",
 })
-export class AdminComponent {
-    teachers = teachers;
+export class AdminComponent implements OnInit {
+    teachers: User[] = [];
     section: Header = {
         name: "Admin",
     };
     list = true;
-    constructor(private adminService: AdminService) {}
+    constructor(private adminService: AdminService) {
+        this.adminService = adminService;
+    }
+    ngOnInit(): void {
+        this.fetchTeachers();
+    }
     deleteTeacher(id: string) {
         //Delete the teacher credentials
         if (confirm("Etes-vous sûr de supprimer l'encadrant " + id + "?")) {
@@ -27,6 +33,11 @@ export class AdminComponent {
     }
     updateMessage(name: string) {
         this.adminService.setMessage(name);
+    }
+    fetchTeachers() {
+        timer(1000).subscribe(() => {
+            this.teachers = teachers;
+        });
     }
 }
 const teachers = [

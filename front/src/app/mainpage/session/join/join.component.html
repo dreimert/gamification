@@ -1,59 +1,51 @@
 <!-- <div class="grid grid-cols-7 justify-center items-start"> -->
 <div class="h-full grid grid-cols-7 justify-center items-start overflow-y-auto">
-  <div
-    class="col-span-3 w-1/2 h-1/2 left-1/4 top-1/4 relative flex flex-col justify-center bg-grey-dark border-4 border-black shadow-shadow_img">
-    <div class="container mx-auto w-full border-b bg-white">
-      <img
-        class="object-contain"
-        src="/assets/imgJoin/kafka.png"
-        alt="Icône du TP" />
-      <!-- TODO : change image -->
-    </div>
-    <div class="justify-center mt-6">
-      <p
-        class="mb-5 mx-1 text-center text-xl font-medium font-inter"
-        [ngStyle]="{ 'font-size': calculateFontSize(session.name.length) }">
-        {{ session.name }}
-      </p>
-    </div>
-  </div>
-
-  <div class="col-span-4 h-full">
     <div
-      class="top-1/4 relative text-black text-2xl font-medium font-['Inter'] leading-9">
-      Voulez-vous rejoindre cette session ? <br /><br />
-      Session : {{ session.name }} <br />
-      Date de début : {{ session.startDate | date: 'medium' }} <br />
-      Date de fin : {{ session.endDate }} <br />
-      TODO :
-      <a href="https://angular.io/api/common/DatePipe#usage-example"
-        >https://angular.io/api/common/DatePipe#usage-example</a
-      >
-      <br /><br /><br /><br />
+        class="col-span-3 w-1/2 h-1/2 left-1/4 top-1/4 relative flex flex-col justify-center bg-grey-dark border-4 border-black shadow-shadow_img">
+        <div class="container mx-auto w-full border-b bg-white">
+            <img class="object-contain" src="/assets/imgJoin/kafka.png" alt="Icône du TP" />
+            <!-- TODO : change image -->
+        </div>
+        <div class="justify-center mt-6">
+            <p
+                class="mb-5 mx-1 text-center text-xl font-medium font-inter"
+                [ngStyle]="{ 'font-size': calculateFontSize(session.name.length) }">
+                {{ session.name }}
+            </p>
+        </div>
     </div>
-  </div>
+
+    <div class="col-span-4 h-full">
+        <div class="top-1/4 relative text-black text-2xl font-medium font-['Inter'] leading-9">
+            Voulez-vous rejoindre cette session ? <br /><br />
+            Session : {{ session.name }} <br />
+            Date de début : {{ session.startDate | date: "medium" }} <br />
+            Date de fin : {{ session.endDate }} <br />
+            TODO :
+            <a href="https://angular.io/api/common/DatePipe#usage-example"
+                >https://angular.io/api/common/DatePipe#usage-example</a
+            >
+            <br /><br /><br /><br />
+        </div>
+    </div>
 </div>
 
 <div class="w-96 h-16 right-10 bottom-3 absolute flex flex-col">
-  <div class="flex">
-    <input
-      class="w-72 h-12 rounded-tl-xl rounded-bl-xl border border-zinc-400 border-opacity-80 pl-5"
-      type="text"
-      [(ngModel)]="enteredPassword"
-      placeholder="Mot de passe" />
-    <button
-      (click)="joinSession()"
-      class="w-28 h-12 bg-blueButton rounded-tr-xl rounded-br-xl text-white">
-      Rejoindre
-    </button>
-  </div>
-  <div
-    *ngIf="passwordMatch === false"
-    class="left-2 relative text-redButton text-sm font-normal font-['Inter']">
-    mot de passe incorrect
-  </div>
+    <div class="flex">
+        <input
+            class="w-72 h-12 rounded-tl-xl rounded-bl-xl border border-zinc-400 border-opacity-80 pl-5"
+            type="text"
+            [(ngModel)]="enteredPassword"
+            placeholder="Mot de passe" />
+        <button (click)="joinSession()" class="w-28 h-12 bg-blueButton rounded-tr-xl rounded-br-xl text-white">
+            Rejoindre
+        </button>
+    </div>
+    <div *ngIf="passwordMatch === false" class="left-2 relative text-redButton text-sm font-normal font-['Inter']">
+        mot de passe incorrect
+    </div>
 </div>
 
 <button (click)="closeDialog()" class="w-10 h-10 right-3 top-3 absolute">
-  <img src="/assets/imgJoin/close.png" alt="closeDialog" />
+    <img src="/assets/imgJoin/close.png" alt="closeDialog" />
 </button>

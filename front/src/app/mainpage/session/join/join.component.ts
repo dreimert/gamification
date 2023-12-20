@@ -6,30 +6,30 @@ import { calculateFontSize } from "../utils";
 import { Session, TeacherSession } from "../../../models/session.model";
 
 @Component({
-  selector: 'app-join',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  templateUrl: './join.component.html',
-  styleUrl: './join.component.css',
+    selector: "app-join",
+    standalone: true,
+    imports: [FormsModule, CommonModule],
+    templateUrl: "./join.component.html",
+    styleUrl: "./join.component.css",
 })
 export class JoinComponent {
-  constructor(
-    public dialogRef: MatDialogRef<JoinComponent>,
-    @Inject(MAT_DIALOG_DATA) public session: Session | TeacherSession
-  ) {}
+    constructor(
+        public dialogRef: MatDialogRef<JoinComponent>,
+        @Inject(MAT_DIALOG_DATA) public session: Session | TeacherSession,
+    ) {}
 
-  enteredPassword: string = '';
-  passwordMatch: boolean | undefined;
+    enteredPassword: string = "";
+    passwordMatch: boolean | undefined;
 
-  closeDialog(): void {
-    this.dialogRef.close();
-  }
+    closeDialog(): void {
+        this.dialogRef.close();
+    }
 
-  joinSession(): void {
-    this.dialogRef.close(this.enteredPassword);
-  }
+    joinSession(): void {
+        this.dialogRef.close(this.enteredPassword);
+    }
 
-  calculateFontSize(textLength: number): string {
-    return calculateFontSize(textLength);
-  }
+    calculateFontSize(textLength: number): string {
+        return calculateFontSize(textLength);
+    }
 }

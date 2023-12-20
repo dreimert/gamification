@@ -1,17 +1,17 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, importProvidersFrom } from "@angular/core";
+import { provideRouter } from "@angular/router";
 
-import { routes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { CredsInterceptorProvider } from './services/creds.interceptor';
+import { routes } from "./app.routes";
+import { provideAnimations } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { CredsInterceptorProvider } from "./services/creds.interceptor";
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes),
-    provideAnimations(),
-    provideAnimations(),
-    importProvidersFrom(HttpClientModule),
-    CredsInterceptorProvider,
-  ],
+    providers: [
+        provideRouter(routes),
+        provideAnimations(),
+        provideAnimations(),
+        importProvidersFrom(HttpClientModule),
+        CredsInterceptorProvider,
+    ],
 };

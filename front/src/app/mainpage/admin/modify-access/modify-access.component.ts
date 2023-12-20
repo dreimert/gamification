@@ -1,14 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { timer } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ModifyAccess } from "../../../models/admin.model";
 import { AdminService } from "../admin.service";
 import { User, UserType } from "../../../models/user.model";
-import { Router } from "@angular/router";
 @Component({
     selector: "app-modify-access",
     standalone: true,

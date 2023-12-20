@@ -1,3 +1,3 @@
 export interface Header {
-  name: string;
+    name: string;
 }
