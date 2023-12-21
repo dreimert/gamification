@@ -22,8 +22,8 @@
                 *ngIf="
                     (user.type === UserType.TEACHER || user.type === UserType.ADMIN) &&
                     session.status !== SessionStatus.DONE &&
-                    Header.name != 'Notes'
-            ==========    "
+                    Header.name !== 'Notes'
+                "
                 class="absolute top-0 left-0 mt-1 ml-1 w-[30px] h-fit bg-blue-700 hover:bg-blue-800 rounded-lg">
                 <svg class="" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="Group 28">

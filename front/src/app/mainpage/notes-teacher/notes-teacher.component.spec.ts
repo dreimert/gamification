@@ -2,9 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { NotesTeacherComponent } from "./notes-teacher.component";
 import { Observable, of } from "rxjs";
-import { PrivateUser, UserType } from "../../models/user.model";
 import { Session, SessionStatus, TeacherSession } from "../../models/session.model";
-import { UserService } from "../../services/user.service";
 import { SessionService } from "../../services/session.service";
 
 let sessionServiceStub: Partial<SessionService>;
