@@ -11,6 +11,7 @@ describe("ProgressionComponent", () => {
     let fixture: ComponentFixture<ProgressionComponent>;
 
     beforeEach(async () => {
+        window.history.pushState({id:'1', name:'TP'}, '', '');
         await TestBed.configureTestingModule({
             imports: [ProgressionComponent, RouterTestingModule],
             providers: [{ provide: SessionService, useValue: sessionServiceStub }],
