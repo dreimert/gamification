@@ -3,6 +3,7 @@ import { ListSessionNoteComponent } from "./list-session-note.component";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../../models/session.model";
 import { SessionService } from "../../../services/session.service";
+import { RouterTestingModule } from "@angular/router/testing";
 
 let sessionServiceStub: Partial<SessionService>;
 
@@ -26,8 +27,9 @@ describe("ListSessionNoteComponent", () => {
     let fixture: ComponentFixture<ListSessionNoteComponent>;
 
     beforeEach(async () => {
+        window.history.pushState({ id: "1", name: "TP" }, "", "");
         await TestBed.configureTestingModule({
-            imports: [ListSessionNoteComponent],
+            imports: [ListSessionNoteComponent, RouterTestingModule],
             providers: [{ provide: SessionService, useValue: sessionServiceStub }],
         }).compileComponents();
 

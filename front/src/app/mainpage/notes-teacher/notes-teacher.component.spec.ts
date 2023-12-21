@@ -4,8 +4,11 @@ import { NotesTeacherComponent } from "./notes-teacher.component";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../models/session.model";
 import { SessionService } from "../../services/session.service";
+import { UserService } from "../../services/user.service";
+import { PrivateUser, UserType } from "../../models/user.model";
 
 let sessionServiceStub: Partial<SessionService>;
+let userServiceStub: Partial<UserService>;
 
 describe("NotesTeacherComponent", () => {
     sessionServiceStub = {
@@ -23,13 +26,29 @@ describe("NotesTeacherComponent", () => {
             ]);
         },
     };
+    userServiceStub = {
+        getCurrentUser(): Observable<PrivateUser> {
+            return of<PrivateUser>({
+                id: "1",
+                username: "test",
+                email: "abc@test.com",
+                name: "test",
+                surname: "test",
+                type: UserType.STUDENT,
+            });
+        },
+    };
+
     let component: NotesTeacherComponent;
     let fixture: ComponentFixture<NotesTeacherComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [NotesTeacherComponent],
-            providers: [{ provide: SessionService, useValue: sessionServiceStub }],
+            providers: [
+                { provide: SessionService, useValue: sessionServiceStub },
+                { provide: UserService, useValue: userServiceStub },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(NotesTeacherComponent);
