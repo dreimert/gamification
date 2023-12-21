@@ -40,7 +40,7 @@
             </div>
             <div *ngIf="!progressionForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
                 Avancement actuel de l'élève:
-                <p class="font-bold ml-1">Niveau {{ this.StuProgress }}</p>
+                <p class="font-bold ml-1">Niveau {{ this.Progression_StudentChosen }}</p>
             </div>
 
             <div class="flex flex-row justify-center mt-3 mx-3">
@@ -61,15 +61,13 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 L'avancement est obligatoire.
             </div>
-            <div
-                *ngIf="progressionForm.controls['progression'].errors?.['progressError']"
-                class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ progressionForm.controls["progression"].errors?.["progressError"] }}
+            <div class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
+                {{ Warning_Progression_Lower }}
             </div>
 
             <div class="flex">
                 <button
-                    [routerLink]="['/session', sessionId, 'progressions']"
+                    (click)="gotoProgression()"
                     class="flex justify-center items-center w-fit bg-redButton hover:bg-red-800 rounded-lg py-2 ml-3 mr-3 mb-auto mt-5">
                     <p class="flex text-white mx-3">Cancel</p>
                 </button>

@@ -6,13 +6,13 @@
             <input
                 class="w-3/4 h-full rounded-tl-xl rounded-bl-xl border border-zinc-400 border-opacity-80 pl-5"
                 type="text"
-                [(ngModel)]="StuName"
+                [(ngModel)]="StuName_search"
                 placeholder="Trouver un élève" />
             <button class="w-1/4 h-full bg-blueButton rounded-tr-xl rounded-br-xl text-white">Search</button>
         </div>
         <button
             class="flex items-center justify-center col-span-2 w-4/5 h-full bg-bgTable rounded-xl text-black ml-6"
-            [routerLink]="['/session', sessionId, 'progressions', 'edit']">
+            (click)="gotoProgressEdit()">
             Modifier le niveau d'un élève
         </button>
     </div>
