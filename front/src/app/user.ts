@@ -30,5 +30,5 @@ export const userInfo_prof: User = {
     lastname: "louis",
     mail: "david.louis@insa-lyon.fr",
     student: false,
-    admin: fe,
+    admin: false,
 };

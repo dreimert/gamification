@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ListSessionNoteComponent } from "./list-session-note.component";
+import { ListSessionGradeComponent } from "./list-session-grade.component";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../../models/session.model";
 import { SessionService } from "../../../services/session.service";
@@ -7,7 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 
 let sessionServiceStub: Partial<SessionService>;
 
-describe("ListSessionNoteComponent", () => {
+describe("ListSessionGradeComponent", () => {
     sessionServiceStub = {
         getAllSessions(): Observable<Session[] | TeacherSession[]> {
             return of<Session[]>([
@@ -23,17 +23,17 @@ describe("ListSessionNoteComponent", () => {
             ]);
         },
     };
-    let component: ListSessionNoteComponent;
-    let fixture: ComponentFixture<ListSessionNoteComponent>;
+    let component: ListSessionGradeComponent;
+    let fixture: ComponentFixture<ListSessionGradeComponent>;
 
     beforeEach(async () => {
         window.history.pushState({ id: "1", name: "TP" }, "", "");
         await TestBed.configureTestingModule({
-            imports: [ListSessionNoteComponent, RouterTestingModule],
+            imports: [ListSessionGradeComponent, RouterTestingModule],
             providers: [{ provide: SessionService, useValue: sessionServiceStub }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ListSessionNoteComponent);
+        fixture = TestBed.createComponent(ListSessionGradeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

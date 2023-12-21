@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NotesTeacherComponent } from "./notes-teacher.component";
+import { GradeTeacherComponent } from "./grade-teacher.component";
 import { Observable, of } from "rxjs";
 import { Session, SessionStatus, TeacherSession } from "../../models/session.model";
 import { SessionService } from "../../services/session.service";
@@ -10,7 +10,7 @@ import { PrivateUser, UserType } from "../../models/user.model";
 let sessionServiceStub: Partial<SessionService>;
 let userServiceStub: Partial<UserService>;
 
-describe("NotesTeacherComponent", () => {
+describe("GradeTeacherComponent", () => {
     sessionServiceStub = {
         getAllSessions(): Observable<Session[] | TeacherSession[]> {
             return of<Session[]>([
@@ -39,19 +39,19 @@ describe("NotesTeacherComponent", () => {
         },
     };
 
-    let component: NotesTeacherComponent;
-    let fixture: ComponentFixture<NotesTeacherComponent>;
+    let component: GradeTeacherComponent;
+    let fixture: ComponentFixture<GradeTeacherComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [NotesTeacherComponent],
+            imports: [GradeTeacherComponent],
             providers: [
                 { provide: SessionService, useValue: sessionServiceStub },
                 { provide: UserService, useValue: userServiceStub },
             ],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(NotesTeacherComponent);
+        fixture = TestBed.createComponent(GradeTeacherComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

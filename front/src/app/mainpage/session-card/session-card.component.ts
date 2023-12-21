@@ -89,8 +89,8 @@ export class SessionCardComponent implements OnInit {
         return Math.max(calculatedSize, minSize) + "px";
     }
 
-    gotoListNotes(session: Session | TeacherSession) {
-        this.router.navigateByUrl(`/notes-teacher/${session.id}/lookup`, { state: session });
+    gotoClickedListGrade(session: Session | TeacherSession) {
+        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: session });
     }
 
     sessions: Session[] | TeacherSession[] = [];

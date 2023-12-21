@@ -5,20 +5,18 @@ import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
 import { SessionService } from "../../../services/session.service";
 import { TeacherSession, Session } from "../../../models/session.model";
-import { lists_notes } from "./list_notes";
+import { listsGrade } from "./list_grade";
 
 @Component({
-    selector: "app-list-session-note",
+    selector: "app-list-session-grade",
     standalone: true,
     imports: [HeaderComponent, CommonModule, RouterLink],
-    templateUrl: "./list-session-note.component.html",
-    styleUrl: "./list-session-note.component.css",
+    templateUrl: "./list-session-grade.component.html",
+    styleUrl: "./list-session-grade.component.css",
 })
-export class ListSessionNoteComponent {
+export class ListSessionGradeComponent {
     session!: Session | TeacherSession;
-    section: Header = { name: `Session//avancement` };
-    sessionName = "";
-    sessionId = "";
+    section: Header = { name: `Notes/` };
 
     constructor(
         private sessionService: SessionService,
@@ -28,13 +26,11 @@ export class ListSessionNoteComponent {
 
     ngOnInit(): void {
         this.session = history.state;
-        this.sessionName = this.session.name;
-        this.sessionId = this.session.id;
         this.section = {
-            name: `Session/${this.sessionName}/avancement`,
+            name: `Notes/${this.session.name}`,
         };
     }
 
-    StuName = "";
-    lists_notes = [...lists_notes];
+    studentList = "";
+    listGrade = [...listsGrade];
 }

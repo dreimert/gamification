@@ -1,11 +1,11 @@
 import { Routes } from "@angular/router";
 import { AccueilComponent } from "./mainpage/accueil/accueil.component";
 import { NotesComponent } from "./mainpage/notes/notes.component";
-import { NotesTeacherComponent } from "./mainpage/notes-teacher/notes-teacher.component";
+import { GradeTeacherComponent } from "./mainpage/grade-teacher/grade-teacher.component";
 import { SessionComponent } from "./mainpage/session/session.component";
 import { SessionCreateComponent } from "./mainpage/session/session-create/session-create.component";
 import { AdminComponent } from "./mainpage/admin/admin.component";
-import { ListSessionNoteComponent } from "./mainpage/notes-teacher/list-session-note/list-session-note.component";
+import { ListSessionGradeComponent } from "./mainpage/grade-teacher/list-session-grade/list-session-grade.component";
 
 export const routes: Routes = [
     {
@@ -19,13 +19,13 @@ export const routes: Routes = [
         title: "Notes",
     },
     {
-        path: "notes-teacher",
-        component: NotesTeacherComponent,
+        path: "grade-teacher",
+        component: GradeTeacherComponent,
         title: "Notes",
     },
     {
-        path: "notes-teacher/:id/lookup",
-        component: ListSessionNoteComponent,
+        path: "grade-teacher/:id/lookup",
+        component: ListSessionGradeComponent,
         title: "Notes",
     },
     {

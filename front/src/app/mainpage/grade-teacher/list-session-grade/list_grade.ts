@@ -1,28 +1,28 @@
-export interface list_notes {
+export interface list_grade {
     id: number;
     name: string;
-    notes: string;
+    grade: string;
 }
 
-export const lists_notes: list_notes[] = [
+export const listsGrade: list_grade[] = [
     {
         id: 1,
         name: "student 1",
-        notes: "13",
+        grade: "13",
     },
     {
         id: 2,
         name: "student 2",
-        notes: "11",
+        grade: "11",
     },
     {
         id: 3,
         name: "student 3",
-        notes: "14",
+        grade: "14",
     },
     {
         id: 4,
         name: "student 4",
-        notes: "12",
+        grade: "12",
     },
 ];

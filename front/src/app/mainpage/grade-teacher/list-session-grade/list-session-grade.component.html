@@ -2,18 +2,18 @@
     <app-header [section]="section" />
     <div class="flex flex-col mt-5 m-3">
         <div class="flex flex-row justify-center items-center bg-bgHeaderTable border border-borderTable rounded-t-lg">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">Student</p>
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">Élève</p>
             <p class="flex w-full py-2">Notes</p>
         </div>
         <div
-            *ngFor="let list_notes of lists_notes"
+            *ngFor="let list_grade of listGrade"
             class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ list_notes.name }}</p>
-            <p class="flex w-full py-2">{{ list_notes.notes }}</p>
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ list_grade.name }}</p>
+            <p class="flex w-full py-2">{{ list_grade.grade }}</p>
         </div>
     </div>
     <div class="fixed bottom-0 right-0 mb-4 mr-4">
-        <button [routerLink]="['/notes-teacher']" class="w-fit bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+        <button [routerLink]="['/grade-teacher']" class="w-fit bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
             <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Retour</p>
         </button>
     </div>

@@ -5,13 +5,13 @@ import { Header } from "../header/header";
 import { SessionCardComponent } from "../session-card/session-card.component";
 
 @Component({
-    selector: "app-notes-teacher",
+    selector: "app-grade-teacher",
     standalone: true,
     imports: [CommonModule, HeaderComponent, SessionCardComponent],
-    templateUrl: "./notes-teacher.component.html",
-    styleUrl: "./notes-teacher.component.css",
+    templateUrl: "./grade-teacher.component.html",
+    styleUrl: "./grade-teacher.component.css",
 })
-export class NotesTeacherComponent {
+export class GradeTeacherComponent {
     section: Header = {
         name: "Notes",
     };
