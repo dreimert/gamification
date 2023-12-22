@@ -1,38 +1,36 @@
-import { Component } from '@angular/core';
-import { HeaderComponent } from '../header/header.component';
-import { Header } from '../header/header';
-import { teachers } from './teacher';
-import { CommonModule, NgFor } from '@angular/common';
-import { RouterLink,RouterLinkActive } from '@angular/router';
-import { AdminService } from './admin.service';
+import { Component } from "@angular/core";
+import { HeaderComponent } from "../header/header.component";
+import { Header } from "../header/header";
+import { CommonModule } from "@angular/common";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { AdminService } from "./admin.service";
+import { UserType } from "../../models/user.model";
 @Component({
-  selector: 'app-admin',
-  standalone: true,
-  imports: [CommonModule,HeaderComponent,RouterLink,RouterLinkActive],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+    selector: "app-admin",
+    standalone: true,
+    imports: [CommonModule, HeaderComponent, RouterLink, RouterLinkActive],
+    templateUrl: "./admin.component.html",
+    styleUrl: "./admin.component.css",
 })
 export class AdminComponent {
-  teachers=teachers;
-  max=teachers.length-1;
-  section : Header={
-    name:"Admin",
-  }
-  list=true;
-  constructor(private adminService:AdminService){
-
-  }
-  updateSection(event:any){
-    this.section=event.constructor.name;
-  }
-  deleteTeacher(id:string){
-    //Delete the teacher credentials
-    if(confirm("Etes-vous sûr de supprimer l'encadrant "+id+"?")) {
-      console.log("deleted : "+id);
+    teachers = teachers;
+    section: Header = {
+        name: "Admin",
+    };
+    list = true;
+    constructor(private adminService: AdminService) {}
+    deleteTeacher(id: string) {
+        //Delete the teacher credentials
+        if (confirm("Etes-vous sûr de supprimer l'encadrant " + id + "?")) {
+            console.log("deleted : " + id);
+        }
     }
-    
-  }
-  updateMessage(name: string){
-    this.adminService.setMessage(name);
-  }
+    updateMessage(name: string) {
+        this.adminService.setMessage(name);
+    }
 }
+const teachers = [
+    { id: "1d234cef65487", name: "Damien", surname: "Reimert", type: UserType.TEACHER },
+    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER },
+    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER },
+];

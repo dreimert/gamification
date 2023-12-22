@@ -12,8 +12,7 @@ import { CommonModule } from "@angular/common";
     styleUrl: "./notes.component.css",
 })
 export class NotesComponent {
-    notes_stu=notes_stu;
-    max=notes_stu.length-1;
+    notes_stu = notes_stu;
     section: Header = {
         name: "Notes",
     };

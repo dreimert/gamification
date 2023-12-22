@@ -8,9 +8,9 @@
             <p class="flex w-full py-2">Coefficient</p>
         </div>
         <div
-            *ngFor="let note of notes_stu, let index = index"
+            *ngFor="let note of notes_stu; let index = index"
             class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable"
-            [class.rounded-b-lg]="index== max ">
+            [class.rounded-b-lg]="index === notes_stu.length - 1">
             <p class="flex w-full py-2 mx-3 border-r border-borderTable">
                 {{ note.name }}
             </p>
