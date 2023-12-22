@@ -38,13 +38,9 @@ export class ProgressionComponent implements OnInit {
     filteredProgressions: progression[] = this.progressions;
 
     searchStudent() {
-        if (this.studentNameSearch) {
-            this.filteredProgressions = this.progressions.filter((progression) =>
-                progression.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
-            );
-        } else {
-            this.filteredProgressions = this.progressions;
-        }
+        this.filteredProgressions = this.progressions.filter((progression) =>
+            progression.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
+        );
     }
 
     getPercentage(level: string): string {
