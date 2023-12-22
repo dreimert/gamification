@@ -131,3 +131,7 @@ dist
 
 .idea
 .vscode
+
+
+selfsigned.crt
+selfsigned.key

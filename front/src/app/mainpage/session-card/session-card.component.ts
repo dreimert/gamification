@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { JoinComponent } from "../session/join/join.component";
 import { Header } from "../header/header";
 import { Session, SessionStatus, TeacherSession } from "../../models/session.model";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { PrivateUser, UserType } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { SessionService } from "../../services/session.service";
@@ -44,6 +44,7 @@ export class SessionCardComponent implements OnInit {
         public dialog: MatDialog,
         private userService: UserService,
         private sessionService: SessionService,
+        private router: Router,
     ) {}
 
     ngOnInit() {
@@ -94,4 +95,8 @@ export class SessionCardComponent implements OnInit {
 
     protected readonly SessionStatus = SessionStatus;
     protected readonly UserType = UserType;
+
+    gotoProgression(session: Session | TeacherSession) {
+        this.router.navigateByUrl(`/session/${session.id}/progressions`, { state: session });
+    }
 }
