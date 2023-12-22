@@ -4,17 +4,14 @@
         <p class="col-span-4 ml-4">{{ session.name }}</p>
         <div class="flex items-center justify-center col-span-2 h-10">
             <input
-                class="w-3/4 h-full rounded-tl-xl rounded-bl-xl border border-zinc-400 border-opacity-80 pl-5"
+                class="w-full h-full rounded-lg border border-zinc-600 border-opacity-80 pl-5"
                 type="text"
-                [(ngModel)]="studentName_search"
+                [(ngModel)]="studentNameSearch"
+                (ngModelChange)="searchStudent()"
                 placeholder="Trouver un élève" />
-            <button 
-                class="w-1/4 h-full bg-blueButton rounded-tr-xl rounded-br-xl text-white"
-                (click)="searchStudent()"
-            >Search</button>
         </div>
         <button
-            class="flex items-center justify-center col-span-2 w-4/5 h-full bg-bgTable rounded-xl text-black ml-6"
+            class="flex items-center justify-center col-span-2 w-4/5 h-full bg-blueButton rounded-xl text-white ml-6"
             (click)="gotoProgressEdit()">
             Modifier le niveau d'un élève
         </button>
@@ -24,14 +21,11 @@
             <p class="flex w-full py-2 mx-3 border-r border-borderTable">Étudiants</p>
             <p class="flex w-full py-2">Avancement</p>
         </div>
-        <!-- <div
-            *ngFor="let student_progression of Student_Progressions"
-            class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable"> -->
         <div
-            *ngFor="let student_progression of (filteredProgressions.length > 0 ? filteredProgressions : progressions)"
+            *ngFor="let progression of filteredProgressions"
             class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ student_progression.name }}</p>
-            <p class="flex w-full py-2">{{ getPercentage(student_progression.level) }}</p>
+            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ progression.name }}</p>
+            <p class="flex w-full py-2">{{ getPercentage(progression.level) }}</p>
         </div>
     </div>
 </div>

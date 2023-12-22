@@ -31,7 +31,7 @@ export class EditProgressionComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session/SESSION_NAME/avancement/modifier` };
 
-    studentListShowing!: Observable<string[]> | undefined;
+    studentListAutocompletion!: Observable<string[]> | undefined;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -45,7 +45,7 @@ export class EditProgressionComponent implements OnInit {
         };
 
         // filter student
-        this.studentListShowing = this.progressionForm.get("name")?.valueChanges.pipe(
+        this.studentListAutocompletion = this.progressionForm.get("name")?.valueChanges.pipe(
             startWith(""),
             map((value) => this.studentFilter(value)),
         );
@@ -89,12 +89,12 @@ export class EditProgressionComponent implements OnInit {
         }
     }
 
-    warning_progression_lower = "";
+    warningProgressionLower = "";
     compareProgression(progressionValue: string | null): void {
         if (this.progressionStudentChosen && progressionValue && progressionValue < this.progressionStudentChosen) {
-            this.warning_progression_lower = "Attention ! L'élève va aller à un niveau précédent !";
+            this.warningProgressionLower = "Attention ! L'élève va aller à un niveau précédent !";
         } else {
-            this.warning_progression_lower = "";
+            this.warningProgressionLower = "";
         }
     }
 

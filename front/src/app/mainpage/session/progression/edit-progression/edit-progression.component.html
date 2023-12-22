@@ -22,7 +22,7 @@
                         matInput
                         [matAutocomplete]="auto" />
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let student of studentListShowing | async" [value]="student">
+                        <mat-option *ngFor="let student of studentListAutocompletion | async" [value]="student">
                             {{ student }}
                         </mat-option>
                     </mat-autocomplete>
@@ -62,7 +62,7 @@
                 L'avancement est obligatoire.
             </div>
             <div class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ warning_progression_lower }}
+                {{ warningProgressionLower }}
             </div>
 
             <div class="flex">

@@ -22,7 +22,7 @@ export class ProgressionComponent implements OnInit {
     constructor(
         private sessionService: SessionService,
         private router: Router,
-        private activeRoute: ActivatedRoute, 
+        private activeRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
@@ -32,16 +32,20 @@ export class ProgressionComponent implements OnInit {
         };
     }
 
-    studentName_search = "";
-    filteredProgressions:progression[] = [];
-    searchStudent() {
-        this.filteredProgressions = this.progressions.filter(progression =>
-            progression.name.toLowerCase().includes(this.studentName_search.toLowerCase())
-        );
-    }
-
     progressions = [...progressions];
     levels = levels;
+    studentNameSearch = "";
+    filteredProgressions: progression[] = this.progressions;
+
+    searchStudent() {
+        if (this.studentNameSearch) {
+            this.filteredProgressions = this.progressions.filter((progression) =>
+                progression.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
+            );
+        } else {
+            this.filteredProgressions = this.progressions;
+        }
+    }
 
     getPercentage(level: string): string {
         if (level in levels) {
