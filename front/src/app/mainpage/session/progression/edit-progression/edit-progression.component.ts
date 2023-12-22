@@ -30,10 +30,8 @@ import { levels, progressions } from "../progression";
 export class EditProgressionComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session/SESSION_NAME/avancement/modifier` };
-    sessionName = "";
-    sessionId = "";
 
-    StuList!: Observable<string[]> | undefined;
+    studentListShowing!: Observable<string[]> | undefined;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -42,16 +40,14 @@ export class EditProgressionComponent implements OnInit {
 
     ngOnInit(): void {
         this.session = history.state;
-        this.sessionName = this.session.name;
-        this.sessionId = this.session.id;
         this.section = {
-            name: `Session/${this.sessionName}/avancement/modifier`,
+            name: `Session/${this.session.name}/avancement/modifier`,
         };
 
         // filter student
-        this.StuList = this.progressionForm.get("name")?.valueChanges.pipe(
+        this.studentListShowing = this.progressionForm.get("name")?.valueChanges.pipe(
             startWith(""),
-            map((value) => this.stuFilter(value)),
+            map((value) => this.studentFilter(value)),
         );
 
         this.progressionForm.get("progression")?.valueChanges.subscribe((progressionValue) => {
@@ -76,16 +72,16 @@ export class EditProgressionComponent implements OnInit {
         },
         {},
     );
-    studentsList = Object.keys(this.students_level);
+    allStudents = Object.keys(this.students_level);
 
-    Progression_StudentChosen!: string | null;
+    progressionStudentChosen!: string | null;
 
     validateName(control: AbstractControl): ValidationErrors | null {
         const name: string = control.value;
         if (name) {
-            this.Progression_StudentChosen = this.students_level[name];
+            this.progressionStudentChosen = this.students_level[name];
         }
-        if (!name || this.studentsList.includes(name)) {
+        if (!name || this.allStudents.includes(name)) {
             return null;
         } else {
             control.setErrors({ nameError: "Le nom entré n'existe pas" });
@@ -93,21 +89,21 @@ export class EditProgressionComponent implements OnInit {
         }
     }
 
-    Warning_Progression_Lower = "";
+    warning_progression_lower = "";
     compareProgression(progressionValue: string | null): void {
-        if (this.Progression_StudentChosen && progressionValue && progressionValue < this.Progression_StudentChosen) {
-            this.Warning_Progression_Lower = "Attention ! L'élève va aller à un niveau précédent !";
+        if (this.progressionStudentChosen && progressionValue && progressionValue < this.progressionStudentChosen) {
+            this.warning_progression_lower = "Attention ! L'élève va aller à un niveau précédent !";
         } else {
-            this.Warning_Progression_Lower = "";
+            this.warning_progression_lower = "";
         }
     }
 
-    private stuFilter(value: string | null): string[] {
+    private studentFilter(value: string | null): string[] {
         if (value) {
             const filterValue = value.toLowerCase();
-            return this.studentsList.filter((stu) => stu.toLowerCase().includes(filterValue));
+            return this.allStudents.filter((student) => student.toLowerCase().includes(filterValue));
         }
-        return this.studentsList;
+        return this.allStudents;
     }
 
     onSubmit() {

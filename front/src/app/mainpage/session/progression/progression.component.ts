@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink, ActivatedRoute, Router } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { progressions, levels } from "./progression";
+import { progressions, levels, progression } from "./progression";
 import { SessionService } from "../../../services/session.service";
 import { TeacherSession, Session } from "../../../models/session.model";
 
@@ -18,25 +18,27 @@ import { TeacherSession, Session } from "../../../models/session.model";
 export class ProgressionComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session//avancement` };
-    sessionName = "";
-    sessionId = "";
 
     constructor(
         private sessionService: SessionService,
         private router: Router,
-        private activeRoute: ActivatedRoute,
+        private activeRoute: ActivatedRoute, 
     ) {}
 
     ngOnInit(): void {
         this.session = history.state;
-        this.sessionName = this.session.name;
-        this.sessionId = this.session.id;
         this.section = {
-            name: `Session/${this.sessionName}/avancement`,
+            name: `Session/${this.session.name}/avancement`,
         };
     }
 
-    StuName_search = "";
+    studentName_search = "";
+    filteredProgressions:progression[] = [];
+    searchStudent() {
+        this.filteredProgressions = this.progressions.filter(progression =>
+            progression.name.toLowerCase().includes(this.studentName_search.toLowerCase())
+        );
+    }
 
     progressions = [...progressions];
     levels = levels;

@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full min-h-screen bg-grey">
     <app-header [section]="section"></app-header>
     <div class="ml-8 my-3">
-        <p>{{ sessionName }}</p>
+        <p>{{ session.name }}</p>
         <form
             [formGroup]="progressionForm"
             (ngSubmit)="onSubmit()"
@@ -22,8 +22,8 @@
                         matInput
                         [matAutocomplete]="auto" />
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let stu of StuList | async" [value]="stu">
-                            {{ stu }}
+                        <mat-option *ngFor="let student of studentListShowing | async" [value]="student">
+                            {{ student }}
                         </mat-option>
                     </mat-autocomplete>
                 </div>
@@ -40,7 +40,7 @@
             </div>
             <div *ngIf="!progressionForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
                 Avancement actuel de l'élève:
-                <p class="font-bold ml-1">Niveau {{ this.Progression_StudentChosen }}</p>
+                <p class="font-bold ml-1">Niveau {{ this.progressionStudentChosen }}</p>
             </div>
 
             <div class="flex flex-row justify-center mt-3 mx-3">
@@ -62,7 +62,7 @@
                 L'avancement est obligatoire.
             </div>
             <div class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ Warning_Progression_Lower }}
+                {{ warning_progression_lower }}
             </div>
 
             <div class="flex">
