@@ -1,6 +1,8 @@
 import express from "express";
 import SessionModel from "../models/session.js";
 import { isAuthenticated, logger } from "../app.js";
+import Progression from "../models/progression.js";
+import jwt from "jsonwebtoken";
 
 const sessionRouter = express.Router();
 sessionRouter.get("/available", isAuthenticated, async (req, res) => {
@@ -57,6 +59,7 @@ sessionRouter.get("/testNew", async (req, res) => {
         endDate: Date.now() + 1000 * 60 * 60 * 24 * 7,
         students: [],
         teachers: [req.user.id],
+        tp: "kafka",
     });
     try {
         const savedSession = await newSession.save();
@@ -74,13 +77,14 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
     if (!req.user.isTeacher()) {
         return res.status(403).json({ message: "Forbidden" });
     }
-    const { name, password, startDate, endDate } = req.body;
+    const { name, password, startDate, endDate, TP } = req.body;
     let newSession = new SessionModel({
         name,
         password,
         startDate,
         endDate,
         teachers: [req.user.id],
+        TP: TP,
     });
     try {
         const savedSession = await newSession.save();
@@ -157,11 +161,36 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
             return res.status(400).json({ message: "Session already ended" });
         }
         if (session.students.includes(req.user.id)) {
+            // TODO: regen a JWT token for the session and send back with the current progression
             return res.status(400).json({ message: "Already joined" });
         }
-        session.students.push(req.user.id);
-        await session.save();
-        return res.status(200).json(session.serializeStudent());
+        if (session.validatePassword(req.body.password)) {
+            session.students.push(req.user.id);
+            await session.save();
+            const progression = new Progression({
+                userId: req.user.id,
+                sessionId: session.id,
+                progression: 0,
+            });
+            try {
+                await progression.save();
+            } catch (e) {
+                logger.error(e);
+                if (e.name === "ValidationError") {
+                    return res.status(400).json({ message: e.message });
+                }
+                return res.status(500).json({ message: "Internal server error" });
+            }
+            await progression.save();
+            const token = jwt.sign(
+                { userId: req.user.id, sessionId: session.id, exp: session.endDate.getTime() / 1000 },
+                process.env.ACCESS_TOKEN_SECRET,
+            );
+            return res
+                .status(200)
+                .json({ session: session.serializeStudent(), token: token, progression: progression.serialize() });
+        }
+        return res.status(403).json({ message: "Invalid password" });
     } catch (e) {
         logger.error(e);
         return res.status(500).json({ message: "Internal server error" });
