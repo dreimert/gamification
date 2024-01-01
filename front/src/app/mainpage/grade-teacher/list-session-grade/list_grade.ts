@@ -1,10 +1,10 @@
-export interface list_grade {
+export interface gradeStructure {
     id: number;
     name: string;
     grade: string;
 }
 
-export const listsGrade: list_grade[] = [
+export const listsGrade: gradeStructure[] = [
     {
         id: 1,
         name: "student 1",

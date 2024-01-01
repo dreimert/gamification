@@ -5,7 +5,7 @@ import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
 import { SessionService } from "../../../services/session.service";
 import { TeacherSession, Session } from "../../../models/session.model";
-import { listsGrade } from "./list_grade";
+import { gradeStructure, listsGrade } from "./list_grade";
 
 @Component({
     selector: "app-list-session-grade",
@@ -33,4 +33,16 @@ export class ListSessionGradeComponent {
 
     studentList = "";
     listGrade = [...listsGrade];
+    studentNameSearch = "";
+    filteredProgressions: gradeStructure[] = this.listGrade;
+
+    searchStudent() {
+        this.filteredProgressions = this.listGrade.filter((gradeStructure) =>
+        gradeStructure.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
+        );
+    }
+
+    gotoProgressEdit() {
+        this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup/edit`, { state: this.session });
+    }
 }
