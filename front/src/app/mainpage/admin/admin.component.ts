@@ -4,7 +4,6 @@ import { Header } from "../header/header";
 import { User, UserType } from "../../models/user.model";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { AdminService } from "./admin.service";
 import { timer } from "rxjs";
 @Component({
     selector: "app-admin",
@@ -19,20 +18,15 @@ export class AdminComponent implements OnInit {
         name: "Admin",
     };
     list = true;
-    constructor(private adminService: AdminService) {
-        this.adminService = adminService;
-    }
+    constructor() {}
     ngOnInit(): void {
         this.fetchTeachers();
     }
-    deleteTeacher(id: string) {
+    deleteTeacher(teacher: User) {
         //Delete the teacher credentials
-        if (confirm("Etes-vous sûr de supprimer l'encadrant " + id + "?")) {
-            console.log("deleted : " + id);
+        if (confirm("Etes-vous sûr de supprimer l'encadrant " + teacher.name + " " + teacher.surname + "?")) {
+            console.log("deleted : " + teacher.name + " " + teacher.surname);
         }
-    }
-    updateMessage(name: string) {
-        this.adminService.setMessage(name);
     }
     fetchTeachers() {
         timer(1000).subscribe(() => {
