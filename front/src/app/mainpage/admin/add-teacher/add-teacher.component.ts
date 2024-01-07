@@ -17,6 +17,7 @@ import { User, UserType } from "../../../models/user.model";
 export class AddTeacherComponent implements OnInit {
     usersList: User[] = [];
     tps: TP[] = [];
+    teacher!: User;
     section: Header = {
         name: "Admin/ajouter_encadrant",
     };
@@ -31,7 +32,7 @@ export class AddTeacherComponent implements OnInit {
     }
 
     addTeacherForm = this.formBuilder.group({
-        name: ["", [Validators.required]],
+        teacher: [this.teacher, [Validators.required]],
         TP: ["", Validators.required],
     });
     fetchUsersList(): void {
@@ -48,9 +49,19 @@ export class AddTeacherComponent implements OnInit {
     }
     onSubmit(id: string) {
         if (id == "save") {
-            if (confirm("Etes-vous sûr de vouloir ajouter l'encadrant " + this.addTeacherForm.value.name + " ?")) {
+            if (
+                confirm(
+                    "Etes-vous sûr de vouloir ajouter l'encadrant " +
+                        this.addTeacherForm.value.teacher?.name +
+                        " " +
+                        this.addTeacherForm.value.teacher?.surname +
+                        " ?",
+                )
+            ) {
                 const addTeacher: AddTeacher = {
-                    name: this.addTeacherForm.value.name as string,
+                    id: this.addTeacherForm.value.teacher?.id as string,
+                    name: this.addTeacherForm.value.teacher?.name as string,
+                    surname: this.addTeacherForm.value.teacher?.surname as string,
                     TPs: this.addTeacherForm.value.TP as string,
                 };
                 console.log("added:");

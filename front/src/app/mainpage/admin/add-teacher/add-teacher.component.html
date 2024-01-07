@@ -7,24 +7,17 @@
             (ngSubmit)="onSubmit($event.submitter.id)"
             class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
             <div class="flex flex-row justify-center mt-5 mx-3">
-                <label
-                    for="encadrant"
-                    class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg"
-                    >Nom de l'encadrant</label
-                >
-                <input
-                    type="text"
-                    id="encadrant"
-                    list="users"
-                    class="flex w-3/4 rounded-r-lg"
-                    formControlName="name"
-                    required />
-                <datalist id="users">
-                    <option *ngFor="let n of usersList">{{ n.name + " " + n.surname }}</option>
-                </datalist>
+                <p class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
+                    Nom de l'encadrant
+                </p>
+                <select id="teacher" class="flex w-3/4 rounded-r-lg" formControlName="teacher" required>
+                    <option *ngFor="let n of usersList" [ngValue]="n">
+                        {{ n.name + " " + n.surname }}
+                    </option>
+                </select>
             </div>
             <div
-                *ngIf="addTeacherForm.controls['name'].errors?.['required']"
+                *ngIf="addTeacherForm.controls['teacher'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le nom est obligatoire.
             </div>
