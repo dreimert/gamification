@@ -7,6 +7,8 @@ import { SessionCreateComponent } from "./mainpage/session/session-create/sessio
 import { AdminComponent } from "./mainpage/admin/admin.component";
 import { ListSessionGradeComponent } from "./mainpage/grade-teacher/list-session-grade/list-session-grade.component";
 import { EditGradeComponent } from "./mainpage/grade-teacher/list-session-grade/edit-grade/edit-grade.component";
+import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
+import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 
 export const routes: Routes = [
     {
@@ -42,6 +44,16 @@ export const routes: Routes = [
     {
         path: "session/:id",
         component: SessionCreateComponent,
+        title: "Session",
+    },
+    {
+        path: "session/:id/progressions",
+        component: ProgressionComponent,
+        title: "Session",
+    },
+    {
+        path: "session/:id/progressions/edit",
+        component: EditProgressionComponent,
         title: "Session",
     },
     {
