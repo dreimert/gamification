@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import { RouterLink, ActivatedRoute, Router } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
@@ -10,7 +11,7 @@ import { gradeStructure, listsGrade } from "./list_grade";
 @Component({
     selector: "app-list-session-grade",
     standalone: true,
-    imports: [HeaderComponent, CommonModule, RouterLink],
+    imports: [HeaderComponent, CommonModule, FormsModule, RouterLink],
     templateUrl: "./list-session-grade.component.html",
     styleUrl: "./list-session-grade.component.css",
 })
@@ -34,15 +35,15 @@ export class ListSessionGradeComponent {
     studentList = "";
     listGrade = [...listsGrade];
     studentNameSearch = "";
-    filteredProgressions: gradeStructure[] = this.listGrade;
+    filteredStudentGrades: gradeStructure[] = this.listGrade;
 
     searchStudent() {
-        this.filteredProgressions = this.listGrade.filter((gradeStructure) =>
-        gradeStructure.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
+        this.filteredStudentGrades = this.listGrade.filter((gradeStructure) =>
+            gradeStructure.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
         );
     }
 
-    gotoProgressEdit() {
+    gotoNoteEdit() {
         this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup/edit`, { state: this.session });
     }
 }
