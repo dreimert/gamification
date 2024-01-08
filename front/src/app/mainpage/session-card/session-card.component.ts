@@ -55,7 +55,7 @@ export class SessionCardComponent implements OnInit {
             this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
                 this.sessions = sessions;
             });
-        } else if (this.Header.name == "Sessions") {
+        } else if (this.Header.name == "Sessions" || this.Header.name == "Notes") {
             this.sessionService.getAllSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
                 this.sessions = sessions;
             });
@@ -87,6 +87,10 @@ export class SessionCardComponent implements OnInit {
         const calculatedSize = baseSize - textLength * scalingFactor;
 
         return Math.max(calculatedSize, minSize) + "px";
+    }
+
+    gotoClickedListGrade(session: Session | TeacherSession) {
+        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: session });
     }
 
     sessions: Session[] | TeacherSession[] = [];

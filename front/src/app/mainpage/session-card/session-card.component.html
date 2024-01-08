@@ -21,7 +21,8 @@
             <button
                 *ngIf="
                     (user.type === UserType.TEACHER || user.type === UserType.ADMIN) &&
-                    session.status !== SessionStatus.DONE
+                    session.status !== SessionStatus.DONE &&
+                    Header.name !== 'Notes'
                 "
                 class="absolute top-0 left-0 mt-1 ml-1 w-[30px] h-fit bg-blue-700 hover:bg-blue-800 rounded-lg">
                 <svg class="" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,36 +49,45 @@
             <div
                 *ngIf="user.type === UserType.TEACHER || user.type === UserType.ADMIN"
                 class="flex flex-row flex-wrap justify-center">
-                <button
-                    *ngIf="session.status === SessionStatus.SCHEDULED"
-                    [routerLink]="['/sessions', session.id, 'edit']"
-                    class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Modifier</p>
-                </button>
-                <button
-                    *ngIf="session.status === SessionStatus.SCHEDULED"
-                    (click)="deleteSession(session)"
-                    class="w-fit mx-auto mt-auto mb-3 justify-center bg-red-700 hover:bg-red-800 rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Supprimer</p>
-                </button>
-                <button
-                    *ngIf="session.status === SessionStatus.INPROGRESS"
-                    (click)="endSession(session)"
-                    class="w-fit mx-auto mt-auto mb-3 justify-center bg-red-700 hover:bg-red-800 rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Terminer</p>
-                </button>
-                <button
-                    *ngIf="session.status === SessionStatus.INPROGRESS"
-                    (click)="gotoProgression(session)"
-                    class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
-                </button>
-                <button
-                    *ngIf="session.status === SessionStatus.DONE"
-                    [routerLink]="['/sessions', session.id]"
-                    class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                    <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
-                </button>
+                <div *ngIf="Header.name !== 'Notes'">
+                    <button
+                        *ngIf="session.status === SessionStatus.SCHEDULED"
+                        [routerLink]="['/sessions', session.id, 'edit']"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Modifier</p>
+                    </button>
+                    <button
+                        *ngIf="session.status === SessionStatus.SCHEDULED"
+                        (click)="deleteSession(session)"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-red-700 hover:bg-red-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Supprimer</p>
+                    </button>
+                    <button
+                        *ngIf="session.status === SessionStatus.INPROGRESS"
+                        (click)="endSession(session)"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-red-700 hover:bg-red-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Terminer</p>
+                    </button>
+                    <button
+                        *ngIf="session.status === SessionStatus.INPROGRESS"
+                        [routerLink]="['/sessions', session.id, 'lookup']"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
+                    </button>
+                    <button
+                        *ngIf="session.status === SessionStatus.DONE"
+                        [routerLink]="['/sessions', session.id]"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
+                    </button>
+                </div>
+                <div *ngIf="Header.name === 'Notes'">
+                    <button
+                        (click)="gotoClickedListGrade(session)"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Voir Notes</p>
+                    </button>
+                </div>
             </div>
             <div *ngIf="user.type === UserType.STUDENT" class="flex flex-row flex-wrap justify-center">
                 <button
