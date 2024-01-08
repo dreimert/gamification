@@ -2,7 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -11,7 +12,8 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 

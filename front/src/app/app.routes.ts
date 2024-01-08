@@ -7,8 +7,10 @@ import { SessionCreateComponent } from "./mainpage/session/session-create/sessio
 import { AdminComponent } from "./mainpage/admin/admin.component";
 import { ListSessionGradeComponent } from "./mainpage/grade-teacher/list-session-grade/list-session-grade.component";
 import { EditGradeComponent } from "./mainpage/grade-teacher/list-session-grade/edit-grade/edit-grade.component";
+import { ModifyAccessComponent } from "./mainpage/admin/modify-access/modify-access.component";
 import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
+import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
 
 export const routes: Routes = [
     {
@@ -60,6 +62,16 @@ export const routes: Routes = [
         path: "admin",
         component: AdminComponent,
         title: "Admin",
+    },
+    {
+        path: "admin/modifyAccess",
+        component: ModifyAccessComponent,
+        title: "Modifier accès",
+    },
+    {
+        path: "admin/addTeacher",
+        component: AddTeacherComponent,
+        title: "Modifier accès",
     },
     {
         path: "home",

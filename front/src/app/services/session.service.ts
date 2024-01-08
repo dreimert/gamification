@@ -59,15 +59,20 @@ export class SessionService {
 
     public joinSession(session: Session, password: string): Observable<Session> {
         return new Observable<Session>((subscriber) => {
-            this.http.post<Session>(this.root + session.id + "/join", { id: session.id, password }).subscribe({
-                next: (data: Session) => {
-                    subscriber.next(data);
-                },
-                error: (err) => {
-                    console.log(err);
-                    subscriber.error(err);
-                },
-            });
+            this.http
+                .post<Session>(this.root + session.id + "/join", {
+                    id: session.id,
+                    password,
+                })
+                .subscribe({
+                    next: (data: Session) => {
+                        subscriber.next(data);
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        subscriber.error(err);
+                    },
+                });
         });
     }
 
