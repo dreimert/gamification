@@ -89,21 +89,21 @@ export class EditGradeComponent implements OnInit {
     levelstudentChosen!: string | null;
 
     validateName(control: AbstractControl): ValidationErrors | null {
-        if (!this.allStudents) {
-            console.error("this.allStudents is not defined (can not get student list)");
-            return null;
-        }
         const name: string = control.value;
-        const existename: boolean = this.allStudents.includes(name);
-        if (name && !existename) {
-            control.setErrors({ nameError: "Le nom entré n'existe pas" });
-            return { nameError: "Le nom entré n'existe pas" };
-        } else if (name && existename) {
-            this.gradestudentChosen = this.students_info[name];
-            this.levelstudentChosen = this.listGrade.find((student) => student.name === name)?.level || null;
+
+        if (name) {
+            const existsName: boolean = this.allStudents.includes(name);
+            if (!existsName) {
+                control.setErrors({ nameError: "Le nom entré n'existe pas" });
+                return { nameError: "Le nom entré n'existe pas" };
+            } else {
+                this.gradestudentChosen = this.students_info[name];
+                this.levelstudentChosen = this.listGrade.find((student) => student.name === name)?.level || null;
+                return null;
+            }
+        } else {
             return null;
         }
-        return null;
     }
 
     getGradeForLevel(levelKey: number): number {
