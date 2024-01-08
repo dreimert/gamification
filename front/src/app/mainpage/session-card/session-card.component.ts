@@ -99,4 +99,8 @@ export class SessionCardComponent implements OnInit {
 
     protected readonly SessionStatus = SessionStatus;
     protected readonly UserType = UserType;
+
+    gotoProgression(session: Session | TeacherSession) {
+        this.router.navigateByUrl(`/session/${session.id}/progressions`, { state: session });
+    }
 }

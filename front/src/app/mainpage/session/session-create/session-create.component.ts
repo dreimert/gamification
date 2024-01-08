@@ -51,11 +51,15 @@ export class SessionCreateComponent implements OnInit {
         const startDate = new Date(control.get("startDate")?.value as string);
         const endDate = new Date(control.get("endDate")?.value as string);
         if (startDate.getTime() > endDate.getTime()) {
-            control.get("endDate")?.setErrors({ dateError: "La date de fin doit être après la date de début" });
+            control.get("endDate")?.setErrors({
+                dateError: "La date de fin doit être après la date de début",
+            });
             return { dateError: "La date de fin doit être après la date de début" };
         }
         if (endDate.getTime() < new Date().getTime()) {
-            control.get("endDate")?.setErrors({ dateError: "La date de fin doit être après la date actuelle" });
+            control.get("endDate")?.setErrors({
+                dateError: "La date de fin doit être après la date actuelle",
+            });
             return { dateError: "La date de fin doit être après la date actuelle" };
         }
         return null;
