@@ -39,7 +39,7 @@ export class EditGradeComponent implements OnInit {
     section: Header = { name: `Notes/SESSION_NAME/modifier` };
 
     studentListAutocompletion!: Observable<string[]> | undefined;
-    gradeOfSelectedLevel: string = "";
+    gradeOfSelectedLevel: number = 0.0;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -66,7 +66,7 @@ export class EditGradeComponent implements OnInit {
 
     singleGradeForm = this.formBuilder.group({
         name: ["", [Validators.required, this.validateName.bind(this)]],
-        grade: ["", Validators.required],
+        grade: ["", [Validators.required, this.validateNote()]],
     });
 
     levelGradeForm = this.formBuilder.group({
@@ -79,32 +79,31 @@ export class EditGradeComponent implements OnInit {
         return { id: index, key: key, value: value };
     });
     listGrade = [...listsGrade];
-    students_info: { [key: string]: string } = this.listGrade.reduce((result: Record<string, string>, listGrade) => {
-        result[listGrade.name] = listGrade.grade;
+    students_info: { [key: string]: number } = this.listGrade.reduce((result: Record<string, number>, listGrade) => {
+        result[listGrade.name] = Number(listGrade.grade);
         return result;
     }, {});
     allStudents = Object.keys(this.students_info);
 
-    gradestudentChosen!: string | null;
+    gradestudentChosen!: number | null;
     levelstudentChosen!: string | null;
 
     validateName(control: AbstractControl): ValidationErrors | null {
         const name: string = control.value;
-        if (name) {
-            this.gradestudentChosen = this.students_info[name];
-            this.levelstudentChosen = this.listGrade.find((student) => student.name === name)?.level || null;
-        }
-        if (!name || this.allStudents.includes(name)) {
-            return null;
-        } else {
+        if (name && !this.allStudents.includes(name)) {
             control.setErrors({ nameError: "Le nom entré n'existe pas" });
             return { nameError: "Le nom entré n'existe pas" };
+        } else if (name && this.allStudents.includes(name)) {
+            this.gradestudentChosen = this.students_info[name];
+            this.levelstudentChosen = this.listGrade.find((student) => student.name === name)?.level || null;
+            return null;
         }
+        return null;
     }
 
-    getGradeForLevel(levelKey: number): string {
+    getGradeForLevel(levelKey: number): number {
         const level = this.levels.find((level) => level.id === levelKey);
-        return level ? level.value : "N/A";
+        return level ? Number(level.value) : NaN;
     }
 
     validateNote(): ValidatorFn {

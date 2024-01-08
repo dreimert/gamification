@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterLink, ActivatedRoute, Router } from "@angular/router";
@@ -15,7 +15,7 @@ import { gradeStructure, listsGrade } from "./list_grade";
     templateUrl: "./list-session-grade.component.html",
     styleUrl: "./list-session-grade.component.css",
 })
-export class ListSessionGradeComponent {
+export class ListSessionGradeComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Notes/` };
 

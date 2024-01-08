@@ -53,12 +53,19 @@
                     class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
                     Note
                 </label>
-                <select id="grade" class="flex px-2 w-3/4 rounded-r-lg" formControlName="grade" required>
-                    <option value="">Choisissez une note</option>
-                    <option *ngFor="let level of levels" [value]="level.id">
-                        {{ level.value }} -> niveau {{ level.key }}
-                    </option>
-                </select>
+                <div class="flex w-3/4">
+                    <input
+                        class="h-full w-full rounded-r-lg pl-3"
+                        type="text"
+                        id="grade"
+                        placeholder="Entrez une note"
+                        formControlName="grade" />
+                </div>
+            </div>
+            <div
+                *ngIf="singleGradeForm.controls.grade.hasError('invalidNote')"
+                class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
+                La note doit être comprise entre 0 et 20.
             </div>
             <div
                 *ngIf="singleGradeForm.controls['grade'].errors?.['required']"
