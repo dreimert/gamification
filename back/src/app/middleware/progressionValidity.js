@@ -9,13 +9,13 @@ export const checkProgressionValidity = (level) => {
                     req.progression = progression;
                     return next();
                 } else {
-                    return res.status(403).send({ message: "You are not at this level" });
+                    return res.status(403).send("You are not at this level");
                 }
             } else {
-                return res.status(500).send({ message: "Progression does not exist when it should" });
+                return res.status(500).send("Progression does not exist when it should");
             }
         } catch (e) {
-            return res.status(500).send({ message: "Something went wrong" });
+            return res.status(500).send("Something went wrong");
         }
     };
 };
