@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule, RouterOutlet } from "@angular/router";
+import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { SideBarComponent } from "./side-bar/side-bar.component";
 import { LoadingService } from "./services/loading.service";
 import { Subscription } from "rxjs";
@@ -17,7 +17,10 @@ export class AppComponent implements OnInit {
     protected loading: boolean = false;
     private subscription!: Subscription;
 
-    constructor(private loadingService: LoadingService) {}
+    constructor(
+        private loadingService: LoadingService,
+        public router: Router,
+    ) {}
 
     ngOnInit() {
         this.subscription = this.loadingService.loading$.subscribe((loading) => (this.loading = loading));
