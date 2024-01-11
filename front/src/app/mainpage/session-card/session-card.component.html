@@ -70,7 +70,8 @@
                     </button>
                     <button
                         *ngIf="session.status === SessionStatus.INPROGRESS"
-                        [routerLink]="['/sessions', session.id, 'lookup']"
+                        [routerLink]="['/session', session.id, 'progressions']"
+                        (click)="gotoProgression(session)"
                         class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
                         <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
                     </button>
