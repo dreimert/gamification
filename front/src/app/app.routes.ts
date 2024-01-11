@@ -12,6 +12,7 @@ import { ProgressionComponent } from "./mainpage/session/progression/progression
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
 import { EditSessionComponent } from "./mainpage/session/edit-session/edit-session.component";
+import { TpKafkaComponent } from "./tpPage/tp-kafka/tp-kafka.component";
 
 export const routes: Routes = [
     {
@@ -48,6 +49,11 @@ export const routes: Routes = [
         path: "session/:id",
         component: SessionCreateComponent,
         title: "Session",
+    },
+    {
+        path: "tp/kafka",
+        component: TpKafkaComponent,
+        title: "Tp Kafka",
     },
     {
         path: "session/:id/progressions",

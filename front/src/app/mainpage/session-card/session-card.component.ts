@@ -30,6 +30,8 @@ export class SessionCardComponent implements OnInit {
                     next: (session: Session) => {
                         // TODO: redirect to game page
                         alert("Vous avez rejoint la session" + session.name);
+                        window.open("tp/kafka", "_blank");
+                        //TODO: ajouter un lien pour accéder au tp lorsqu'on fait une requête pour une session
                     },
                     error: (err) => {
                         console.log(err);
