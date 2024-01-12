@@ -8,7 +8,14 @@ describe('EditSessionComponent', () => {
   let fixture: ComponentFixture<EditSessionComponent>;
 
   beforeEach(async () => {
-    window.history.pushState({ id: "1", name: "TP", password:'password', endDate:'2025-12-11T11:03:00.000Z' }, "", "");
+    window.history.pushState({ 
+        id: "1", 
+        name: "TP", 
+        password:'password', 
+        startDate:'2025-12-11T11:03:00.000Z', 
+        endDate:'2026-12-11T11:03:00.000Z', 
+        TP:'Kafka', 
+    }, "", "");
     await TestBed.configureTestingModule({
       imports: [EditSessionComponent, RouterTestingModule]
     })

@@ -110,14 +110,13 @@
                     class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 h-full rounded-l-lg">
                     Heure de fin
                 </label>
-                <div class="flex w-3/4">
-                    <input
-                        class="h-full w-full rounded-r-lg pl-3"
-                        type="datetime-local"
-                        id="endDate"
-                        placeholder="Entrer le nouveau heure"
-                        formControlName="endDate" />
-                </div>
+                <input
+                    type="datetime-local"
+                    id="endDate"
+                    class="flex px-2 w-3/4 rounded-r-lg"
+                    formControlName="endDate"
+                    step="300"
+                    required />
             </div>
             <div class="flex">
                 <button

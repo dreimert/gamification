@@ -41,11 +41,13 @@ export class EditSessionComponent implements OnInit {
         this.fetchTP();
 
         console.log(this.session);
-        console.log(this.session.TP);
+        // console.log(this.session.TP);
         this.section = this.session.status=="inProgress" ? {name: `Session/ "${this.session.name}" /modifier_session_en_cours`,} : {name: `Session/ "${this.session.name}" /modifier_session_programmée`,}
 
+        const startDate = new Date(this.session.startDate);
         const endDate = new Date(this.session.endDate);
-        this.editSession.get("endDate")?.setValue(endDate.toISOString().substring(0, 16));
+        this.editSession.get("startDate")?.setValue(endDate.toISOString().substring(0, 16));
+        this.editSession.get("endDate")?.setValue(startDate.toISOString().substring(0, 16));
     }
 
     private buildForm():void{
@@ -65,8 +67,13 @@ export class EditSessionComponent implements OnInit {
                     startDate: ["", Validators.required],
                     endDate: ["", Validators.required],
                 });
+                const startDate = new Date(this.session.startDate);
+                this.editSession.get("startDate")?.setValue(startDate.toISOString().substring(0, 16));
                 break;
         }
+        const endDate = new Date(this.session.endDate);
+        this.editSession.get("endDate")?.setValue(endDate.toISOString().substring(0, 16));
+        
     }
 
     fetchTP():void{
@@ -81,8 +88,6 @@ export class EditSessionComponent implements OnInit {
     onSubmit() {
         this.router.navigateByUrl(`/sessions`);
     }
-
-    
 }
 
 
