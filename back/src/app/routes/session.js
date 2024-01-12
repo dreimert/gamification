@@ -3,6 +3,7 @@ import SessionModel from "../models/session.js";
 import { isAuthenticated, logger } from "../app.js";
 import Progression from "../models/progression.js";
 import jwt from "jsonwebtoken";
+import { getIndexGrades } from "../tp/indexGrades.js";
 
 const sessionRouter = express.Router();
 sessionRouter.get("/available", isAuthenticated, async (req, res) => {
@@ -77,7 +78,10 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
     if (!req.user.isTeacher()) {
         return res.status(403).json({ message: "Forbidden" });
     }
-    const { name, password, startDate, endDate, TP } = req.body;
+    let { name, password, startDate, endDate, TP, indexGrade } = req.body;
+    if (!indexGrade) {
+        indexGrade = new Map(getIndexGrades[TP]());
+    }
     let newSession = new SessionModel({
         name,
         password,
@@ -85,6 +89,7 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
         endDate,
         teachers: [req.user.id],
         TP: TP,
+        indexGrades: indexGrade,
     });
     try {
         const savedSession = await newSession.save();
@@ -161,8 +166,17 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
             return res.status(400).json({ message: "Session already ended" });
         }
         if (session.students.includes(req.user.id)) {
-            // TODO: regen a JWT token for the session and send back with the current progression
-            return res.status(400).json({ message: "Already joined" });
+            const progression = await Progression.findOne({ userId: req.user.id, sessionId: session.id });
+            const token = jwt.sign(
+                { userId: req.user.id, sessionId: session.id, exp: session.endDate.getTime() / 1000 },
+                process.env.ACCESS_TOKEN_SECRET,
+            );
+            return res
+                .status(200)
+                .json({ session: session.serializeStudent(), token: token, progression: progression.serialize() });
+        }
+        if (!req.body.password) {
+            return res.status(400).json({ message: "Missing password" });
         }
         if (session.validatePassword(req.body.password)) {
             session.students.push(req.user.id);

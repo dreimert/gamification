@@ -1,6 +1,6 @@
 import express from "express";
 import { shuffleArraySeeded } from "../utils/shuffle.js";
-import { getIntFromRange, getRandomBytes } from "../utils/random.js";
+import { getIntFromRange, getIntsFromRange, getRandomBytes, getUniqueIntsFromRange } from "../utils/random.js";
 import fs from "fs";
 import { userAgentMiddleware } from "../middleware/userAgent.js";
 import authenticateToken from "../middleware/authenticateToken.js";
@@ -9,13 +9,12 @@ import { checkProgressionValidity } from "../middleware/progressionValidity.js";
 import { logger } from "../app.js";
 import { toHexString } from "../utils/array.js";
 import { generateISBN } from "../utils/isbn.js";
-import { limiterLvl3 } from "../middleware/rateLimiter.js";
+import { limiterLvl3, limiterLvl4 } from "../middleware/rateLimiter.js";
+import { generatePhoneNumbers } from "../utils/phone.js";
+import { generateBirthDates } from "../utils/birthdate.js";
 
 const scrappingRouter = express.Router();
 const data_root = "src/app/tp_data/scrapping/";
-
-// For all the routes, we need to authenticate the user first using a token
-// scrappingRouter.use(authenticateToken);
 
 // We need to render the different pages
 scrappingRouter.get("/", (req, res) => {
@@ -58,6 +57,10 @@ scrappingRouter.post(
         if (username === trueTeacher.username) {
             try {
                 req.progression.level = 1;
+                if (!req.progression.teacherGradeOverride) {
+                    // Forced to use string as key because of mongoose maps limitations
+                    req.progression.grade = req.tpSession.indexGrades.get("1");
+                }
                 await req.progression.save();
             } catch (e) {
                 logger.error(e);
@@ -107,8 +110,12 @@ scrappingRouter.post(
             return;
         }
         if (courseName === trueCourse.name && courseHours === trueCourse.hours && courseECTS === trueCourse.ects) {
-            req.progression.level = 2;
             try {
+                req.progression.level = 2;
+                if (!req.progression.teacherGradeOverride) {
+                    // Forced to use string as key because of mongoose maps limitations
+                    req.progression.grade = req.tpSession.indexGrades.get("2");
+                }
                 await req.progression.save();
             } catch (e) {
                 logger.error(e);
@@ -259,8 +266,12 @@ scrappingRouter.post(
             return;
         }
         if (bookTitle === objectiveBook.title && bookISBN === objectiveBook.isbn) {
-            req.progression.level = 3;
             try {
+                req.progression.level = 3;
+                if (!req.progression.teacherGradeOverride) {
+                    // Forced to use string as key because of mongoose maps limitations
+                    req.progression.grade = req.tpSession.indexGrades.get("3");
+                }
                 await req.progression.save();
             } catch (e) {
                 logger.error(e);
@@ -293,6 +304,130 @@ scrappingRouter.get("/lvl3/scrap/:id", lvl3Middleware, (req, res) => {
         return;
     }
     res.render("scrapping/lvl3_book_details.njk", { book: book });
+});
+
+// Lvl 4
+
+const lvl4Middleware = [
+    userAgentMiddleware,
+    authenticateToken,
+    checkSessionValidity("scrapping"),
+    checkProgressionValidity(3),
+    limiterLvl4,
+];
+
+scrappingRouter.get(
+    "/lvl4",
+    authenticateToken,
+    checkSessionValidity("scrapping"),
+    checkProgressionValidity(3),
+    (req, res) => {
+        const { person1, person2, person3, person4 } = getObjectivePersonLvl4(
+            req.user.id,
+            req.tpSession.id,
+            getLastTimeMinutesDivisibleByFive(),
+        );
+        return res.json({
+            p1Name: person1.name,
+            p2Initials: person2.initials,
+            p3Phone: person3.phone,
+            p4Mail: person4.mail,
+        });
+    },
+);
+
+scrappingRouter.post(
+    "/lvl4",
+    authenticateToken,
+    checkSessionValidity("scrapping"),
+    checkProgressionValidity(3),
+    async (req, res) => {
+        const { person1, person2, person3, person4 } = getObjectivePersonLvl4(
+            req.user.id,
+            req.tpSession.id,
+            getLastTimeMinutesDivisibleByFive(),
+        );
+        const password = req.body.password;
+        const truePassword =
+            person1.initials + person2.phone.slice(7, 10) + person3.birthDate.slice(0, 2) + person4.dog;
+        if (!password) {
+            res.status(400).json({ success: false, error: "no password" });
+            return;
+        }
+        if (password === truePassword) {
+            try {
+                req.progression.level = 4;
+                if (!req.progression.teacherGradeOverride) {
+                    // Forced to use string as key because of mongoose maps limitations
+                    req.progression.grade = req.tpSession.indexGrades.get("4");
+                }
+                await req.progression.save();
+            } catch (e) {
+                logger.error(e);
+                return res.status(500).json({ error: "internal error" });
+            }
+            return res.json({ success: true, progress: 5 });
+        } else {
+            return res.json({ success: false, error: "incorrect informations" });
+        }
+    },
+);
+
+scrappingRouter.get("/lvl4/scrap", lvl4Middleware, (req, res) => {
+    const data = getDataFromFile("lvl4_data.json");
+    const persons = data.persons;
+    const userID = req.user.id;
+    const sessionID = req.tpSession.id;
+    const time = getLastTimeMinutesDivisibleByFive();
+    shuffleArraySeeded(persons, userID + sessionID + String(time) + "personsLvl4");
+    const dogs = data.dogs;
+    const dogsIndex = getIntsFromRange(
+        0,
+        dogs.length - 1,
+        persons.length - 1,
+        userID + sessionID + String(time) + "dogs",
+    );
+    const phones = generatePhoneNumbers(persons.length, userID + sessionID + String(time) + "phones");
+    const birthDates = generateBirthDates(persons.length, userID + sessionID + String(time) + "birthDates");
+    persons.forEach((person, i) => {
+        person.dog = dogs[dogsIndex[i]];
+        person.phone = phones[i];
+        person.birthDate = birthDates[i].toLocaleString();
+        person.id = obfuscateString(person.username, req.user.id + req.tpSession.id + String(time) + "person");
+    });
+    res.render("scrapping/lvl4.njk", {
+        persons: persons,
+    });
+});
+
+scrappingRouter.get("/lvl4/scrap/:id", lvl4Middleware, (req, res) => {
+    const data = getDataFromFile("lvl4_data.json");
+    const persons = data.persons;
+    const userID = req.user.id;
+    const sessionID = req.tpSession.id;
+    const time = getLastTimeMinutesDivisibleByFive();
+    shuffleArraySeeded(persons, userID + sessionID + String(time) + "personsLvl4");
+    const dogs = data.dogs;
+    const dogsIndex = getIntsFromRange(
+        0,
+        dogs.length - 1,
+        persons.length - 1,
+        userID + sessionID + String(time) + "dogs",
+    );
+    const phones = generatePhoneNumbers(persons.length, userID + sessionID + String(time) + "phones");
+    const birthDates = generateBirthDates(persons.length, userID + sessionID + String(time) + "birthDates");
+    persons.forEach((person, i) => {
+        person.dog = dogs[dogsIndex[i]];
+        person.phone = phones[i];
+        person.birthDate = birthDates[i].toLocaleString();
+    });
+    const id = deobfuscateString(req.params.id);
+    const person = persons.find((p) => p.username === id);
+    if (!person) {
+        res.status(404).json({ error: "person not found" });
+        return;
+    }
+    res.render("scrapping/lvl4_person_details.njk", { person: person });
 });
 
 // Utils
@@ -361,6 +496,47 @@ function sumISBN(book) {
         .split("")
         .map((c) => parseInt(c))
         .reduce((a, b) => a + b, 0);
+}
+
+function getLastTimeMinutesDivisibleByFive() {
+    const now = new Date();
+    const minutes = now.getMinutes();
+    const remainder = minutes % 5;
+    now.setMinutes(minutes - remainder);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    return now.getTime();
+}
+
+function getObjectivePersonLvl4(userID, sessionID, time) {
+    const data = getDataFromFile("lvl4_data.json");
+    const persons = data.persons;
+    shuffleArraySeeded(persons, userID + sessionID + String(time) + "personsLvl4");
+    const dogs = data.dogs;
+    const dogsIndex = getIntsFromRange(
+        0,
+        dogs.length - 1,
+        persons.length - 1,
+        userID + sessionID + String(time) + "dogs",
+    );
+    const phones = generatePhoneNumbers(persons.length, userID + sessionID + String(time) + "phones");
+    const birthDates = generateBirthDates(persons.length, userID + sessionID + String(time) + "birthDates");
+    persons.forEach((person, i) => {
+        person.dog = dogs[dogsIndex[i]];
+        person.phone = phones[i];
+        person.birthDate = birthDates[i].toLocaleString();
+    });
+    const [index1, index2, index3, index4] = getUniqueIntsFromRange(
+        0,
+        persons.length - 1,
+        4,
+        userID + sessionID + String(time) + "personsLvl4",
+    );
+    const person1 = persons[index1];
+    const person2 = persons[index2];
+    const person3 = persons[index3];
+    const person4 = persons[index4];
+    return { person1, person2, person3, person4 };
 }
 
 export default scrappingRouter;

@@ -16,13 +16,22 @@ const progressionSchema = mongoose.Schema({
         required: true,
         default: 0,
     },
-    // grade: {
-    //     type: Number,
-    //     required: true,
-    //     default: 0,
-    //     min: 0,
-    //     max: 20,
-    // },
+    grade: {
+        type: Number,
+        required: true,
+        default: 0,
+        min: 0,
+        max: 20,
+    },
+    teacherGradeOverride: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    teacherGradeComment: {
+        type: String,
+        required: false,
+    },
 });
 
 progressionSchema.methods.serialize = function () {

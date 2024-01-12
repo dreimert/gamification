@@ -71,6 +71,11 @@ const sessionSchema = new mongoose.Schema({
         enum: ["kafka", "scrapping"],
         required: true,
     },
+    indexGrades: {
+        type: Map,
+        default: {},
+        required: true,
+    },
 });
 
 /**
