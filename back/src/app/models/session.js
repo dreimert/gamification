@@ -7,14 +7,6 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import { logger } from "../app.js";
 
-/**
- * @typedef Session
- * @property {Object} name - The name of the session. It is required.
- * @property {Array} teachers - The list of teachers' IDs. It is an array of ObjectIds referencing the User model. It must contain at least one teacher.
- * @property {Array} students - The list of students' IDs. It is an array of ObjectIds referencing the User model. It is optional.
- * @property {Date} startDate - The start date of the session. It is required.
- * @property {Date} endDate - The end date of the session. It is required and must be after the start date.
- */
 const sessionSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -74,11 +66,16 @@ const sessionSchema = new mongoose.Schema({
             },
         ],
     },
-    // TP: {
-    // 	type: mongoose.Schema.Types.ObjectId,
-    // 	ref: "TP",
-    // 	required: true,
-    // },
+    TP: {
+        type: String,
+        enum: ["kafka", "scrapping"],
+        required: true,
+    },
+    indexGrades: {
+        type: Map,
+        default: {},
+        required: true,
+    },
 });
 
 /**
@@ -94,7 +91,7 @@ sessionSchema.methods.serializeTeacher = function () {
         students: this.students,
         startDate: this.startDate,
         endDate: this.endDate,
-        // TP: this.TP.map(e => e.serialize()),
+        TP: this.TP,
         status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
     };
 };
@@ -111,7 +108,7 @@ sessionSchema.methods.serializeStudent = function () {
         teachers: this.teachers,
         startDate: this.startDate,
         endDate: this.endDate,
-        // TP: this.TP.map(e => e.serialize()),
+        TP: this.TP,
         status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress"),
     };
 };
@@ -144,4 +141,14 @@ sessionSchema.pre("save", async function (next) {
     next();
 });
 
-export default mongoose.model("Session", sessionSchema);
+/**
+ * @type Session
+ * @property {Object} name - The name of the session. It is required.
+ * @property {Array} teachers - The list of teachers' IDs. It is an array of ObjectIds referencing the User model. It must contain at least one teacher.
+ * @property {Array} students - The list of students' IDs. It is an array of ObjectIds referencing the User model. It can be empty.
+ * @property {Date} startDate - The start date of the session. It is required.
+ * @property {Date} endDate - The end date of the session. It is required and must be after the start date.
+ * @property {String} TP - The type of TP. It is required.
+ */
+const Session = mongoose.model("Session", sessionSchema);
+export default Session;
