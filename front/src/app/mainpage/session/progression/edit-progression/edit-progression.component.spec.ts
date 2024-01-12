@@ -14,7 +14,7 @@ describe("EditProgressionComponent", () => {
         window.history.pushState({ id: "1", name: "TP" }, "", "");
         await TestBed.configureTestingModule({
             imports: [EditProgressionComponent, RouterTestingModule],
-            providers: [{ provide: SessionService, useValue: sessionServiceStub }],
+            // providers: [{ provide: SessionService, useValue: sessionServiceStub }],
         }).compileComponents();
 
         fixture = TestBed.createComponent(EditProgressionComponent);

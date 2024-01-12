@@ -11,6 +11,8 @@ import { ModifyAccessComponent } from "./mainpage/admin/modify-access/modify-acc
 import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
+import { EditSessionOngoingComponent } from "./mainpage/session/edit-session-ongoing/edit-session-ongoing.component";
+import { EditSessionProgrammedComponent } from "./mainpage/session/edit-session-programmed/edit-session-programmed.component";
 
 export const routes: Routes = [
     {
@@ -51,12 +53,22 @@ export const routes: Routes = [
     {
         path: "session/:id/progressions",
         component: ProgressionComponent,
-        title: "Session",
+        title: "Progressions",
     },
     {
         path: "session/:id/progressions/edit",
         component: EditProgressionComponent,
-        title: "Session",
+        title: "Edit Progressions",
+    },
+    {
+        path: "session/:id/editSessionOngoing",
+        component: EditSessionOngoingComponent,
+        title: "Edit Session",
+    },
+    {
+        path: "session/:id/editSessionProgrammed",
+        component: EditSessionProgrammedComponent,
+        title: "Edit Session",
     },
     {
         path: "admin",
