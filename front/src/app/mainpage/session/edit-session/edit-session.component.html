@@ -3,7 +3,7 @@
     <div class="ml-8 my-3">
         <p>{{ session.name }}</p>
         <form
-            [formGroup]="editSessionOngoing"
+            [formGroup]="editSession"
             (ngSubmit)="onSubmit()"
             class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
             <div class="flex flex-row justify-center mt-5 mx-3">
@@ -23,11 +23,10 @@
                 </div>
             </div>
             <div
-                *ngIf="editSessionOngoing.controls['name'].errors?.['required']"
+                *ngIf="editSession.controls['name'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le nom est obligatoire.
             </div>
-
             <div class="flex flex-row justify-center mt-5 mx-3">
                 <label
                     for="password"
@@ -78,11 +77,33 @@
                 </div>
             </div>
             <div
-                *ngIf="editSessionOngoing.controls['password'].errors?.['required']"
+                *ngIf="editSession.controls['password'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le mot de passe est obligatoire.
             </div>
-
+            <div *ngIf="this.session.status=='scheduled' " class="flex flex-row justify-center mt-3 mx-3">
+                <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
+                    TP
+                </label>
+                <select id="TP" class="flex px-2 w-3/4 rounded-r-lg" formControlName="TP" required>
+                    <option value="">{{session.TP}}</option>
+                    <option *ngFor="let tp of tps" [value]="tp.id">{{ tp.name }}</option>
+                </select>
+            </div>
+            <div *ngIf="this.session.status=='scheduled' " class="flex flex-row justify-center mt-3 mx-3">
+                <label
+                    for="startDate"
+                    class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
+                    Heure de début
+                </label>
+                <input
+                    type="datetime-local"
+                    id="startDate"
+                    class="flex px-2 w-3/4 rounded-r-lg"
+                    formControlName="startDate"
+                    step="300"
+                    required />
+            </div>
             <div class="flex flex-row justify-center mt-5 mx-3">
                 <label
                     for="endDate"
@@ -98,7 +119,6 @@
                         formControlName="endDate" />
                 </div>
             </div>
-
             <div class="flex">
                 <button
                     [routerLink]="['/sessions']"
@@ -107,7 +127,7 @@
                 </button>
                 <button
                     type="submit"
-                    [disabled]="!editSessionOngoing.valid"
+                    [disabled]="!editSession.valid"
                     class="flex justify-center items-center w-fit bg-blueButton disabled:bg-blue-400 hover:bg-blue-800 rounded-lg py-2 ml-auto mr-3 mb-3 mt-5">
                     <p class="flex text-white mx-3">Modifier</p>
                 </button>

@@ -25,7 +25,7 @@
                     Header.name !== 'Notes'
                 "
                 class="absolute top-0 left-0 mt-1 ml-1 w-[30px] h-fit bg-blue-700 hover:bg-blue-800 rounded-lg"
-                (click)="session.status==SessionStatus.INPROGRESS ? gotoEditOngoing(session) : gotoEditProgrammed(session)">
+                (click)="gotoEditSession(session)">
                 <svg class="" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="Group 28">
                         <rect id="Rectangle 23" width="30" height="30" rx="10" />
@@ -53,7 +53,7 @@
                 <div *ngIf="Header.name !== 'Notes'">
                     <button
                         *ngIf="session.status === SessionStatus.SCHEDULED"
-                        (click)="gotoEditProgrammed(session)"
+                        (click)="gotoEditSession(session)"
                         class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
                         <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Modifier</p>
                     </button>
