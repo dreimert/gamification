@@ -1,4 +1,4 @@
-# Scraping
+# Scrapping
 ## Objectifs du TP :
 - Faire passer la notion de scrapping, usages.
 - Faire manipuler des expressions régulières
