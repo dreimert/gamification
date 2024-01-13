@@ -79,8 +79,12 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
         return res.status(403).json({ message: "Forbidden" });
     }
     let { name, password, startDate, endDate, TP, indexGrade } = req.body;
+    // check if TP is either kafka or scrapping
+    if (!TP || (TP !== "kafka" && TP !== "scrapping")) {
+        return res.status(400).json({ message: "Invalid TP" });
+    }
     if (!indexGrade) {
-        indexGrade = new Map(getIndexGrades[TP]());
+        indexGrade = new Map(getIndexGrades().get(TP)());
     }
     let newSession = new SessionModel({
         name,
