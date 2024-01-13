@@ -8,7 +8,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { Observable } from "rxjs";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { TeacherSession, Session } from "../../../models/session.model";
+import { TeacherSession, Session, CreateSession } from "../../../models/session.model";
 
 @Component({
     selector: "app-edit-session",
@@ -28,7 +28,7 @@ import { TeacherSession, Session } from "../../../models/session.model";
 export class EditSessionComponent implements OnInit {
     session: Session | TeacherSession = history.state;
     section: Header = { name: `Session/SESSION_NAME/edit_session` };
-    editSession!: FormGroup;
+    editSessionForm!: FormGroup;
     tps!: TP[];
 
     constructor(
@@ -46,21 +46,21 @@ export class EditSessionComponent implements OnInit {
 
         const startDate = new Date(this.session.startDate);
         const endDate = new Date(this.session.endDate);
-        this.editSession.get("startDate")?.setValue(endDate.toISOString().substring(0, 16));
-        this.editSession.get("endDate")?.setValue(startDate.toISOString().substring(0, 16));
+        this.editSessionForm.get("startDate")?.setValue(endDate.toISOString().substring(0, 16));
+        this.editSessionForm.get("endDate")?.setValue(startDate.toISOString().substring(0, 16));
     }
 
     private buildForm():void{
         switch (this.session.status){
             case "inProgress":
-                this.editSession = this.formBuilder.group({
+                this.editSessionForm = this.formBuilder.group({
                     name: [this.session.name, Validators.required],
                     password: ["", Validators.required],
                     endDate: ["", Validators.required],
                 });
                 break;
             case "scheduled":
-                this.editSession = this.formBuilder.group({
+                this.editSessionForm = this.formBuilder.group({
                     name: [this.session.name, Validators.required],
                     password: ["", Validators.required],
                     TP: ["", Validators.required],
@@ -68,16 +68,16 @@ export class EditSessionComponent implements OnInit {
                     endDate: ["", Validators.required],
                 });
                 const startDate = new Date(this.session.startDate);
-                this.editSession.get("startDate")?.setValue(startDate.toISOString().substring(0, 16));
+                this.editSessionForm.get("startDate")?.setValue(startDate.toISOString().substring(0, 16));
                 break;
         }
         const endDate = new Date(this.session.endDate);
-        this.editSession.get("endDate")?.setValue(endDate.toISOString().substring(0, 16));
+        this.editSessionForm.get("endDate")?.setValue(endDate.toISOString().substring(0, 16));
         
     }
 
     fetchTP():void{
-        this.tps = TPs;
+        this.tps = TPs.filter(tp => tp.name != this.session.TP);
     }
 
     passwordVisible = false;
@@ -86,6 +86,16 @@ export class EditSessionComponent implements OnInit {
     }
 
     onSubmit() {
+        const startDate = new Date(this.editSessionForm.value.startDate as string);
+        const endDate = new Date(this.editSessionForm.value.endDate as string);
+        const editedSession: CreateSession = {
+            name: this.editSessionForm.value.name as string,
+            password: this.editSessionForm.value.password as string,
+            TP: this.editSessionForm.value.TP as string,
+            startDate: startDate,
+            endDate: endDate,
+        };
+
         this.router.navigateByUrl(`/sessions`);
     }
 }
