@@ -15,7 +15,6 @@ describe("EditSessionComponent", () => {
             {
                 id: "1",
                 name: "TP",
-                password: "password",
                 startDate: "2025-12-11T11:03:00.000Z",
                 endDate: "2026-12-11T11:03:00.000Z",
                 TP: "Kafka",
