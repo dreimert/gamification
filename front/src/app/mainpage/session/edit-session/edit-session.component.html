@@ -18,8 +18,9 @@
                         type="text"
                         id="name"
                         placeholder="Entrer le nouveau nom de la session"
-                        value="session.name"
-                        formControlName="name" />
+                        [value]="session.name"
+                        formControlName="name"
+                        required />
                 </div>
             </div>
             <div
@@ -39,7 +40,8 @@
                         [type]="passwordVisible ? 'text' : 'password'"
                         id="password"
                         placeholder="Entrer le nouveau mot de pass"
-                        formControlName="password" />
+                        formControlName="password"
+                        required />
                     <button type="button" class="relative -mr-6 -inset-x-6 flex items-center" (click)="viewPassword()">
                         <svg
                             *ngIf="!passwordVisible"
@@ -81,16 +83,30 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le mot de passe est obligatoire.
             </div>
-            <div *ngIf="this.session.status=='scheduled' " class="flex flex-row justify-center mt-3 mx-3">
+            <div class="flex flex-row justify-center mt-3 mx-3">
                 <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
                     TP
                 </label>
-                <select id="TP" class="flex px-2 w-3/4 rounded-r-lg" formControlName="TP" required>
-                    <option value="">{{ session.TP }}</option>
-                    <option *ngFor="let tp of tps" [value]="tp.name">{{ tp.name }}</option>
+                <select
+                    *ngIf="sessionStatus === 'scheduled'"
+                    id="TP"
+                    class="flex px-2 w-3/4 rounded-r-lg"
+                    formControlName="TP">
+                    <option *ngFor="let tp of tps">{{ tp.name }}</option>
                 </select>
+                <div *ngIf="sessionStatus === 'inProgress'" class="flex w-3/4">
+                    <input
+                        class="h-full w-full rounded-r-lg pl-3 disabled:bg-gray-200"
+                        type="text"
+                        id="TP"
+                        placeholder="Entrer le nouveau nom du TP"
+                        [value]="session.TP"
+                        formControlName="TP"
+                        required />
+                </div>
             </div>
-            <div *ngIf="this.session.status=='scheduled' " class="flex flex-row justify-center mt-3 mx-3">
+
+            <div class="flex flex-row justify-center mt-3 mx-3">
                 <label
                     for="startDate"
                     class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
@@ -99,7 +115,7 @@
                 <input
                     type="datetime-local"
                     id="startDate"
-                    class="flex px-2 w-3/4 rounded-r-lg"
+                    class="flex px-2 w-3/4 rounded-r-lg disabled:bg-gray-200"
                     formControlName="startDate"
                     step="300"
                     required />
@@ -117,6 +133,11 @@
                     formControlName="endDate"
                     step="300"
                     required />
+            </div>
+            <div
+                *ngIf="editSessionForm.controls['endDate'].errors?.['dateError']"
+                class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
+                {{ editSessionForm.controls["endDate"].errors?.["dateError"] }}
             </div>
             <div class="flex">
                 <button
