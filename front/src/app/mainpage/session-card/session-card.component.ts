@@ -103,4 +103,7 @@ export class SessionCardComponent implements OnInit {
     gotoProgression(session: Session | TeacherSession) {
         this.router.navigateByUrl(`/session/${session.id}/progressions`, { state: session });
     }
+    gotoEditSession(session: Session | TeacherSession) {
+        this.router.navigateByUrl(`/session/${session.id}/editSession`, { state: session });
+    }
 }

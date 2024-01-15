@@ -94,7 +94,6 @@ interface TP {
 }
 
 const TP = [
-    { name: "Kafka", id: "1d234cef65487" },
-    { name: "Scrapping", id: "1d4578cab" },
-    { name: "TP2", id: "7c54de9fa654" },
+    { name: "kafka", id: "1d234cef65487" },
+    { name: "scrapping", id: "1d4578cab" },
 ];
