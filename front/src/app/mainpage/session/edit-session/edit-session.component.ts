@@ -29,7 +29,6 @@ export class EditSessionComponent implements OnInit {
     session: Session | TeacherSession = history.state;
     section: Header = { name: `Session/SESSION_NAME/edit_session` };
     tps!: TP[];
-    sessionStatus = this.session.status;
     startDate = new Date(this.session.startDate);
     endDate = new Date(this.session.endDate);
 
@@ -41,13 +40,13 @@ export class EditSessionComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchTP();
-        if (this.sessionStatus == "inProgress") {
+        if (this.session.status == "inProgress") {
             this.editSessionForm.get("TP")?.disable();
             this.editSessionForm.get("startDate")?.disable();
         }
 
         this.section =
-            this.sessionStatus == "inProgress"
+            this.session.status == "inProgress"
                 ? { name: `Session/ "${this.session.name}" /modifier_session_en_cours` }
                 : { name: `Session/ "${this.session.name}" /modifier_session_programmée` };
 
@@ -104,8 +103,8 @@ export class EditSessionComponent implements OnInit {
         // const editedSession: CreateSession = {
         //     name: this.editSessionForm.value.name as string,
         //     password: this.editSessionForm.value.password as string,
-        //     TP: this.sessionStatus=='scheduled' ? this.editSessionForm.value.TP as string : this.session.TP,
-        //     startDate: this.sessionStatus=='scheduled' ? startDate : this.session.startDate,
+        //     TP: this.session.status=='scheduled' ? this.editSessionForm.value.TP as string : this.session.TP,
+        //     startDate: this.session.status=='scheduled' ? startDate : this.session.startDate,
         //     endDate: endDate,
         // };
 
