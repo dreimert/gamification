@@ -96,7 +96,7 @@
                 </select>
                 <div *ngIf="session.status === 'inProgress'" class="flex w-3/4">
                     <input
-                        class="h-full w-full rounded-r-lg pl-3 disabled:bg-gray-200"
+                        class="h-full w-full rounded-r-lg pl-3 disabled:bg-[#F4F4F4] disabled:text-neutral-500"
                         type="text"
                         id="TP"
                         placeholder="Entrer le nouveau nom du TP"
@@ -115,7 +115,7 @@
                 <input
                     type="datetime-local"
                     id="startDate"
-                    class="flex px-2 w-3/4 rounded-r-lg disabled:bg-gray-200"
+                    class="flex px-2 w-3/4 rounded-r-lg disabled:bg-[#F4F4F4] disabled:text-neutral-500"
                     formControlName="startDate"
                     step="300"
                     required />

@@ -8,6 +8,7 @@ import { Router, RouterLink } from "@angular/router";
 import { PrivateUser, UserType } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
 import { SessionService } from "../../services/session.service";
+import { ConsultDialogComponent } from "../session/consult-dialog/consult-dialog.component";
 
 @Component({
     selector: "app-session-card",
@@ -37,6 +38,14 @@ export class SessionCardComponent implements OnInit {
                     },
                 });
             }
+        });
+    }
+
+    openConsultDialog(session: Session): void {
+        this.dialog.open(ConsultDialogComponent, {
+            width: "60%",
+            height: "70%",
+            data: session,
         });
     }
 
