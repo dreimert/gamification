@@ -4,7 +4,15 @@ import { Header } from "../../header/header";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { timer } from "rxjs";
 import { CommonModule } from "@angular/common";
-import { AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from "@angular/forms";
 import { ModifyAccess } from "../../../models/admin.model";
 import { Teacher, UserType } from "../../../models/user.model";
 @Component({
@@ -22,39 +30,36 @@ export class ModifyAccessComponent implements OnInit {
         name: "Admin/modifier_accès_encadrant",
     };
 
-    
-
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
     ) {}
 
-
     ngOnInit(): void {
         this.fetchTeachersList();
         this.fetchTp();
 
-        timer(200).subscribe(()=>{
+        timer(200).subscribe(() => {
             this.tps.forEach((tp) => {
                 this.tpsFormArray.push(this.initTPSelection(tp));
             });
-        })
-    }
-
-    modifyAccessForm = this.formBuilder.group({
-        teacher: [this.teacher.name + ' ' + this.teacher.surname, [Validators.required]],
-        TPs: this.formBuilder.array([]),
-    });
-    tpsFormArray = this.modifyAccessForm.get('TPs') as FormArray
-
-    initTPSelection(tp:TP): FormGroup{
-        return this.formBuilder.group({
-            name: [tp.name], 
-            accessable: [this.teacher.TPsAccessible.includes(tp.name.toLowerCase())],
         });
     }
 
-    toFormGroup(tpFormControl:AbstractControl<any, any>){
+    modifyAccessForm = this.formBuilder.group({
+        teacher: [this.teacher.name + " " + this.teacher.surname, [Validators.required]],
+        TPs: this.formBuilder.array([]),
+    });
+
+    tpsFormArray = this.modifyAccessForm.get("TPs") as FormArray;
+
+    initTPSelection(tp: TP): FormGroup {
+        return this.formBuilder.group({
+            name: [tp.name],
+            accessable: [this.teacher.TPsAccessible.includes(tp.name.toLowerCase())],
+        });
+    }
+    toFormGroup(tpFormControl: AbstractControl) {
         return tpFormControl as FormGroup;
     }
 
@@ -70,18 +75,18 @@ export class ModifyAccessComponent implements OnInit {
             this.tps = TP;
         });
     }
-    findTeacher():Teacher|undefined{
+    findTeacher(): Teacher | undefined {
         const fullName = this.modifyAccessForm.value.teacher as string;
-        const teacher = this.teachersList.find(t => t.name+' '+t.surname === fullName);
-        return teacher
+        const teacher = this.teachersList.find((t) => t.name + " " + t.surname === fullName);
+        return teacher;
     }
-    getTPsAccessable():string[]{
-        const tpsAccessable:string[] = [];
-        this.tpsFormArray.controls.forEach((tpForm)=>{
-            if (tpForm.get("accessable")?.value){
+    getTPsAccessable(): string[] {
+        const tpsAccessable: string[] = [];
+        this.tpsFormArray.controls.forEach((tpForm) => {
+            if (tpForm.get("accessable")?.value) {
                 tpsAccessable.push(tpForm.get("name")?.value);
             }
-        })
+        });
         return tpsAccessable;
     }
     onSubmit(id: string) {
@@ -92,10 +97,10 @@ export class ModifyAccessComponent implements OnInit {
                 id: teacher.id as string,
                 name: teacher.name as string,
                 surname: teacher.surname as string,
-                TPs: TPs, 
+                TPs: TPs,
             };
-            console.log(`${modifyAccess.name} is accessible to ${modifyAccess.TPs}`)
-        }else if(!teacher){
+            console.log(`${modifyAccess.name} is accessible to ${modifyAccess.TPs}`);
+        } else if (!teacher) {
             alert("l'encadrant n'exist pas ! ");
         }
         this.router.navigate(["/admin/"]);
@@ -103,9 +108,15 @@ export class ModifyAccessComponent implements OnInit {
 }
 
 const teachers = [
-    { id: "1d234cef65487", name: "Damien", surname: "Reimert", type: UserType.TEACHER, TPsAccessible:['kafka', 'scrapping']},
-    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER, TPsAccessible:['kafka']},
-    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER, TPsAccessible:[]},
+    {
+        id: "1d234cef65487",
+        name: "Damien",
+        surname: "Reimert",
+        type: UserType.TEACHER,
+        TPsAccessible: ["kafka", "scrapping"],
+    },
+    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER, TPsAccessible: ["kafka"] },
+    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER, TPsAccessible: [] },
 ];
 
 interface TP {

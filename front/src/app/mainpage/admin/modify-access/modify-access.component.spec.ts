@@ -7,6 +7,7 @@ describe("ModifyAccessComponent", () => {
     let fixture: ComponentFixture<ModifyAccessComponent>;
 
     beforeEach(async () => {
+        window.history.pushState({ id: "1", name: "TP" }, "", "");
         await TestBed.configureTestingModule({
             imports: [ModifyAccessComponent],
         }).compileComponents();

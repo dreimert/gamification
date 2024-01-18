@@ -15,7 +15,7 @@ export class User {
 export class Teacher extends User {
     TPsAccessible: string[];
 
-    constructor(id: string, name: string, surname: string, type: string, tpsAccessible:string[]){
+    constructor(id: string, name: string, surname: string, type: string, tpsAccessible: string[]) {
         super(id, name, surname, type as UserType);
         this.TPsAccessible = tpsAccessible;
     }

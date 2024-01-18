@@ -3,7 +3,6 @@ import { notes_stu } from "./note_value";
 import { HeaderComponent } from "../header/header.component";
 import { Header } from "../header/header";
 import { CommonModule } from "@angular/common";
-import { Note } from "./note";
 import { FormsModule } from "@angular/forms";
 
 @Component({
@@ -19,9 +18,9 @@ export class NotesComponent {
         name: "Notes",
     };
 
-    sessionSearch = '';
+    sessionSearch = "";
     filteredNote = this.notes_stu;
-    searchSession():void {
+    searchSession(): void {
         this.filteredNote = this.notes_stu.filter((note) =>
             note.name.toLowerCase().includes(this.sessionSearch.toLowerCase()),
         );

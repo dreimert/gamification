@@ -47,7 +47,7 @@ export class ListSessionGradeComponent implements OnInit {
         this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup/edit`, { state: this.session });
     }
 
-    return(): void{
+    return(): void {
         history.back();
     }
 }

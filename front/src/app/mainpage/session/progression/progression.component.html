@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full max-h-screen bg-grey ">
+<div class="flex flex-col w-full max-h-screen bg-grey">
     <app-header [section]="section" />
     <div class="grid grid-cols-8 mt-9 mb-4 items-center">
         <p class="col-span-4 ml-4">{{ session.name }}</p>
@@ -17,9 +17,10 @@
         </button>
     </div>
     <div class="flex flex-col mt-5 m-3 overflow-auto">
-        <div class="flex flex-row justify-center items-center bg-bgHeaderTable border border-borderTable rounded-t-lg mr-4">
+        <div
+            class="flex flex-row justify-center items-center bg-bgHeaderTable border border-borderTable rounded-t-lg mr-4">
             <p class="flex w-full py-2 mx-3 border-r border-borderTable">Étudiants</p>
-            <p class="flex w-full py-2 ">Avancement</p>
+            <p class="flex w-full py-2">Avancement</p>
         </div>
         <div class="overflow-y-scroll">
             <div
