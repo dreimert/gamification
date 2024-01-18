@@ -1,10 +1,10 @@
-<div class="flex flex-col w-full min-h-screen bg-grey">
+<div class="flex flex-col w-full max-h-screen bg-grey">
     <app-header [section]="section"></app-header>
-    <div class="ml-8 my-3">
+    <div class="ml-8 my-3 overflow-auto">
         <form
             [formGroup]="singleGradeForm"
             (ngSubmit)="onSubmit()"
-            class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
+            class="flex flex-col justify-center my-3 mr-3 h-1/2 border border-borderTable rounded-lg bg-bgCreateSession">
             <p class="flex flex-row mt-5 mx-3">Modifier la note d'un élève</p>
             <div class="flex flex-row justify-center mt-5 mx-3">
                 <label
@@ -75,7 +75,7 @@
 
             <div class="flex">
                 <button
-                    (click)="gotoListGrade()"
+                    (click)="return()"
                     class="flex justify-center items-center w-fit bg-redButton hover:bg-red-800 rounded-lg py-2 ml-3 mr-3 mb-auto mt-5">
                     <p class="flex text-white mx-3">Cancel</p>
                 </button>
@@ -90,7 +90,7 @@
         <form
             [formGroup]="levelGradeForm"
             (ngSubmit)="onSubmit()"
-            class="flex flex-col justify-center my-3 mr-3 h-full border border-borderTable rounded-lg bg-bgCreateSession">
+            class="flex flex-col justify-center my-3 mr-3 h-1/2 border border-borderTable rounded-lg bg-bgCreateSession">
             <p class="flex flex-row mt-5 mx-3">Modifier la note attribuée à un niveau</p>
             <div class="flex flex-row justify-center mt-5 mx-3">
                 <label
@@ -139,7 +139,7 @@
             </div>
             <div class="flex">
                 <button
-                    (click)="gotoListGrade()"
+                    (click)="return()"
                     class="flex justify-center items-center w-fit bg-redButton hover:bg-red-800 rounded-lg py-2 ml-3 mr-3 mb-auto mt-5">
                     <p class="flex text-white mx-3">Cancel</p>
                 </button>
@@ -151,5 +151,11 @@
                 </button>
             </div>
         </form>
+
+        <div class="fixed bottom-0 right-0 mb-4 mr-4">
+            <button (click)="return()" class="w-fit bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Retour</p>
+            </button>
+        </div>
     </div>
 </div>

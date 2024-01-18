@@ -3,8 +3,10 @@
         <div
             class="col-span-3 w-1/2 h-1/2 left-1/4 top-1/4 relative flex flex-col justify-center bg-grey-dark border-4 border-black shadow-shadow_img">
             <div class="container mx-auto w-full border-b bg-white">
-                <img class="object-contain" src="/assets/imgJoin/kafka.png" alt="Icône du TP" />
-                <!-- TODO : change image -->
+                <img *ngIf="session.TP === 'kafka'" class="object-contain top-0" src="/assets/imgJoin/kafka.png"
+                    alt="Icône du TP" />
+                <img *ngIf="session.TP === 'scrapping'" class="object-contain top-0" src="/assets/imgJoin/Scrapping.png"
+                    alt="Icône du TP" />
             </div>
             <div class="justify-center mt-6">
                 <p
