@@ -5,8 +5,6 @@ import { Teacher, UserType } from "../../models/user.model";
 import { CommonModule } from "@angular/common";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { timer } from "rxjs";
-import { SessionService } from "../../services/session.service";
-import { Session, TeacherSession } from "../../models/session.model";
 
 @Component({
     selector: "app-admin",
@@ -21,17 +19,10 @@ export class AdminComponent implements OnInit {
         name: "Admin",
     };
     list = true;
-    
-    // tpAccessible: TpAccessible = {};
 
-    constructor(
-        private router: Router,
-        private sessionService: SessionService,
-    ) {}
+    constructor(private router: Router) {}
     ngOnInit(): void {
         this.fetchTeachers();
-        // this.fetchTPsAccessibles();
-
     }
     deleteTeacher(teacher: Teacher) {
         //Delete the teacher credentials
@@ -45,12 +36,18 @@ export class AdminComponent implements OnInit {
         });
     }
 
-    gotoModifyAccess(teacher:Teacher){
+    gotoModifyAccess(teacher: Teacher) {
         this.router.navigateByUrl(`/admin/modifyAccess`, { state: teacher });
     }
 }
 const teachers = [
-    { id: "1d234cef65487", name: "Damien", surname: "Reimert", type: UserType.TEACHER, TPsAccessible:['kafka', 'scrapping']},
-    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER, TPsAccessible:['kafka']},
-    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER, TPsAccessible:[]},
+    {
+        id: "1d234cef65487",
+        name: "Damien",
+        surname: "Reimert",
+        type: UserType.TEACHER,
+        TPsAccessible: ["kafka", "scrapping"],
+    },
+    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER, TPsAccessible: ["kafka"] },
+    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER, TPsAccessible: [] },
 ];

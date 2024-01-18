@@ -1,5 +1,3 @@
-
-
 import { Component, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormsModule } from "@angular/forms";
@@ -19,7 +17,7 @@ export class ConsultDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<ConsultDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public session: Session | TeacherSession,
-        private router:Router
+        private router: Router,
     ) {}
 
     enteredPassword: string = "";
@@ -29,7 +27,7 @@ export class ConsultDialogComponent {
         this.dialogRef.close();
     }
 
-    gotoNotePage(): void{
+    gotoNotePage(): void {
         this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup`, { state: this.session });
         this.dialogRef.close();
     }

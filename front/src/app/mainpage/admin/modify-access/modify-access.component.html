@@ -22,20 +22,20 @@
                 Le nom est obligatoire.
             </div>
 
-
             <div class="flex flex-col mt-3 mx-3">
                 <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg"
                     >TP accessibles</label
                 >
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-3">
-                    <div 
+                    <div
                         formArrayName="TPs"
                         *ngFor="let tpFormControl of tpsFormArray.controls; let index = index"
-                        class="flex items-center justify-center bg-white border rounded-lg mr-1"
-                        >
+                        class="bg-white border rounded-lg mr-1">
                         <ng-container [formGroup]="toFormGroup(tpFormControl)">
-                            <input type="checkbox" id="TP" formControlName="accessable" class="w-1/2 mx-5" />
-                            <label class="mr-10">{{ tps[index].name }}</label>
+                            <label class="flex items-center justify-center w-1/2 mx-5 mr-10">
+                                <input type="checkbox" id="TP" formControlName="accessable" class="w-1/2 mx-5" />
+                                {{ tps[index].name }}
+                            </label>
                         </ng-container>
                     </div>
                 </div>

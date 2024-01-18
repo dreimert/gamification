@@ -55,7 +55,7 @@ export class ProgressionComponent implements OnInit {
         this.router.navigateByUrl(`/session/${this.session.id}/progressions/edit`, { state: this.session });
     }
 
-    return(){
+    return() {
         history.back();
     }
 }
