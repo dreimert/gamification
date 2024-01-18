@@ -11,7 +11,7 @@
                     Nom de l'encadrant
                 </p>
                 <select id="teacher" class="flex w-3/4 rounded-r-lg" formControlName="teacher" required>
-                    <option *ngFor="let n of usersList" [ngValue]="n">
+                    <option *ngFor="let n of teachersList">
                         {{ n.name + " " + n.surname }}
                     </option>
                 </select>
@@ -21,17 +21,27 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le nom est obligatoire.
             </div>
-            <div class="flex flex-row justify-center mt-3 mx-3">
+
+
+            <div class="flex flex-col mt-3 mx-3">
                 <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg"
                     >TP accessibles</label
                 >
-                <select id="TP" class="flex w-3/4 rounded-r-lg" formControlName="TP" required>
-                    <option value="">Choisissez les TPs que l'encadrant peut accéder</option>
-                    <option *ngFor="let tp of tps" value="{{ tp.name }}">{{ tp.name }}</option>
-                </select>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-3">
+                    <div 
+                        formArrayName="TPs"
+                        *ngFor="let tpFormControl of tpsFormArray.controls; let index = index"
+                        class="flex items-center justify-center bg-white border rounded-lg mr-1"
+                        >
+                        <ng-container [formGroup]="toFormGroup(tpFormControl)">
+                            <input type="checkbox" id="TP" formControlName="accessable" class="w-1/2 mx-5" />
+                            <label class="mr-10">{{ tps[index].name }}</label>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
             <div
-                *ngIf="modifyAccessForm.controls['TP'].errors?.['required']"
+                *ngIf="modifyAccessForm.controls['TPs'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Veuillez choisir un TP.
             </div>
