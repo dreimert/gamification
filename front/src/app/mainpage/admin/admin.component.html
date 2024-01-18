@@ -13,25 +13,31 @@
 
         <div class="flex flex-col">
             <div class="flex flex-row">
-                <div class="flex md:w-5/6 w-1/2 py-2 bg-bgHeaderTable border border-borderTable rounded-tl-lg">
+                <div class="flex md:w-3/6 w-1/3 py-2 bg-bgHeaderTable border border-borderTable rounded-tl-lg">
                     <p class="ml-3">Encadrants</p>
                 </div>
-                <div class="flex md:w-1/6 w-1/2 py-2 bg-bgHeaderTable border border-borderTable rounded-tr-lg">
+                <div class="flex md:w-2/6 w-1/3 py-2 bg-bgHeaderTable border border-borderTable">
+                    <p class="ml-3">TP</p>
+                </div>
+                <div class="flex md:w-1/6 w-1/3 py-2 bg-bgHeaderTable border border-borderTable rounded-tr-lg">
                     <p class="ml-3">Actions</p>
                 </div>
             </div>
             <div *ngFor="let teacher of teachers; let index = index" class="flex flex-row">
                 <div
-                    class="flex md:w-5/6 w-1/2 py-2 bg-bgTable items-center border border-borderTable"
+                    class="flex md:w-3/6 w-1/3 py-2 bg-bgTable items-center border border-borderTable"
                     [class.rounded-bl-lg]="index === teachers.length - 1">
                     <p class="ml-3">{{ teacher.name + " " + teacher.surname }}</p>
                 </div>
                 <div
-                    class="flex md:w-1/6 w-1/2 py-2 bg-bgTable border border-borderTable"
+                    class="flex md:w-2/6 w-1/3 py-2 bg-bgTable items-center border border-borderTable">
+                    <p class="ml-3">{{teacher.TPsAccessible}}</p>
+                </div>
+                <div
+                    class="flex md:w-1/6 w-1/3 py-2 bg-bgTable border border-borderTable"
                     [class.rounded-br-lg]="index === teachers.length - 1">
                     <button
-                        [routerLink]="['modifyAccess']"
-                        [state]="teacher"
+                        (click)="gotoModifyAccess(teacher)"
                         routerLinkActive="active"
                         class="flex ml-3 px-1 bg-blueButton rounded py-1">
                         <svg
