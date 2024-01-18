@@ -1,3 +1,4 @@
 <div>
-    <app-tp-kafka *ngIf="tp.type === 'kafka'"></app-tp-kafka>
+    <app-tp-kafka *ngIf="tp === 'kafka'"></app-tp-kafka>
+    <div *ngIf="session.TP === 'scrapping'">haha</div>
 </div>
