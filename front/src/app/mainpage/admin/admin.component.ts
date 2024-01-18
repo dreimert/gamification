@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
         }
     }
     fetchTeachers() {
-        timer(1000).subscribe(() => {
+        timer(500).subscribe(() => {
             this.teachers = teachers;
         });
     }
