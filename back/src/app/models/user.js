@@ -4,6 +4,8 @@
  */
 
 import mongoose from "mongoose";
+import crypto from "crypto";
+import { logger } from "../app.js";
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -14,6 +16,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    salt: {
+        type: String,
+    },
+    iterations: {
+        type: Number,
     },
     name: {
         type: String,
@@ -41,10 +49,8 @@ const userSchema = new mongoose.Schema({
  * @returns {boolean} - Returns true if the password is valid, false otherwise.
  */
 userSchema.methods.validPassword = function (password) {
-    if (this.password !== password) {
-        return true; //todo
-    }
-    return true; //todo
+    const hash = crypto.pbkdf2Sync(password, this.salt, this.iterations, 64, "sha512").toString("hex");
+    return this.password === hash;
 };
 
 /**
@@ -98,6 +104,22 @@ userSchema.methods.serializePublic = function () {
         type: this.type,
     };
 };
+
+userSchema.pre("save", function (next) {
+    if (this.isNew) {
+        //hash and salt password
+        const salt = crypto.randomBytes(16).toString("hex");
+        this.salt = salt;
+        this.iterations = 50000;
+        try {
+            this.password = crypto.pbkdf2Sync(this.password, salt, this.iterations, 64, "sha512").toString("hex");
+        } catch (e) {
+            logger.error(e);
+            return next(e);
+        }
+    }
+    next();
+});
 
 /**
  * @type User

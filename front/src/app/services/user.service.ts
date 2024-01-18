@@ -17,58 +17,119 @@ export class UserService {
         this.user = new PrivateUser("", "", "", "", "", "");
     }
 
+    public setUser(user: PrivateUser) {
+        this.user = user;
+    }
+
     public getCurrentUser(): Observable<PrivateUser> {
-        if (this.user.id != "") {
+        if (this.user.id !== "") {
             return new Observable<PrivateUser>((subscriber) => {
                 subscriber.next(this.user);
             });
-        } else {
+        } else if (this.user.id === "") {
+            const user = localStorage.getItem("user");
+            if (user !== null) {
+                this.user = JSON.parse(user);
+                return new Observable<PrivateUser>((subscriber) => {
+                    subscriber.next(this.user);
+                });
+            }
             return new Observable<PrivateUser>((subscriber) => {
                 this.http.get<PrivateUser>(this.root + "me").subscribe({
                     next: (user: PrivateUser) => {
-                        subscriber.next(user);
                         this.user = user;
+                        localStorage.setItem("user", JSON.stringify(user));
+                        subscriber.next(user);
                     },
                     error: (error) => {
-                        // todo: move this to a global error handler (http interceptor)
-                        if (error.status == 401 && error.error.redirectURL) {
-                            // redirect to login page
-                            window.location.href = error.error.redirectURL;
-                        }
+                        localStorage.removeItem("user");
+                        this.user = new PrivateUser("", "", "", "", "", "");
+                        subscriber.error(error);
                     },
                 });
             });
         }
+        return new Observable<PrivateUser>((subscriber) => {
+            subscriber.error();
+        });
     }
 
     public logout(): Observable<unknown> {
         return new Observable<unknown>((subscriber) => {
-            this.http.get<unknown>(environment.backendUrl + "/logout").subscribe({
+            this.http.post<unknown>(environment.backendUrl + "/api/logout", {}).subscribe({
                 next: (res: unknown) => {
                     subscriber.next(res);
                 },
                 error: (err: Error) => {
-                    console.log(err);
                     subscriber.error(err);
                 },
                 complete: () => {
                     this.user = new PrivateUser("", "", "", "", "", "");
+                    localStorage.removeItem("user");
                 },
             });
         });
     }
 
-    public login(username: string, password: string): Observable<PrivateUser> {
-        return new Observable<PrivateUser>((subscriber) => {
+    public login(username: string, password: string) {
+        return new Observable((subscriber) => {
             this.http
-                .post<PrivateUser>(environment.backendUrl + "/login", {
+                .post<PrivateUser>(environment.backendUrl + "/api/login", {
                     username: username,
                     password: password,
                 })
-                .subscribe((user: PrivateUser) => {
-                    subscriber.next(user);
-                    this.user = user;
+                .subscribe({
+                    next: (user: PrivateUser) => {
+                        this.user = user;
+                        localStorage.setItem("user", JSON.stringify(user));
+                        subscriber.next();
+                    },
+                    error: (error) => {
+                        localStorage.removeItem("user");
+                        this.user = new PrivateUser("", "", "", "", "", "");
+                        subscriber.error(error);
+                    },
                 });
+        });
+    }
+
+    public register(username: string, password: string, email: string, name: string, surname: string) {
+        return new Observable((subscriber) => {
+            this.http
+                .post<PrivateUser>(environment.backendUrl + "/api/register", {
+                    username: username,
+                    password: password,
+                    email: email,
+                    name: name,
+                    surname: surname,
+                })
+                .subscribe({
+                    next: (user: PrivateUser) => {
+                        this.user = user;
+                        localStorage.setItem("user", JSON.stringify(user));
+                        subscriber.next();
+                    },
+                    error: (error) => {
+                        localStorage.removeItem("user");
+                        this.user = new PrivateUser("", "", "", "", "", "");
+                        subscriber.error(error);
+                    },
+                });
+        });
+    }
+
+    public isAuthenticated(): Observable<boolean> {
+        return new Observable<boolean>((subscriber) => {
+            if (this.user.id !== "") {
+                return subscriber.next(true);
+            }
+            const user = localStorage.getItem("user");
+            console.log("local storage user: " + user);
+            if (user !== null) {
+                this.user = JSON.parse(user);
+                return subscriber.next(true);
+            }
+            subscriber.next(false);
         });
     }
 

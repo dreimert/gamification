@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import mainRouter from "./routes/index.js";
 import pino from "pino";
 import nunjucks from "nunjucks";
+import mongoose from "mongoose";
 
 export const logger = pino({
     transport: {
@@ -52,23 +53,10 @@ strategy = new LocalStrategy(
         // check if user exists in db and password is correct
         const user = await UserModel.findOne({ username: username });
         if (!user) {
-            // create user if dev mode
-            if (process.env.ENV === "dev") {
-                const newUser = new UserModel({
-                    username: username,
-                    password: password,
-                    name: "test",
-                    surname: "test",
-                    email: "abc@abc.com",
-                    type: "student",
-                });
-                await newUser.save();
-                return done(null, newUser);
-            }
-            return done(null, false, { message: "Incorrect username." });
+            return done(null, false, { message: "incorrect username or password" });
         }
         if (!user.validPassword(password)) {
-            return done(null, false, { message: "Incorrect password." });
+            return done(null, false, { message: "incorrect username or password" });
         }
         return done(null, user);
     },
@@ -114,25 +102,18 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function (req, res, next) {
+    if (mongoose.STATES[mongoose.connection.readyState] !== "connected") {
+        return res.status(425).json({ message: "Server Initializing..." });
+    }
+    next();
+});
+
 nunjucks.configure("src/views", {
     autoescape: true,
     express: app,
 });
 app.set("view engine", "nunjucks");
-
-function setCreds(req, res, next) {
-    if (process.env.ENV === "dev") {
-        req.body.username = "test";
-        req.body.password = "test";
-    }
-    next();
-}
-
-// if(process.env.ENV === "dev") {
-// 	app.use(setCreds, passport.authenticate("local", {
-// 		failureRedirect: process.env.FRONTEND_URL + "/login",
-// 	}));
-// }
 
 function loggerMiddleware(req, res, next) {
     logger.info({ method: req.method, url: req.url, body: req.body, ip: req.ip });
@@ -140,17 +121,6 @@ function loggerMiddleware(req, res, next) {
 }
 
 app.use(loggerMiddleware);
-
-app.get(
-    "/login",
-    setCreds,
-    passport.authenticate("local", {
-        failureRedirect: process.env.FRONTEND_URL + "/login",
-    }),
-    function (req, res) {
-        res.send("<a href='/test'>test</a>");
-    },
-);
 
 export function isAuthenticated(req, res, next) {
     if (req.user) {
@@ -169,11 +139,11 @@ app.use("/api", mainRouter);
 https
     .createServer(
         {
-            key: fs.readFileSync("./selfsigned.key"),
-            cert: fs.readFileSync("./selfsigned.crt"),
+            key: fs.readFileSync(process.env.CERTIFICATE_KEY_PATH || "./selfsigned.key"),
+            cert: fs.readFileSync(process.env.CERTIFICATE_PATH || "./selfsigned.crt"),
         },
         app,
     )
     .listen(port, () => {
-        logger.info("Server is running at port 3000");
+        logger.info("Server is running at port " + port);
     });

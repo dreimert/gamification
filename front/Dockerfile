@@ -9,7 +9,7 @@ FROM ubuntu:latest
 RUN mkdir /app
 RUN apt-get update
 RUN apt-get install nginx -y
-COPY --from=build-stage /app/dist/front-win/browser/ /app
+COPY --from=build-stage /app/dist/front/browser/ /app
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN adduser --disabled-password --gecos "" nginx
 RUN chown -R nginx:nginx /app /var/log/nginx /var/lib/nginx /etc/nginx

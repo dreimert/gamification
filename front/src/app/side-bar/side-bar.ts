@@ -16,7 +16,7 @@ export const sidebars_stu: SidebarButton[] = [
     {
         id: 3,
         name: "Sessions",
-        url: "/sessions",
+        url: "/session",
         open: false,
     },
 ];
@@ -37,7 +37,7 @@ export const sidebars_prof = [
     {
         id: 3,
         name: "Sessions",
-        url: "/sessions",
+        url: "/session",
         open: false,
     },
     {
@@ -64,7 +64,7 @@ export const sidebars_admin = [
     {
         id: 3,
         name: "Sessions",
-        url: "/sessions",
+        url: "/session",
         open: false,
     },
     {

@@ -6,6 +6,7 @@
                  name="Gamification"
                  start-page="Gamification.md">
 
+    <toc-element topic="Installation.md"/>
     <toc-element topic="Backend.md">
         <toc-element topic="Database.md"/>
         <toc-element topic="Authentication.md"/>
