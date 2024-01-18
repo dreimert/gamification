@@ -15,7 +15,7 @@ import { EditSessionComponent } from "./mainpage/session/edit-session/edit-sessi
 import { LoginComponent } from "./login/login.component";
 import { AuthGuard, NoAuthGuard } from "./login/authguard.guard";
 import { RegisterComponent } from "./register/register.component";
-import { TpKafkaComponent } from "./tpPage/tp-kafka/tp-kafka.component";
+import { TpPageComponent } from "./tp-page/tp-page.component";
 
 export const routes: Routes = [
     {
@@ -109,9 +109,8 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: "tp/kafka",
-        component: TpKafkaComponent,
-        title: "Tp Kafka",
+        path: "tp/:id",
+        component: TpPageComponent,
     },
     {
         path: "",
