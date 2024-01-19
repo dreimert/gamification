@@ -9,7 +9,7 @@
                 <label
                     for="username"
                     class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
-                    Username
+                    Nom d'utilisateur
                 </label>
                 <input
                     type="text"
@@ -21,7 +21,7 @@
             <div
                 *ngIf="loginForm.controls['username'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                Le username est obligatoire.
+                Le nom d'utilisateur est obligatoire.
             </div>
             <div class="flex flex-row justify-center mt-3 mx-3">
                 <label
@@ -44,7 +44,7 @@
             <div
                 *ngIf="loginForm.controls['password'].errors?.['loginError']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                Username ou mot de passe incorrect.
+                Nom d'utilisateur ou mot de passe incorrect.
             </div>
             <button
                 type="submit"

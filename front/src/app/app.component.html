@@ -1,5 +1,5 @@
 <main class="w-full h-full justify-start items-start" *ngIf="!loading">
-    <div class="flex flex-row" *ngIf="['/login', '/register'].indexOf(location.pathname) === -1">
+    <div class="flex flex-row" *ngIf="['/login', '/register'].indexOf(location.pathname) === -1; else elseBlock">
         <div class="w-1/5">
             <app-side-bar></app-side-bar>
         </div>
@@ -7,7 +7,7 @@
             <router-outlet></router-outlet>
         </div>
     </div>
-    <div class="w-full" *ngIf="['/login', '/register'].indexOf(location.pathname) !== -1">
+    <ng-template class="w-full" #elseBlock>
         <router-outlet></router-outlet>
-    </div>
+    </ng-template>
 </main>
