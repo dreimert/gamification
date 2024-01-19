@@ -2,13 +2,16 @@ import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TpKafkaComponent } from "./tp-kafka/tp-kafka.component";
+import { TpScrappingComponent } from "./tp-scrapping/tp-scrapping.component";
 import { CommonModule } from "@angular/common";
 import { Session, TeacherSession } from "../models/session.model";
 import { SessionService } from "../services/session.service";
+
+
 @Component({
     selector: "app-tp-page",
     standalone: true,
-    imports: [TpKafkaComponent, CommonModule],
+    imports: [TpKafkaComponent, TpScrappingComponent, CommonModule],
     templateUrl: "./tp-page.component.html",
     styleUrl: "./tp-page.component.css",
 })
