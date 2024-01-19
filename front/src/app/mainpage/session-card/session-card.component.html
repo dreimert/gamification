@@ -92,16 +92,24 @@
             </div>
             <div *ngIf="user.type === UserType.STUDENT" class="flex flex-row flex-wrap justify-center">
                 <button
-                    *ngIf="session.status === SessionStatus.INPROGRESS"
+                    *ngIf="session.status === SessionStatus.INPROGRESS && !session.joined; else sessionJoined"
                     (click)="openDialog(session)"
                     class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
                     <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Rejoindre</p>
                 </button>
+                <ng-template #sessionJoined>
+                    <button
+                        *ngIf="session.status === SessionStatus.INPROGRESS && session.joined"
+                        (click)="rejoinSession(session)"
+                        class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Rejoindre</p>
+                    </button>
+                </ng-template>
                 <button
                     *ngIf="session.status === SessionStatus.DONE"
                     [routerLink]="['/sessions', session.id]"
                     class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                    <!-- TODO: redirect to notes -->
+                    <!-- TODO: redirect to grade -->
                     <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
                 </button>
             </div>

@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { AccueilComponent } from "./mainpage/accueil/accueil.component";
-import { NotesComponent } from "./mainpage/notes/notes.component";
+import { GradeComponent } from "./mainpage/grade/grade.component";
 import { GradeTeacherComponent } from "./mainpage/grade-teacher/grade-teacher.component";
 import { SessionComponent } from "./mainpage/session/session.component";
 import { SessionCreateComponent } from "./mainpage/session/session-create/session-create.component";
@@ -60,8 +60,8 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: "notes",
-        component: NotesComponent,
+        path: "notes", //TODO: Change this to grade
+        component: GradeComponent,
         title: "Notes",
         canActivate: [AuthGuard],
     },
@@ -78,7 +78,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: "grade-teacher:id/lookup/edit",
+        path: "grade-teacher/:id/lookup/edit",
         component: EditGradeComponent,
         title: "Notes",
         canActivate: [AuthGuard],

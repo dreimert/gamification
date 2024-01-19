@@ -1,6 +1,8 @@
 <main class="w-full h-full justify-start items-start" *ngIf="!loading">
-    <div class="flex flex-row" *ngIf="['/login', '/register'].indexOf(location.pathname) === -1; else elseBlock">
-        <div class="w-1/5">
+    <div
+        class="flex flex-row h-fit overflow-visible"
+        *ngIf="['/login', '/register'].indexOf(location.pathname) === -1; else elseBlock">
+        <div class="w-1/5 min-h-full">
             <app-side-bar></app-side-bar>
         </div>
         <div class="w-4/5">

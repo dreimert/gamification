@@ -22,6 +22,9 @@ export class SessionService {
                     sessions.sort((a: Session | TeacherSession, b: Session | TeacherSession) => {
                         return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
                     });
+                    sessions.map((session: Session | TeacherSession) => {
+                        session.indexGrades = new Map<string, number>(session.indexGrades);
+                    });
                     this.cast(sessions, subscriber);
                 });
         });
@@ -37,6 +40,9 @@ export class SessionService {
                         return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
                     }
                     return compare;
+                });
+                sessions.map((session: Session | TeacherSession) => {
+                    session.indexGrades = new Map<string, number>(session.indexGrades);
                 });
                 this.cast(sessions, subscriber);
             });
@@ -112,5 +118,21 @@ export class SessionService {
         } else {
             subscriber.next(sessions as Session[]);
         }
+    }
+}
+
+    getSession(id: string): Observable<Session | TeacherSession> {
+        return new Observable<Session | TeacherSession>((subscriber) => {
+            this.http.get<Session | TeacherSession>(this.root + id).subscribe({
+                next: (session: Session | TeacherSession) => {
+                    session.indexGrades = new Map<string, number>(session.indexGrades);
+                    subscriber.next(session);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
     }
 }

@@ -79,6 +79,19 @@ export class SessionCardComponent implements OnInit {
         });
     }
 
+    rejoinSession(session: Session) {
+        this.sessionService.joinSession(session, "").subscribe({
+            next: (session: Session) => {
+                // TODO: redirect to game page
+                alert("Vous avez rejoint la session" + session.name);
+            },
+            error: (err) => {
+                console.log(err);
+                alert("Impossible de rejoindre la session");
+            },
+        });
+    }
+
     calculateFontSize(textLength: number): string {
         const baseSize = 28;
         const minSize = 10;
@@ -90,7 +103,7 @@ export class SessionCardComponent implements OnInit {
     }
 
     gotoClickedListGrade(session: Session | TeacherSession) {
-        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: session });
+        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: { session } });
     }
 
     sessions: Session[] | TeacherSession[] = [];

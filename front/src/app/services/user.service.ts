@@ -124,7 +124,6 @@ export class UserService {
                 return subscriber.next(true);
             }
             const user = localStorage.getItem("user");
-            console.log("local storage user: " + user);
             if (user !== null) {
                 this.user = JSON.parse(user);
                 return subscriber.next(true);

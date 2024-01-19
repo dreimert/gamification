@@ -1,0 +1,28 @@
+<div class="flex flex-col min-w-full w-fit min-h-screen bg-grey">
+    <app-header [section]="section"></app-header>
+    <table
+        class="mt-5 m-3 bg-bgTable text-center border-y border-x border-separate border-spacing-0 rounded-t-lg rounded-b-lg overflow-hidden">
+        <thead class="justify-center items-center border-t rounded-t-lg bg-bgHeaderTable">
+            <tr class="text-center">
+                <th class="border-r border-borderTable">TP</th>
+                <th class="border-r border-borderTable">Session</th>
+                <th class="border-r border-borderTable">Niveau atteint</th>
+                <th class="border-r border-borderTable">Note</th>
+                <th class="border-r border-borderTable">Moyenne</th>
+                <th class="border-r border-borderTable">Ecart-type</th>
+                <th class="">Coefficient</th>
+            </tr>
+        </thead>
+        <tbody class="[&>*:nth-child(even)]:bg-bgTableDark">
+            <tr *ngFor="let grade of grades; let index = index">
+                <td class="border-r border-borderTable">{{ grade.tp | titlecase }}</td>
+                <td class="border-r border-borderTable">{{ grade.sessionName }}</td>
+                <td class="border-r border-borderTable">{{ grade.level }}</td>
+                <td class="border-r border-borderTable">{{ grade.grade }}</td>
+                <td class="border-r border-borderTable">{{ grade.mean }}</td>
+                <td class="border-r border-borderTable">{{ grade.std }}</td>
+                <td>{{ grade.coefficient }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
