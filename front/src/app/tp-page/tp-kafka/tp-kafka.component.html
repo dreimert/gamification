@@ -1,0 +1,72 @@
+<!-- Intro -->
+<div *ngIf="lvl === 0" class="flex flex-col w-full min-h-screen bg-grey">
+    <p class="flex font-inter px-10 mt-auto text-4xl">Bienvenue dans le tp kafka</p>
+    <p class="flex font-inter px-10 mt-5 text-4xl">
+        Kafka est un système de messagerie distribué. Il est conçu pour gérer efficacement le traitement et la
+        transmission de flux de données en temps réel à grande échelle.
+    </p>
+    <p class="flex font-inter px-10 mt-5 mb-auto text-4xl">
+        Si tu n’as pas compris grand chose à ce qu’il y a au-dessus ne t’inquiètes pas, l'objectif de ce TD est de te
+        faire comprendre les grandes lignes de Kafka et des message queues.
+    </p>
+    <button
+        class="flex justify-center items-center w-fit text-2xl bg-blueButton disabled:bg-blue-400 hover:bg-blue-700 rounded-lg py-2 ml-auto mr-7 my-7"
+        (click)="changeLevel()">
+        <p class="flex font-inter text-white mx-3">Commencer</p>
+    </button>
+</div>
+<!-- Level 1 -->
+<div *ngIf="lvl === 1" class="flex flex-col w-full min-h-screen bg-grey">
+    <div class="flex flex-col h-1/4">
+        <p class="flex font-inter px-10 mt-5 text-4xl">Prenons un exemple initial</p>
+        <p class="flex font-inter px-10 mt-5 text-4xl">
+            Tu es le patron d’une entreprise de matière première et ton rôle dans ce tp sera d’optimiser ta chaîne
+            logistique afin d’engranger le maximum de bénéfice.
+        </p>
+    </div>
+    <div class="test">
+        <div
+            *ngFor="let mine of mines"
+            class="flex relative w-32 h-16 bg-gray-500 items-center"
+            cdkDragBoundary=".test"
+            cdkDrag
+            (cdkDragEnded)="dragEnd($event)">
+            <button class="absolute top-0 right-1 w-1/6 h-1/6 justify-center" (click)="popup(mine)">
+                <img class="" src="/assets/tpKafka/three-dots-svgrepo-com.png" alt="Paramètre" />
+            </button>
+            <p class="m-auto cursor-grab" cdkDragHandle>Mine 1</p>
+        </div>
+        <div
+            *ngFor="let warehouse of warehouses"
+            class="flex relative w-32 h-16 bg-gray-500 justify-center items-center"
+            cdkDragBoundary=".test"
+            cdkDrag
+            (cdkDragEnded)="dragEnd($event)">
+            <button class="absolute top-0 right-1 w-1/6 h-1/6 justify-center" (click)="popup(warehouse)">
+                <img class="" src="/assets/tpKafka/three-dots-svgrepo-com.png" alt="Paramètre" />
+            </button>
+            <p class="m-auto cursor-grab" cdkDragHandle>{{ warehouse.name }}</p>
+        </div>
+        <div
+            *ngFor="let factory of factories"
+            class="flex relative w-32 h-16 bg-gray-500 justify-center items-center"
+            cdkDragBoundary=".test"
+            cdkDrag
+            (cdkDragEnded)="dragEnd($event)">
+            <button class="absolute top-0 right-1 w-1/6 h-1/6 justify-center" (click)="popup(factory)">
+                <img class="" src="/assets/tpKafka/three-dots-svgrepo-com.png" alt="Paramètre" />
+            </button>
+            <p class="m-auto cursor-grab" cdkDragHandle>{{ factory.name }}</p>
+        </div>
+    </div>
+    <div class="flex h-1/4 justify-center">
+        <div class="flex flex-row h-40 w-3/4 bg-gray-400 justify-around items-center">
+            <button class="h-1/2 border-2 border-black" (click)="createWarehouse()">
+                <img class="h-full p-3" src="/assets/tpKafka/warehouse-svgrepo-com.png" alt="Entrepôt" />
+            </button>
+            <button class="h-1/2 border-2 border-black" (click)="createFactory()">
+                <img class="h-full p-3" src="/assets/tpKafka/factories-factory-svgrepo-com.png" alt="Usine" />
+            </button>
+        </div>
+    </div>
+</div>

@@ -5,15 +5,6 @@
 
 import mongoose from "mongoose";
 
-/**
- * @typedef User
- * @property {string} username.required - The username - eg: johnDoe
- * @property {string} password.required - The password
- * @property {string} name.required - The user's name - eg: John
- * @property {string} surname.required - The user's surname - eg: Doe
- * @property {string} email.required - The user's email - eg: johndoe@example.com
- * @property {string} type - The user's type - eg: admin, teacher, student
- */
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -108,4 +99,14 @@ userSchema.methods.serializePublic = function () {
     };
 };
 
-export default mongoose.model("User", userSchema);
+/**
+ * @type User
+ * @property {string} username - The username - eg: johnDoe - required
+ * @property {string} password - The password - required
+ * @property {string} name - The user's name - eg: John - required
+ * @property {string} surname - The user's surname - eg: Doe - required
+ * @property {string} email - The user's email - eg: johndoe@example.com - required
+ * @property {string} type - The user's type - eg: admin, teacher, student - default: student - required
+ */
+const User = mongoose.model("User", userSchema);
+export default User;
