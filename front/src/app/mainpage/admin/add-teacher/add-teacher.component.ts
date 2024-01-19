@@ -107,7 +107,13 @@ export class AddTeacherComponent implements OnInit {
 }
 
 const users = [
-    { id: "1d234cef65487", name: "Damien", surname: "Reimert", type: UserType.STUDENT, TPsAccessible: ["kafka", "scrapping"], },
+    {
+        id: "1d234cef65487",
+        name: "Damien",
+        surname: "Reimert",
+        type: UserType.STUDENT,
+        TPsAccessible: ["kafka", "scrapping"],
+    },
     { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.STUDENT, TPsAccessible: ["kafka"] },
     { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.STUDENT, TPsAccessible: ["kafka"] },
     { id: "406e05f94304", name: "Abdel", surname: "Taya", type: UserType.STUDENT, TPsAccessible: ["TP3"] },
