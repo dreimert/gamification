@@ -15,7 +15,7 @@ import { SessionService } from "../services/session.service";
 export class TpPageComponent implements OnInit {
     tpId!: string;
     tp = tp;
-    session!: Session;
+    session!: Session | undefined;
     constructor(
         private route: ActivatedRoute,
         private sessionService: SessionService,
@@ -26,11 +26,10 @@ export class TpPageComponent implements OnInit {
     }
     fetchSessionInfo(id: string) {
         this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
-            this.session = sessions.find((element) => element.id === this.tpId) as Session;
+            this.session = sessions.find((e) => {
+                return e.id === id;
+            }) as Session;
         });
-        this.session.TP = "kafka";
-        console.log("id: " + id);
-        // console.log(("sid: " + this.session.id) as string);
     }
 }
 const tp = "kafka";
