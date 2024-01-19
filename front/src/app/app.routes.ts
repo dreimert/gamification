@@ -11,7 +11,8 @@ import { ModifyAccessComponent } from "./mainpage/admin/modify-access/modify-acc
 import { ProgressionComponent } from "./mainpage/session/progression/progression.component";
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
-import { TpKafkaComponent } from "./tpPage/tp-kafka/tp-kafka.component";
+import { EditSessionComponent } from "./mainpage/session/edit-session/edit-session.component";
+import { TpPageComponent } from "./tp-page/tp-page.component";
 
 export const routes: Routes = [
     {
@@ -50,19 +51,23 @@ export const routes: Routes = [
         title: "Session",
     },
     {
-        path: "tp/kafka",
-        component: TpKafkaComponent,
-        title: "Tp Kafka",
+        path: "tp/:id",
+        component: TpPageComponent,
     },
     {
         path: "session/:id/progressions",
         component: ProgressionComponent,
-        title: "Session",
+        title: "Progressions",
     },
     {
         path: "session/:id/progressions/edit",
         component: EditProgressionComponent,
-        title: "Session",
+        title: "Edit Progressions",
+    },
+    {
+        path: "session/:id/editSession",
+        component: EditSessionComponent,
+        title: "Edit Session",
     },
     {
         path: "admin",
