@@ -107,10 +107,10 @@ ij_scss_space_before_opening_brace = true
 ij_scss_use_double_quotes = true
 ij_scss_value_alignment = 0
 
-[*.vue]
-indent_size = 2
-tab_width = 2
-ij_continuation_indent_size = 2
+[{*.vue,*.njk}]
+indent_size = 4
+tab_width = 4
+ij_continuation_indent_size = 4
 ij_visual_guides = 80
 ij_vue_indent_children_of_top_level = template
 ij_vue_interpolation_new_line_after_start_delimiter = false

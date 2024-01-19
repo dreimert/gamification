@@ -12,6 +12,7 @@ import UserModel from "./models/user.js";
 import cookieParser from "cookie-parser";
 import mainRouter from "./routes/index.js";
 import pino from "pino";
+import nunjucks from "nunjucks";
 
 export const logger = pino({
     transport: {
@@ -105,7 +106,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: process.env.secret || "secret",
+        secret: process.env.COOKIE_SECRET || "secret",
         resave: false,
         saveUninitialized: false,
     }),
@@ -113,6 +114,11 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+nunjucks.configure("src/views", {
+    autoescape: true,
+    express: app,
+});
+app.set("view engine", "nunjucks");
 
 function setCreds(req, res, next) {
     if (process.env.ENV === "dev") {
