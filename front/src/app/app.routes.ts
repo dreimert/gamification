@@ -12,77 +12,100 @@ import { ProgressionComponent } from "./mainpage/session/progression/progression
 import { EditProgressionComponent } from "./mainpage/session/progression/edit-progression/edit-progression.component";
 import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
 import { EditSessionComponent } from "./mainpage/session/edit-session/edit-session.component";
+import { LoginComponent } from "./login/login.component";
+import { AuthGuard, NoAuthGuard } from "./login/authguard.guard";
+import { RegisterComponent } from "./register/register.component";
 
 export const routes: Routes = [
     {
-        path: "sessions",
+        path: "login",
+        component: LoginComponent,
+        title: "Login",
+        canActivate: [NoAuthGuard],
+    },
+    {
+        path: "register",
+        component: RegisterComponent,
+        title: "Register",
+        canActivate: [NoAuthGuard],
+    },
+    {
+        path: "session",
         component: SessionComponent,
         title: "Sessions",
-    },
-    {
-        path: "notes",
-        component: NotesComponent,
-        title: "Notes",
-    },
-    {
-        path: "grade-teacher",
-        component: GradeTeacherComponent,
-        title: "Notes",
-    },
-    {
-        path: "grade-teacher/:id/lookup",
-        component: ListSessionGradeComponent,
-        title: "Notes",
-    },
-    {
-        path: "grade-teacher/:id/lookup/edit",
-        component: EditGradeComponent,
-        title: "Notes",
+        canActivate: [AuthGuard],
     },
     {
         path: "session/create",
         component: SessionCreateComponent,
         title: "Session",
-    },
-    {
-        path: "session/:id",
-        component: SessionCreateComponent,
-        title: "Session",
+        canActivate: [AuthGuard],
     },
     {
         path: "session/:id/progressions",
         component: ProgressionComponent,
         title: "Progressions",
+        canActivate: [AuthGuard],
     },
     {
         path: "session/:id/progressions/edit",
         component: EditProgressionComponent,
         title: "Edit Progressions",
+        canActivate: [AuthGuard],
     },
     {
         path: "session/:id/editSession",
         component: EditSessionComponent,
         title: "Edit Session",
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "notes",
+        component: NotesComponent,
+        title: "Notes",
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "grade-teacher",
+        component: GradeTeacherComponent,
+        title: "Notes",
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "grade-teacher/:id/lookup",
+        component: ListSessionGradeComponent,
+        title: "Notes",
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "grade-teacher:id/lookup/edit",
+        component: EditGradeComponent,
+        title: "Notes",
+        canActivate: [AuthGuard],
     },
     {
         path: "admin",
         component: AdminComponent,
         title: "Admin",
+        canActivate: [AuthGuard],
     },
     {
         path: "admin/modifyAccess",
         component: ModifyAccessComponent,
         title: "Modifier accès",
+        canActivate: [AuthGuard],
     },
     {
         path: "admin/addTeacher",
         component: AddTeacherComponent,
-        title: "Modifier accès",
+        title: "Ajouter un professeur",
+        canActivate: [AuthGuard],
     },
     {
         path: "home",
         component: AccueilComponent,
         title: "Home",
+        canActivate: [AuthGuard],
     },
     {
         path: "",

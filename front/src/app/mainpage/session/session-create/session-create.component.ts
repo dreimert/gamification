@@ -7,6 +7,7 @@ import { timer } from "rxjs";
 import { UserService } from "../../../services/user.service";
 import { SessionService } from "../../../services/session.service";
 import { CreateSession } from "../../../models/session.model";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-session-create",
@@ -25,6 +26,7 @@ export class SessionCreateComponent implements OnInit {
         private formBuilder: FormBuilder,
         private userService: UserService,
         private sessionService: SessionService,
+        private router: Router,
     ) {}
 
     ngOnInit() {
@@ -83,7 +85,7 @@ export class SessionCreateComponent implements OnInit {
             endDate: endDate,
         };
         this.sessionService.newSession(createSession).subscribe(() => {
-            window.location.href = "/sessions/";
+            this.router.navigateByUrl("/session");
         });
     }
 }

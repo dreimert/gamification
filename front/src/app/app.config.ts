@@ -5,6 +5,7 @@ import { routes } from "./app.routes";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { HttpClientModule } from "@angular/common/http";
 import { CredsInterceptorProvider } from "./services/creds.interceptor";
+import { SessExpiredInterceptorProvider } from "./services/sessexpired.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
         provideAnimations(),
         importProvidersFrom(HttpClientModule),
         CredsInterceptorProvider,
+        SessExpiredInterceptorProvider,
     ],
 };
