@@ -109,10 +109,14 @@ export class EditSessionComponent implements OnInit {
         // };
 
         // this.sessionService.editSession(editedSession).subscribe(() => {
-        //     window.location.href = "/sessions/";
+        //     window.location.href = "/session/";
         // });
 
-        window.location.href = "/sessions/";
+        window.location.href = "/session/";
+    }
+
+    return():void {
+        history.back();
     }
 }
 

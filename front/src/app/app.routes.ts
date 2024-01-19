@@ -78,7 +78,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: "grade-teacher:id/lookup/edit",
+        path: "grade-teacher/:id/lookup/edit",
         component: EditGradeComponent,
         title: "Notes",
         canActivate: [AuthGuard],
