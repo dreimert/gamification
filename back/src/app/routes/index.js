@@ -69,7 +69,7 @@ mainRouter.post("/register", async (req, res) => {
 
 mainRouter.use("/user", userRouter);
 mainRouter.use("/session", sessionRouter);
-mainRouter.use("/scrapping/", scrappingRouter);
+mainRouter.use("/progression", progressionRouter);
 mainRouter.use("/grade", gradeRouter);
 mainRouter.use("/scrapping", scrappingRouter);
 

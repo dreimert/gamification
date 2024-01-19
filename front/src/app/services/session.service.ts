@@ -119,7 +119,6 @@ export class SessionService {
             subscriber.next(sessions as Session[]);
         }
     }
-}
 
     getSession(id: string): Observable<Session | TeacherSession> {
         return new Observable<Session | TeacherSession>((subscriber) => {
@@ -136,3 +135,9 @@ export class SessionService {
         });
     }
 }
+// TODO: implement this
+// interface JoinSessionResponse {
+//     session: Session;
+//     token: string;
+//     progression: Progression;
+// }
