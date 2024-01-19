@@ -137,8 +137,4 @@ export class EditGradeComponent implements OnInit {
     gotoListGrade() {
         this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup`, { state: this.session });
     }
-
-    return() {
-        history.back();
-    }
 }

@@ -114,10 +114,6 @@ export class EditSessionComponent implements OnInit {
 
         window.location.href = "/session/";
     }
-
-    return():void {
-        history.back();
-    }
 }
 
 interface TP {

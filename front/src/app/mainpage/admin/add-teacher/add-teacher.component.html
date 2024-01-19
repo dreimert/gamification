@@ -21,7 +21,8 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Le nom est obligatoire.
             </div>
-            <div class="flex flex-row justify-center mt-3 mx-3">
+
+            <!-- <div class="flex flex-row justify-center mt-3 mx-3">
                 <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg"
                     >TP accessibles</label
                 >
@@ -29,9 +30,29 @@
                     <option value="">Choisissez les TPs que l'encadrant peut accéder</option>
                     <option *ngFor="let tp of tps" value="{{ tp.name }}">{{ tp.name }}</option>
                 </select>
+            </div> -->
+
+            <div class="flex flex-col mt-3 mx-3">
+                <label for="TP" class="flex bg-white py-2 pl-6 border-r border-borderTable w-1/4 rounded-lg"
+                    >TP accessibles : </label
+                >
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-3">
+                    <div
+                        formArrayName="TPs"
+                        *ngFor="let tpFormControl of tpsFormArray.controls; let index = index"
+                        class="bg-white border rounded-lg mr-1 mb-1">
+                        <ng-container [formGroup]="toFormGroup(tpFormControl)">
+                            <label class="flex items-center justify-center w-1/2 mx-5 mr-10 py-1.5">
+                                <input type="checkbox" id="TP" formControlName="accessable" class="w-1/2 mx-5" />
+                                {{ tps[index].name }}
+                            </label>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
+
             <div
-                *ngIf="addTeacherForm.controls['TP'].errors?.['required']"
+                *ngIf="addTeacherForm.controls['TPs'].errors?.['required']"
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 Veuillez choir un TP.
             </div>
