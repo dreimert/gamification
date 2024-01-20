@@ -27,7 +27,7 @@ export class SessionCardComponent implements OnInit {
         dialogRef.afterClosed().subscribe((password) => {
             if (password) {
                 this.sessionService.joinSession(session, password).subscribe({
-                    next: (session: Session) => {
+                    next: () => {
                         // TODO: redirect to game page
                         alert("Vous avez rejoint la session" + session.name);
                         window.open("tp/" + session.id, "_blank");
