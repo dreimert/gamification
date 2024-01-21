@@ -30,7 +30,7 @@ export class SessionCardComponent implements OnInit {
                     next: () => {
                         // TODO: redirect to game page
                         alert("Vous avez rejoint la session" + session.name);
-                        window.open("tp/" + session.id, "_blank");
+                        const windowTP = window.open("tp/" + session.id, "_blank");
                         //TODO: ajouter un lien pour accéder au tp lorsqu'on fait une requête pour une session
                     },
                     error: (err) => {
