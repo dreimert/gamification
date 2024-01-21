@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tp-scrapping',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './tp-scrapping.component.html',
   styleUrl: './tp-scrapping.component.css'
 })
-export class TpScrappingComponent {
+export class TpScrappingComponent implements OnInit{
+    ngOnInit(): void {
 
+    }
 }
