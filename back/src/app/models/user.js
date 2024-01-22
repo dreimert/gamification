@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
         enum: ["admin", "teacher", "student"],
         default: "student",
     },
+    tps: {
+        type: [String],
+        enum: ["kafka", "scrapping"],
+    },
 });
 
 /**
@@ -102,6 +106,16 @@ userSchema.methods.serializePublic = function () {
         name: this.name,
         surname: this.surname,
         type: this.type,
+    };
+};
+
+userSchema.methods.serializeTeacherUser = function () {
+    return {
+        id: this.id,
+        name: this.name,
+        surname: this.surname,
+        type: this.type,
+        tps: this.tps,
     };
 };
 

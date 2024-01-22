@@ -1,41 +1,63 @@
 import { Component, OnInit } from "@angular/core";
 import { HeaderComponent } from "../header/header.component";
 import { Header } from "../header/header";
-import { User, UserType } from "../../models/user.model";
+import { TeacherUser } from "../../models/user.model";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { timer } from "rxjs";
+import { AdminService } from "../../services/admin.service";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 @Component({
     selector: "app-admin",
     standalone: true,
-    imports: [CommonModule, HeaderComponent, RouterLink, RouterLinkActive],
+    imports: [CommonModule, HeaderComponent, RouterLink, RouterLinkActive, ReactiveFormsModule, FormsModule],
     templateUrl: "./admin.component.html",
     styleUrl: "./admin.component.css",
 })
 export class AdminComponent implements OnInit {
-    teachers: User[] = [];
+    teachers: TeacherUser[] = [];
     section: Header = {
         name: "Admin",
     };
-    list = true;
-    constructor() {}
+    filteredTeachers: TeacherUser[] = this.teachers;
+    teacherNameSearch: string = "";
+    constructor(private adminService: AdminService) {}
     ngOnInit(): void {
-        this.fetchTeachers();
-    }
-    deleteTeacher(teacher: User) {
-        //Delete the teacher credentials
-        if (confirm("Etes-vous sûr de supprimer l'encadrant " + teacher.name + " " + teacher.surname + "?")) {
-            console.log("deleted : " + teacher.name + " " + teacher.surname);
-        }
-    }
-    fetchTeachers() {
-        timer(1000).subscribe(() => {
-            this.teachers = teachers;
+        this.adminService.getTeachers().subscribe({
+            next: (teachers: TeacherUser[]) => {
+                this.teachers = teachers;
+                this.filteredTeachers = teachers;
+            },
+            error: (err) => {
+                console.log(err);
+            },
         });
     }
+    deleteTeacher(teacher: TeacherUser) {
+        //Delete the teacher credentials
+        if (confirm("Etes-vous sûr de supprimer l'encadrant " + teacher.name + " " + teacher.surname + "?")) {
+            this.adminService.deleteTeacher(teacher.id).subscribe({
+                next: () => {
+                    this.teachers = this.teachers.filter((t) => t.id != teacher.id);
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
+        }
+    }
+
+    protected teacherName(teacher: TeacherUser) {
+        return teacher.name + " " + teacher.surname;
+    }
+
+    searchTeacher() {
+        this.filteredTeachers = this.teachers.filter((teacher) =>
+            this.teacherName(teacher).toLowerCase().includes(this.teacherNameSearch.toLowerCase()),
+        );
+    }
+
+    getTpsString(tps: string[]): string {
+        return tps.map((value) => value.charAt(0).toUpperCase() + value.slice(1)).join(", ");
+    }
 }
-const teachers = [
-    { id: "1d234cef65487", name: "Damien", surname: "Reimert", type: UserType.TEACHER },
-    { id: "1d4578cab", name: "Tristan", surname: "Roussillon", type: UserType.TEACHER },
-    { id: "7c54de9fa654", name: "Stéphane", surname: "Frenot", type: UserType.TEACHER },
-];

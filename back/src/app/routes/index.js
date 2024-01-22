@@ -6,6 +6,7 @@ import passport from "passport";
 import User from "../models/user.js";
 import { logger } from "../app.js";
 import gradeRouter from "./grade.js";
+import adminRouter from "./admin.js";
 
 const mainRouter = express.Router();
 
@@ -70,5 +71,6 @@ mainRouter.use("/user", userRouter);
 mainRouter.use("/session", sessionRouter);
 mainRouter.use("/grade", gradeRouter);
 mainRouter.use("/scrapping", scrappingRouter);
+mainRouter.use("/admin", adminRouter);
 
 export default mainRouter;

@@ -28,3 +28,20 @@ export class PrivateUser extends User {
         this.email = email;
     }
 }
+
+export class TeacherUser extends User {
+    tps: string[];
+
+    constructor(
+        id: string,
+        name: string,
+        surname: string,
+        type: string,
+        username: string,
+        email: string,
+        tps: string[],
+    ) {
+        super(id, name, surname, type);
+        this.tps = tps;
+    }
+}
