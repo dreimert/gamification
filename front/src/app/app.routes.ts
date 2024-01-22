@@ -60,7 +60,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: "notes", //TODO: Change this to grade
+        path: "grade",
         component: GradeComponent,
         title: "Notes",
         canActivate: [AuthGuard],
@@ -111,5 +111,9 @@ export const routes: Routes = [
         path: "",
         redirectTo: "/home",
         pathMatch: "full",
+    },
+    {
+        path: "**",
+        redirectTo: "/home",
     },
 ];

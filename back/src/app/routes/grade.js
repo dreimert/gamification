@@ -161,4 +161,19 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
     }
 });
 
+gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req, res) => {
+    if (req.user.isTeacher()) {
+        try {
+            const progression = await Progression.findById(req.params.progressionId);
+            progression.level = req.body.level;
+            await progression.save();
+            res.status(200).json({ message: "Level edited" });
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    } else {
+        res.status(403).json({ message: "You are not allowed to access this resource" });
+    }
+});
+
 export default gradeRouter;

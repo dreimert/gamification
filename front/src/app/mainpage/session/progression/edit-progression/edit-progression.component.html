@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full min-h-screen bg-grey">
+<div class="flex flex-col w-full min-h-screen bg-grey" *ngIf="!loading">
     <app-header [section]="section"></app-header>
     <div class="ml-8 my-3">
         <p>{{ session.name }}</p>
@@ -22,8 +22,10 @@
                         matInput
                         [matAutocomplete]="auto" />
                     <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let student of studentListAutocompletion | async" [value]="student">
-                            {{ student }}
+                        <mat-option
+                            *ngFor="let student of studentListAutocompletion | async"
+                            [value]="student.studentName">
+                            {{ student.studentName }}
                         </mat-option>
                     </mat-autocomplete>
                 </div>
@@ -39,8 +41,8 @@
                 {{ progressionForm.controls["name"].errors?.["nameError"] }}
             </div>
             <div *ngIf="!progressionForm.controls['name'].errors" class="flex mt-3 mx-3 pl-6 text-sm">
-                Avancement actuel de l'élève:
-                <p class="font-bold ml-1">Niveau {{ this.progressionStudentChosen }}</p>
+                Niveau atteint par l'élève:
+                <p class="font-bold ml-1">Niveau {{ this.progressionStudentChosen.level }}</p>
             </div>
 
             <div class="flex flex-row justify-center mt-3 mx-3">
@@ -50,9 +52,9 @@
                     Avancement
                 </label>
                 <select id="progression" class="flex px-2 w-3/4 rounded-r-lg" formControlName="progression" required>
-                    <option value="">Choisissez un niveau</option>
-                    <option *ngFor="let level of levels" [value]="level.id">
-                        Niveau {{ level.key }} : {{ level.value }}
+                    <option [ngValue]="null" disabled>Choisissez un niveau</option>
+                    <option *ngFor="let level of session.indexGrades | keyvalue" [ngValue]="level.key">
+                        Niveau {{ level.key }} : {{ (parseInt(level.key) / (session.indexGrades.size - 1)) * 100 }}%
                     </option>
                 </select>
             </div>
@@ -61,8 +63,8 @@
                 class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
                 L'avancement est obligatoire.
             </div>
-            <div class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                {{ warningProgressionLower }}
+            <div class="flex mt-3 mx-3 pl-6 text-red-500 text-sm" *ngIf="checkProgression()">
+                Attention ! L'élève va aller à un niveau précédent !
             </div>
 
             <div class="flex">

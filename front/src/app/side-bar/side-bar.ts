@@ -10,7 +10,7 @@ export const sidebars_stu: SidebarButton[] = [
     {
         id: 2,
         name: "Notes",
-        url: "/notes",
+        url: "/grade",
         open: false,
     },
     {

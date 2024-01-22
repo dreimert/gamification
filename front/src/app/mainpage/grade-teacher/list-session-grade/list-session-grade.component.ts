@@ -21,6 +21,9 @@ export class ListSessionGradeComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Notes/` };
     loading: boolean = true;
+    listGrade!: TeacherGrade[];
+    filteredStudentGrades: TeacherGrade[] = this.listGrade;
+    studentNameSearch: string = "";
 
     constructor(
         private sessionService: SessionService,
@@ -68,11 +71,6 @@ export class ListSessionGradeComponent implements OnInit {
             },
         });
     }
-
-    studentList = "";
-    listGrade!: TeacherGrade[];
-    studentNameSearch = "";
-    filteredStudentGrades: TeacherGrade[] = this.listGrade;
 
     searchStudent() {
         this.filteredStudentGrades = this.listGrade.filter((gradeStructure) =>

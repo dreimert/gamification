@@ -95,6 +95,20 @@ export class GradeService {
             });
         });
     }
+
+    public editStudentLevel(progressionID: string, level: number): Observable<void> {
+        return new Observable<void>((subscriber) => {
+            this.http.post<void>(this.root + "editStudentLevel/" + progressionID, { level: level }).subscribe({
+                next: () => {
+                    subscriber.next();
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
 }
 
 export interface OverrideGrade {

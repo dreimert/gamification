@@ -7,7 +7,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { TeacherSession, Session } from "../../../models/session.model";
+import { Session, TeacherSession } from "../../../models/session.model";
 import { SessionService } from "../../../services/session.service";
 
 @Component({
@@ -112,7 +112,7 @@ export class EditSessionComponent implements OnInit {
         //     window.location.href = "/sessions/";
         // });
 
-        window.location.href = "/sessions/";
+        window.location.href = "/session/";
     }
 }
 

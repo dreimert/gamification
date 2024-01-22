@@ -77,7 +77,7 @@
                     </button>
                     <button
                         *ngIf="session.status === SessionStatus.DONE"
-                        [routerLink]="['/sessions', session.id]"
+                        [routerLink]="['/session', session.id]"
                         class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
                         <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
                     </button>
@@ -107,9 +107,9 @@
                 </ng-template>
                 <button
                     *ngIf="session.status === SessionStatus.DONE"
-                    [routerLink]="['/sessions', session.id]"
+                    [routerLink]="['/grade']"
                     class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                    <!-- TODO: redirect to grade -->
+                    <!-- TODO: redirect to grade or maybe open page to select who helped you-->
                     <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
                 </button>
             </div>
