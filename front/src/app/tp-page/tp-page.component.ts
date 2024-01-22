@@ -6,6 +6,7 @@ import { TpScrappingComponent } from "./tp-scrapping/tp-scrapping.component";
 import { CommonModule } from "@angular/common";
 import { Session, TeacherSession } from "../models/session.model";
 import { SessionService } from "../services/session.service";
+import { ParamPopupComponent } from "./tp-kafka/param-popup/param-popup.component";
 
 
 @Component({
@@ -17,6 +18,7 @@ import { SessionService } from "../services/session.service";
 })
 export class TpPageComponent implements OnInit {
     tpId!: string;
+    tpName!: string;
     tp = tp;
     session!: Session | undefined;
     constructor(
@@ -24,7 +26,10 @@ export class TpPageComponent implements OnInit {
         private sessionService: SessionService,
     ) {}
     ngOnInit() {
-        this.route.params.subscribe((params) => (this.tpId = params["id"]));
+        this.route.params.subscribe((params) => {
+            this.tpId = params["id"];
+            this.tpName = params['name'];
+        });
         this.fetchSessionInfo(this.tpId);
     }
     fetchSessionInfo(id: string) {
