@@ -34,6 +34,8 @@ describe("SessionCreateComponent", () => {
                 TP: session.TP,
                 students: [],
                 status: SessionStatus.SCHEDULED,
+                indexGrades: new Map<string, number>([["1", 1]]),
+                joined: false,
             });
         },
     };
