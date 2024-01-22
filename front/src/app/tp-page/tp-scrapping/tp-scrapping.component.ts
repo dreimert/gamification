@@ -2,18 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-tp-scrapping',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './tp-scrapping.component.html',
   styleUrl: './tp-scrapping.component.css'
 })
 export class TpScrappingComponent implements OnInit {
-    lvl!: number;
-    text:string='5TC:\> Bienvenue dans le tp scrapping! Vous ne me connaissez peut-être pas, mais j\'ai besoin de votre aide en ce moment';
-    textArray: string[] = [];
+    lvls: string[] = ['lvl1', 'lvl1', 'lvl2'];
+    lvl!:number
+    studentName: string='ghoti';
+    passcodeList!:string[];
+    passcode!:string;
+    codeCorrect:boolean = false;
+    codeEntered:boolean = false;
 
     constructor(
         private titleService: Title,
@@ -24,18 +30,7 @@ export class TpScrappingComponent implements OnInit {
     
     ngOnInit(): void {
         this.fetchLevel();
-        
-        this.textArray=this.text.split('');
-
-        let timer = setInterval(()=>{
-            let text = document.querySelector('p')?.innerHTML;
-            text = this.textArray.pop()
-        }, 100)
-
-    }
-
-    showtext(index:number): string {
-        return index < this.textArray.length ? 'inline' : 'none';
+        this.fetchPasscode();
     }
 
 
@@ -45,5 +40,33 @@ export class TpScrappingComponent implements OnInit {
     fetchLevel() {
         // Service to get last level of student
         this.lvl = 0;
+    }
+    fetchPasscode(){
+        // Service to get all passcode for all levels
+        this.passcodeList = ['lvl0', 'lvl1', 'lvl2', 'lvl3']
+    }
+
+    getEnteredPasscode(lvl:number){
+        this.codeEntered = true;
+        // Service to valid passcode
+        if (this.passcode==this.passcodeList[lvl]){
+            this.codeCorrect = true;
+            timer(1000).subscribe(() => {
+                this.changeLevel();
+                this.codeEntered = false;
+                this.codeCorrect = false;
+                this.passcode = '';
+            });
+        }
+    }
+    stringToNumber(string:string): number{
+        return parseInt(string);
+    }
+
+    showHelpDialog(){
+        // const dialogRef = this.dialog.open(JoinComponent, {
+        //     width: "60%",
+        //     height: "70%",
+        // });
     }
 }
