@@ -2,7 +2,7 @@
     <div class="flex flex-row justify-center items-center bg-bgHeaderTable rounded-t-lg">
         <p class="flex w-full py-2 mx-3 ">TP Scrapping</p>
     </div>
-    
+  
     <div *ngIf="lvl === 0" >
         <div *ngFor="let sentence of sentences" class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light">
             <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]">
