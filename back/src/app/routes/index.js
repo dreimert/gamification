@@ -5,7 +5,6 @@ import scrappingRouter from "./scrapping.js";
 import passport from "passport";
 import User from "../models/user.js";
 import { logger } from "../app.js";
-import progressionRouter from "./progression.js";
 import gradeRouter from "./grade.js";
 
 const mainRouter = express.Router();
@@ -69,7 +68,6 @@ mainRouter.post("/register", async (req, res) => {
 
 mainRouter.use("/user", userRouter);
 mainRouter.use("/session", sessionRouter);
-mainRouter.use("/progression", progressionRouter);
 mainRouter.use("/grade", gradeRouter);
 mainRouter.use("/scrapping", scrappingRouter);
 
