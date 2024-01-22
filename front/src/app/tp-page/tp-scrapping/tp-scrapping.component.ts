@@ -48,7 +48,7 @@ export class TpScrappingComponent implements OnInit{
     // }
     fetchPasscode(){
         // Service to get all passcode for all levels
-        this.passcodeList = ['', 'lvl1', 'lvl2', 'lvl3']
+        this.passcodeList = [ 'start', 'lvl1', 'lvl2', 'lvl3']
     }
 
     getEnteredPasscode(currentLvl:number){
@@ -87,7 +87,7 @@ export class TpScrappingComponent implements OnInit{
 5TC:\\\Accueil> Je suis en train de me connecter au serveur principal de l'INSA. J'ai besoin que vous m'aidiez à trouver les informations pertinentes pour m'aider à ... faire quelque chose. Je suis sûr que tu seras intéressé : )
 5TC:\\\Accueil> Pour vous aider, j'ai préparé un dossier contenant les informations dont vous avez besoin.
         Appuyer sur <span class="text-yellow-200">'help'</span> pour plus d'informations.
-        Tapez <span class="text-yellow-200">\'Enter\'</span> pour continuer...`
+        Tapez <span class="text-yellow-200">\'start\'</span> pour continuer...`
           ];
                 break;
             case 1:
