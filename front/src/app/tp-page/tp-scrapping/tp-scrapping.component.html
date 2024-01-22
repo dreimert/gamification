@@ -3,10 +3,12 @@
         <p class="flex w-full py-2 mx-3 ">TP Scrapping</p>
     </div>
     <div>
-        <p class="flexmt mx-1 text-white">
-            TP Scrapping (session name) [Date xxxx]
+        <p *ngFor="let letter of textArray; let i = index" [style.display]="showtext(i)" id='text-cmd' class="flexmt mx-1 text-white" >
+            <!-- TP Scrapping (session name) [Date xxxx]
             <br>
-            Duree 2h
+            Duree 2h -->
+            {{ letter }}
         </p>
+        
     <div>
 </div>
