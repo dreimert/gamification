@@ -70,8 +70,9 @@ export class SessionCardComponent implements OnInit {
 
     endSession(session: Session | TeacherSession) {
         this.sessionService.endSession(session).subscribe({
-            next: () => {
+            next: (session) => {
                 this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
+                this.sessions.push(session);
             },
             error: () => {
                 alert("Impossible de terminer la session");

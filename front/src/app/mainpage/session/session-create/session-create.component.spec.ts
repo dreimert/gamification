@@ -38,6 +38,9 @@ describe("SessionCreateComponent", () => {
                 joined: false,
             });
         },
+        fetchTPs(): Observable<string[]> {
+            return of<string[]>(["TP1", "TP2"]);
+        },
     };
     let component: SessionCreateComponent;
     let fixture: ComponentFixture<SessionCreateComponent>;

@@ -125,7 +125,6 @@ export class EditGradeComponent implements OnInit {
                 this.levelGradeForm.get("level")?.valueChanges.subscribe((selectedLevel) => {
                     const levelKey = Number(selectedLevel);
                     this.gradeOfSelectedLevel = this.getGradeForLevel(levelKey);
-                    console.log(this.gradeOfSelectedLevel);
                 });
             },
             error: (err) => {

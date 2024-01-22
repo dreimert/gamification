@@ -86,6 +86,13 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
     }
 });
 
+sessionRouter.get("/fetchTPs", isAuthenticated, async (req, res) => {
+    if (!req.user.isTeacher()) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+    return res.status(200).json(Array.from(getIndexGrades().keys()));
+});
+
 sessionRouter.get("/:id", isAuthenticated, async (req, res) => {
     try {
         const session = await SessionModel.findById(req.params.id);
@@ -212,6 +219,45 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
             });
         }
         return res.status(403).json({ message: "Invalid password" });
+    } catch (e) {
+        logger.error(e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+sessionRouter.post("/:id/edit", isAuthenticated, async (req, res) => {
+    if (!req.user.isTeacher()) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+    try {
+        const session = await SessionModel.findById(req.params.id);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (!session.teachers.includes(req.user.id) && !req.user.isAdmin()) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+        if (session.startDate > Date.now()) {
+            if (req.body.startDate) {
+                session.startDate = req.body.startDate;
+            }
+            if (req.body.TP) {
+                session.TP = req.body.TP;
+            }
+            if (req.body.name) {
+                session.name = req.body.name;
+            }
+        }
+        if (session.endDate > Date.now()) {
+            if (req.body.endDate) {
+                session.endDate = req.body.endDate;
+            }
+        }
+        if (req.body.password) {
+            session.password = req.body.password;
+        }
+        await session.save();
+        return res.status(200).json(session.serializeTeacher());
     } catch (e) {
         logger.error(e);
         return res.status(500).json({ message: "Internal server error" });
