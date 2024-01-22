@@ -28,7 +28,7 @@ export class TpScrappingComponent implements OnInit {
     ) {
         this.titleService.setTitle("Tp Scrapping");
     }
-    
+
     ngOnInit(): void {
         this.fetchLevel();
         this.fetchPasscode();
