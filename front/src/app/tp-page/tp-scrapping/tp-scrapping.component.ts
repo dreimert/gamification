@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
@@ -6,6 +6,7 @@ import { NgxTypedJsModule } from 'ngx-typed-js';
 import { timer } from 'd3';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogHelpComponent } from './dialog-help/dialog-help.component';
+import { Session } from '../../models/session.model';
 
 @Component({
   selector: 'app-tp-scrapping',
@@ -15,12 +16,14 @@ import { DialogHelpComponent } from './dialog-help/dialog-help.component';
   styleUrl: './tp-scrapping.component.css'
 })
 export class TpScrappingComponent implements OnInit{
+    @Input() session!: Session | undefined;
     sentences: string[] = [];
     lvl!: number;
     passcodeList!:string[];
     passcode!:string;
     codeCorrect:boolean = false;
     codeEntered:boolean = false;
+    date!:string | undefined
 
     constructor(
         private titleService: Title,
@@ -31,9 +34,14 @@ export class TpScrappingComponent implements OnInit{
     
     ngOnInit(): void {
         this.fetchLevel();
+        this.getDate();
         this.loadSentences(); 
         this.fetchPasscode();
 
+    }
+
+    getDate(){
+        this.date = new Date(this.session!.startDate).toISOString().split('T')[0]
     }
 
     changeLevel() {
@@ -82,7 +90,7 @@ export class TpScrappingComponent implements OnInit{
         switch (this.lvl) {
             case 0:
                 this.sentences= [
-`TP Scrapping (session name) [Date xxxx]<br>Duree 2h<br>
+`${this.session?.name} [${this.date}]<br>Duree 2h<br>
 5TC:\\\Accueil> Bienvenue dans le tp scrapping! Vous ne me connaissez peut-être pas, mais j'ai besoin de votre aide en ce moment.
 5TC:\\\Accueil> Je suis en train de me connecter au serveur principal de l'INSA. J'ai besoin que vous m'aidiez à trouver les informations pertinentes pour m'aider à ... faire quelque chose. Je suis sûr que tu seras intéressé : )
 5TC:\\\Accueil> Pour vous aider, j'ai préparé un dossier contenant les informations dont vous avez besoin.
