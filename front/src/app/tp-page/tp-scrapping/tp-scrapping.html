@@ -1,0 +1,30 @@
+<div class="bg-black h-4/5 w-4/5 rounded-t-lg absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 ">
+    <div class="flex flex-row justify-center items-center bg-bgHeaderTable rounded-t-lg">
+        <p class="flex w-full py-2 mx-3 ">TP Scrapping</p>
+    </div>
+    <div *ngIf="lvl==0" class="text-white">
+        <p class="flex mx-1" >
+            {{studentName}}:\>
+            <input class="bg-black border-none outline-none" type="text" [(ngModel)]="passcode"  (keyup.enter)="getEnteredPasscode(0)">
+        </p>
+        <p *ngIf="codeEntered && !codeCorrect" class="text-red-400">Veuillez saisir un nom d'utilisateur valide.</p>
+        <p *ngIf="codeEntered && codeCorrect" class="text-green-600">Nom d'utilisateur correct   Authentification réussie</p>
+    </div>
+    <div *ngIf="lvl==stringToNumber('1')" class="text-white">
+        <p class="flex mx-1">
+            5TC: \niveau_1 > C'est parti !
+        </p>
+        <p class="flex mx-1">
+            Entrer le nom de l'utilisateur : >
+            <input class="relative bg-black border-none outline-none" type="text" [(ngModel)]="passcode"  (keyup.enter)="getEnteredPasscode(1)">
+        </p>
+        <p *ngIf="codeEntered && !codeCorrect" class="text-red-400">Veuillez saisir un nom d'utilisateur valide.</p>
+        <p *ngIf="codeEntered && codeCorrect" class="text-green-600">Nom d'utilisateur correct   Authentification réussie</p>
+    </div>
+    <div *ngIf="lvl==stringToNumber('2')" class="text-white">
+        <p class="flex mx-1">
+            5TC: \niveau_2 > C'est fini !
+        </p>
+    </div>
+    <button class="absolute w-14 h-7 bottom-1 right-1 bg-blue-600 rounded-lg text-white" (click)="showHelpDialog()">help</button>
+</div>

@@ -1,21 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { NgxTypedJsModule } from 'ngx-typed-js';
+import { timer } from 'd3';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogHelpComponent } from './dialog-help/dialog-help.component';
 
 @Component({
   selector: 'app-tp-scrapping',
   standalone: true,
-  imports: [CommonModule, NgxTypedJsModule],
+  imports: [CommonModule, NgxTypedJsModule, FormsModule, ReactiveFormsModule],
   templateUrl: './tp-scrapping.component.html',
   styleUrl: './tp-scrapping.component.css'
 })
-export class TpScrappingComponent implements OnInit {
+export class TpScrappingComponent implements OnInit{
     sentences: string[] = [];
     lvl!: number;
-    text:string='5TC:\> Bienvenue dans le tp scrapping! Vous ne me connaissez peut-être pas, mais j\'ai besoin de votre aide en ce moment';
-    textArray: string[] = [];
+    passcodeList!:string[];
+    passcode!:string;
+    codeCorrect:boolean = false;
+    codeEntered:boolean = false;
 
     constructor(
         private titleService: Title,
@@ -27,30 +32,51 @@ export class TpScrappingComponent implements OnInit {
     ngOnInit(): void {
         this.fetchLevel();
         this.loadSentences(); 
-       
-        this.textArray=this.text.split('');
-
-        let timer = setInterval(()=>{
-            let text = document.querySelector('p')?.innerHTML;
-            text = this.textArray.pop()
-        }, 100)
+        this.fetchPasscode();
 
     }
-
-    showtext(index:number): string {
-        return index < this.textArray.length ? 'inline' : 'none';
-    }
-
 
     changeLevel() {
         this.lvl += 1;
+        console.log('lvl: ', this.lvl)
     }
     fetchLevel() {
         this.lvl = 0;
     }
-    startLvl1() {
-        this.lvl = 1;
+    // startLvl1() {
+    //     this.lvl = 1;
+    // }
+    fetchPasscode(){
+        // Service to get all passcode for all levels
+        this.passcodeList = ['', 'lvl1', 'lvl2', 'lvl3']
     }
+
+    getEnteredPasscode(currentLvl:number){
+        this.codeEntered = true;
+        // Service to valid passcode
+        if (this.passcode==this.passcodeList[currentLvl]){
+            this.codeCorrect = true;
+            setTimeout(() => {
+                this.changeLevel();
+                this.loadSentences();
+                this.codeEntered = false;
+                this.codeCorrect = false;
+                this.passcode = '';
+            }, 1000);
+        }
+    }
+    stringToNumber(string:string): number{
+        return parseInt(string);
+    }
+
+    showHelpDialog(){
+        const dialogRef = this.dialog.open(DialogHelpComponent, {
+            width: "60%",
+            height: "70%",
+        });
+    }
+
+
 
     loadSentences() {
         switch (this.lvl) {
