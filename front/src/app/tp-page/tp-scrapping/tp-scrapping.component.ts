@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { timer } from 'rxjs';
+import { DialogHelpComponent } from './dialog-help/dialog-help.component';
 
 @Component({
   selector: 'app-tp-scrapping',
@@ -64,9 +65,9 @@ export class TpScrappingComponent implements OnInit {
     }
 
     showHelpDialog(){
-        // const dialogRef = this.dialog.open(JoinComponent, {
-        //     width: "60%",
-        //     height: "70%",
-        // });
+        const dialogRef = this.dialog.open(DialogHelpComponent, {
+            width: "60%",
+            height: "70%",
+        });
     }
 }
