@@ -1,12 +1,18 @@
-<div *ngIf="lvl === 0" class="bg-black h-4/5 w-4/5 rounded-t-lg absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 ">
+<div class="bg-black h-4/5 w-4/5 rounded-t-lg absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 ">
     <div class="flex flex-row justify-center items-center bg-bgHeaderTable rounded-t-lg">
         <p class="flex w-full py-2 mx-3 ">TP Scrapping</p>
     </div>
-    <div>
-        <p class="flexmt mx-1 text-white">
-            TP Scrapping (session name) [Date xxxx]
-            <br>
-            Duree 2h
-        </p>
-    <div>
+    
+    <div *ngIf="lvl === 0" >
+        <div *ngFor="let sentence of sentences" class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light">
+            <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]">
+            <span class="typing"></span>
+            </ngx-typed-js>
+        </div>
+    </div>
 </div>
+
+
+
+
+
