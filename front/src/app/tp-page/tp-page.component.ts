@@ -18,7 +18,6 @@ import { ParamPopupComponent } from "./tp-kafka/param-popup/param-popup.componen
 })
 export class TpPageComponent implements OnInit {
     tpId!: string;
-    tpName!: string;
     tp = tp;
     session!: Session | undefined;
     constructor(
@@ -28,7 +27,6 @@ export class TpPageComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params) => {
             this.tpId = params["id"];
-            this.tpName = params['name'];
         });
         this.fetchSessionInfo(this.tpId);
     }
