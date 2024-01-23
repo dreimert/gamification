@@ -37,7 +37,6 @@ export class TpScrappingComponent implements OnInit{
         this.getDate();
         this.loadSentences(); 
         this.fetchPasscode();
-
     }
 
     getDate(){
@@ -111,4 +110,5 @@ export class TpScrappingComponent implements OnInit{
                 break;
         }
     }
+
 }

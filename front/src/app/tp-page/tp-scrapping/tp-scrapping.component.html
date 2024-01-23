@@ -4,8 +4,8 @@
     </div>
   
     <div *ngIf="lvl === 0" >
-        <div *ngFor="let sentence of sentences" class="animate-typing overflow-hidden whitespace-break-spaces cursor-none flexmt mx-1 text-white font-light">
-            <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]"lvl>
+        <div *ngFor="let sentence of sentences" class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light">
+            <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]" [showCursor]="false">
                 <span class="typing" ></span>
                 <input class="bg-black border-none outline-none font-medium" type="text" [(ngModel)]="passcode" value="" (keyup.enter)="getEnteredPasscode(0)" autofocus>
             </ngx-typed-js>
@@ -15,7 +15,7 @@
     </div>
     <div *ngIf="lvl === 1" >
         <div *ngFor="let sentence of sentences" class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light">
-            <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]" (keyup.enter)="changeLevel">
+            <ngx-typed-js  [typeSpeed]="1" [strings]="[sentence]" [showCursor]="false">
                 <span class="typing" ></span>
                 <input class="relative bg-black border-none outline-none" type="text" [(ngModel)]="passcode"  (keyup.enter)="getEnteredPasscode(1)">
             </ngx-typed-js>
