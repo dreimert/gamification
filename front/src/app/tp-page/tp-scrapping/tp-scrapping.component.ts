@@ -26,18 +26,21 @@ export class TpScrappingComponent implements OnInit{
     codeEntered:boolean = false;
     date!:string | undefined;
     sentenceIndex:number = 0;
+    initialTeacher!: {"teacherInitials":string};
 
     constructor(
         private titleService: Title,
         public dialog: MatDialog,
-        // private tpService: TpScrappingService
+        private tpService: TpScrappingService
     ) {
         this.titleService.setTitle("Tp Scrapping");
     }
     
     ngOnInit(): void {
-        // const initialsTeacher = this.tpService.getInitialsTeacher();
-        // console.log(initialsTeacher)
+        this.tpService.getInitialsTeacher().subscribe((initialTeacher: {"teacherInitials":string})=>{
+            this.initialTeacher = initialTeacher;
+            console.log(this.initialTeacher)
+        })
         this.fetchLevel();
         this.getDate();
         this.loadSentences(); 
