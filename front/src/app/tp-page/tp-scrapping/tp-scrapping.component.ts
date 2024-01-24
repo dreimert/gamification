@@ -7,7 +7,7 @@ import { timer } from 'd3';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogHelpComponent } from './dialog-help/dialog-help.component';
 import { Session } from '../../models/session.model';
-import { TpScrappingService } from '../../services/tp-scrapping.service';
+// import { TpScrappingService } from '../../services/tp-scrapping.service';
 
 @Component({
   selector: 'app-tp-scrapping',
@@ -25,30 +25,35 @@ export class TpScrappingComponent implements OnInit{
     codeCorrect:boolean = false;
     codeEntered:boolean = false;
     date!:string | undefined;
+    duree!:number;
     sentenceIndex:number = 0;
     initialTeacher!: {"teacherInitials":string};
 
     constructor(
         private titleService: Title,
         public dialog: MatDialog,
-        private tpService: TpScrappingService
+        // private tpService: TpScrappingService
     ) {
         this.titleService.setTitle("Tp Scrapping");
     }
     
     ngOnInit(): void {
-        this.tpService.getInitialsTeacher().subscribe((initialTeacher: {"teacherInitials":string})=>{
-            this.initialTeacher = initialTeacher;
-            console.log(this.initialTeacher)
-        })
+        // this.tpService.getInitialsTeacher().subscribe((initialTeacher: {"teacherInitials":string})=>{
+        //     this.initialTeacher = initialTeacher;
+        //     console.log(this.initialTeacher)
+        // })
         this.fetchLevel();
         this.getDate();
+        this.getDuration();
         this.loadSentences(); 
         this.fetchPasscode();
     }
 
     getDate(){
         this.date = new Date(this.session!.startDate).toISOString().split('T')[0]
+    }
+    getDuration(){
+        this.duree = ((new Date(this.session!.endDate).getTime()-new Date(this.session!.startDate).getTime())/(1000*60*60))
     }
 
     changeLevel() {
@@ -103,14 +108,14 @@ export class TpScrappingComponent implements OnInit{
 `^1000Je suis en train de me connecter au serveur principal de l'INSA. J'ai besoin que vous m'aidiez à trouver les informations pertinentes pour m'aider à faire quelque chose. Je suis sûr que tu seras intéressé : )^100`, 
 `^1000Pour vous aider, j'ai préparé un dossier contenant les informations dont vous avez besoin.^500
         Appuyer sur <span class="text-yellow-200">'help'</span> pour plus d'informations.
-        Tapez <span class="text-yellow-200">\'start\'</span> pour continuer : `
+        Tapez <span class="text-yellow-200">\'start\'</span> et appuyez <span class="text-yellow-200">\'Entrer\'</span> pour continuer^100`
           ];
                 break;
             case 1:
                 this.sentences= [
 `^1000C'est parti !^100`, 
 `^1000Je me connecte au système en tant que <span class="text-yellow-200">M. ABC</span>, mais je dois entrer son nom d'utilisateur. Pouvez-vous m'aider?^100
-        <span class="text-yellow-200">liste des enseignants:</span> <span class="text-blue-200">http://xxxxxxxxxxxx</span>
+        <span class="text-yellow-200">liste des enseignants:</span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
         Entrer le nom de l'utilisateur : >`
                               ];
                 break;
