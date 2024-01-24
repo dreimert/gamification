@@ -33,7 +33,9 @@ describe("SessionComponent", () => {
                     startDate: new Date(),
                     endDate: new Date(Date.now() + 1000 * 60 * 60 * 2),
                     TP: "1",
+                    indexGrades: new Map<string, number>([["1", 1]]),
                     status: SessionStatus.SCHEDULED,
+                    joined: false,
                 },
             ]);
         },

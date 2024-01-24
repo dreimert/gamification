@@ -3,7 +3,6 @@ import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
 import { NgFor, NgIf } from "@angular/common";
-import { timer } from "rxjs";
 import { UserService } from "../../../services/user.service";
 import { SessionService } from "../../../services/session.service";
 import { CreateSession } from "../../../models/session.model";
@@ -20,7 +19,7 @@ export class SessionCreateComponent implements OnInit {
     section: Header = {
         name: "Session/création",
     };
-    tps: TP[] = [];
+    tps!: string[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -30,7 +29,14 @@ export class SessionCreateComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.fetchTp();
+        this.sessionService.fetchTPs().subscribe({
+            next: (tps) => {
+                this.tps = tps;
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
         const startDate = new Date();
         startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60);
         const endDate = new Date(startDate.getTime() + 7200000);
@@ -67,13 +73,6 @@ export class SessionCreateComponent implements OnInit {
         return null;
     }
 
-    fetchTp(): void {
-        //add a small delay to simulate a real http request
-        timer(5000).subscribe(() => {
-            this.tps = TP;
-        });
-    }
-
     onSubmit() {
         const startDate = new Date(this.sessionForm.value.startDate as string);
         const endDate = new Date(this.sessionForm.value.endDate as string);
@@ -89,13 +88,3 @@ export class SessionCreateComponent implements OnInit {
         });
     }
 }
-
-interface TP {
-    name: string;
-    id: string;
-}
-
-const TP = [
-    { name: "kafka", id: "1d234cef65487" },
-    { name: "scrapping", id: "1d4578cab" },
-];

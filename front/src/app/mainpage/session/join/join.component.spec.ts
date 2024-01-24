@@ -17,6 +17,8 @@ describe("JoinComponent", () => {
             startDate: new Date(),
             endDate: new Date(Date.now() + 1000 * 60 * 60 * 2),
             TP: "1",
+            indexGrades: new Map<string, number>([["1", 1]]),
+            joined: false,
             status: SessionStatus.SCHEDULED,
         };
         await TestBed.configureTestingModule({

@@ -76,6 +76,14 @@ const sessionSchema = new mongoose.Schema({
         default: {},
         required: true,
     },
+    meanGrades: {
+        type: Number,
+        default: 0,
+    },
+    standDevGrades: {
+        type: Number,
+        default: 0,
+    },
 });
 
 /**
@@ -92,6 +100,7 @@ sessionSchema.methods.serializeTeacher = function () {
         startDate: this.startDate,
         endDate: this.endDate,
         TP: this.TP,
+        indexGrades: Array.from(this.indexGrades.entries()),
         status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
     };
 };
@@ -101,7 +110,7 @@ sessionSchema.methods.serializeTeacher = function () {
  * @function serializeStudent
  * @returns {Object} The serialized session data for a student
  */
-sessionSchema.methods.serializeStudent = function () {
+sessionSchema.methods.serializeStudent = function (userID) {
     return {
         id: this.id,
         name: this.name,
@@ -109,7 +118,9 @@ sessionSchema.methods.serializeStudent = function () {
         startDate: this.startDate,
         endDate: this.endDate,
         TP: this.TP,
+        indexGrades: Array.from(this.indexGrades.entries()),
         status: this.startDate <= Date.now() && (this.endDate <= Date.now() ? "done" : "inProgress"),
+        joined: this.students.includes(userID),
     };
 };
 

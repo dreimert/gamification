@@ -32,6 +32,15 @@ export class SessionExpiredInterceptor implements HttpInterceptor {
                         this.router.navigate(["/login"]);
                     }
                 }
+                if (error.status === 403) {
+                    if (error.error.message === "You are not allowed to access this resource") {
+                        // clear user data from local storage
+                        localStorage.removeItem("user");
+                        this.userService.setUser(new PrivateUser("", "", "", "", "", ""));
+                        // redirect to home page
+                        this.router.navigate(["/home"]);
+                    }
+                }
                 throw error;
             }),
         );

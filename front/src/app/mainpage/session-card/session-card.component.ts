@@ -70,11 +70,25 @@ export class SessionCardComponent implements OnInit {
 
     endSession(session: Session | TeacherSession) {
         this.sessionService.endSession(session).subscribe({
-            next: () => {
+            next: (session) => {
                 this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
+                this.sessions.push(session);
             },
             error: () => {
                 alert("Impossible de terminer la session");
+            },
+        });
+    }
+
+    rejoinSession(session: Session) {
+        this.sessionService.joinSession(session, "").subscribe({
+            next: (session: Session) => {
+                // TODO: redirect to game page
+                alert("Vous avez rejoint la session" + session.name);
+            },
+            error: (err) => {
+                console.log(err);
+                alert("Impossible de rejoindre la session");
             },
         });
     }
@@ -90,7 +104,7 @@ export class SessionCardComponent implements OnInit {
     }
 
     gotoClickedListGrade(session: Session | TeacherSession) {
-        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: session });
+        this.router.navigateByUrl(`/grade-teacher/${session.id}/lookup`, { state: { session } });
     }
 
     sessions: Session[] | TeacherSession[] = [];

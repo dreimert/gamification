@@ -22,6 +22,9 @@ export class SessionService {
                     sessions.sort((a: Session | TeacherSession, b: Session | TeacherSession) => {
                         return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
                     });
+                    sessions.map((session: Session | TeacherSession) => {
+                        session.indexGrades = new Map<string, number>(session.indexGrades);
+                    });
                     this.cast(sessions, subscriber);
                 });
         });
@@ -37,6 +40,9 @@ export class SessionService {
                         return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
                     }
                     return compare;
+                });
+                sessions.map((session: Session | TeacherSession) => {
+                    session.indexGrades = new Map<string, number>(session.indexGrades);
                 });
                 this.cast(sessions, subscriber);
             });
@@ -78,7 +84,6 @@ export class SessionService {
 
     public deleteSession(session: Session | TeacherSession): Observable<unknown> {
         return new Observable<unknown>((subscriber) => {
-            console.log(session.id);
             this.http.delete(this.root + session.id).subscribe({
                 next: (data: unknown) => {
                     subscriber.next(data);
@@ -91,10 +96,10 @@ export class SessionService {
         });
     }
 
-    public endSession(session: Session | TeacherSession): Observable<unknown> {
-        return new Observable<unknown>((subscriber) => {
-            this.http.post(this.root + session.id + "/end", null).subscribe({
-                next: (data: unknown) => {
+    public endSession(session: Session | TeacherSession): Observable<TeacherSession> {
+        return new Observable<TeacherSession>((subscriber) => {
+            this.http.post<TeacherSession>(this.root + session.id + "/end", null).subscribe({
+                next: (data: TeacherSession) => {
                     subscriber.next(data);
                 },
                 error: (err) => {
@@ -113,4 +118,52 @@ export class SessionService {
             subscriber.next(sessions as Session[]);
         }
     }
+
+    getSession(id: string): Observable<Session | TeacherSession> {
+        return new Observable<Session | TeacherSession>((subscriber) => {
+            this.http.get<Session | TeacherSession>(this.root + id).subscribe({
+                next: (session: Session | TeacherSession) => {
+                    session.indexGrades = new Map<string, number>(session.indexGrades);
+                    subscriber.next(session);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
+
+    fetchTPs(): Observable<string[]> {
+        return new Observable<string[]>((subscriber) => {
+            this.http.get<string[]>(this.root + "fetchTPs").subscribe({
+                next: (tps: string[]) => {
+                    subscriber.next(tps);
+                },
+                error: (err) => {
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
+
+    editSession(id: string, session: CreateSession): Observable<TeacherSession> {
+        return new Observable<TeacherSession>((subscriber) => {
+            this.http.post<TeacherSession>(this.root + id + "/edit", session).subscribe({
+                next: (session: TeacherSession) => {
+                    subscriber.next(session);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
 }
+// TODO: implement this
+// interface JoinSessionResponse {
+//     session: Session;
+//     token: string;
+//     progression: Progression;
+// }

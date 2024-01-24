@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { TeacherSession, Session } from "../../../models/session.model";
+import { CreateSession, Session, SessionStatus, TeacherSession } from "../../../models/session.model";
 import { SessionService } from "../../../services/session.service";
 
 @Component({
@@ -26,44 +26,77 @@ import { SessionService } from "../../../services/session.service";
     styleUrl: "./edit-session.component.css",
 })
 export class EditSessionComponent implements OnInit {
-    session: Session | TeacherSession = history.state;
+    session!: Session | TeacherSession;
     section: Header = { name: `Session/SESSION_NAME/edit_session` };
-    tps!: TP[];
-    startDate = new Date(this.session.startDate);
-    endDate = new Date(this.session.endDate);
+    tps!: string[];
+    loading = true;
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private sessionService: SessionService,
+        private activeRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
-        this.fetchTP();
-        if (this.session.status == "inProgress") {
-            this.editSessionForm.get("TP")?.disable();
-            this.editSessionForm.get("startDate")?.disable();
+        this.session = history.state.session;
+        if (this.session === undefined) {
+            this.activeRoute.params.subscribe((params) => {
+                this.sessionService.getSession(params["id"]).subscribe({
+                    next: (session) => {
+                        this.session = session;
+                        this.section = {
+                            name: `Notes/${this.session.name}/modifier`,
+                        };
+                        this.withSession();
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        this.router.navigate(["/session"]);
+                    },
+                });
+            });
+        } else {
+            this.withSession();
         }
+    }
 
-        this.section =
-            this.session.status == "inProgress"
-                ? { name: `Session/ "${this.session.name}" /modifier_session_en_cours` }
-                : { name: `Session/ "${this.session.name}" /modifier_session_programmée` };
+    withSession() {
+        this.sessionService.fetchTPs().subscribe({
+            next: (tps) => {
+                this.tps = tps;
+                if (this.session.status == "inProgress") {
+                    this.editSessionForm.get("TP")?.disable();
+                    this.editSessionForm.get("startDate")?.disable();
+                }
 
-        this.editSessionForm.get("startDate")?.setValue(this.startDate.toISOString().substring(0, 16));
-        this.editSessionForm.get("endDate")?.setValue(this.endDate.toISOString().substring(0, 16));
+                this.section =
+                    this.session.status === SessionStatus.INPROGRESS
+                        ? { name: `Session/ "${this.session.name}" /modifier_session_en_cours` }
+                        : { name: `Session/ "${this.session.name}" /modifier_session_programmée` };
 
-        // get password to show on the part 'Mot de pass' for not changing it every time
-        // this.sessionService.getPassword(this.session.id).subscribe((password) => {
-        //     this.editSessionForm.get('password')?.setValue(password);
-        // });
+                this.editSessionForm.get("name")?.setValue(this.session.name);
+                const startDate = new Date(this.session.startDate);
+                startDate.setHours(startDate.getHours() - startDate.getTimezoneOffset() / 60);
+                const endDate = new Date(this.session.endDate);
+                endDate.setHours(endDate.getHours() - endDate.getTimezoneOffset() / 60);
+                this.editSessionForm.get("startDate")?.setValue(startDate.toISOString().substring(0, 16));
+                this.editSessionForm.get("endDate")?.setValue(endDate.toISOString().substring(0, 16));
+                this.editSessionForm.get("TP")?.setValue(this.session.TP);
+                this.loading = false;
+            },
+            error: (err) => {
+                console.log(err);
+                this.router.navigate(["/session"]);
+            },
+        });
     }
 
     editSessionForm = this.formBuilder.group(
         {
-            name: [this.session.name, Validators.required],
-            password: ["", Validators.required],
-            TP: [this.session.TP, Validators.required],
+            name: ["", Validators.required],
+            password: [""],
+            TP: ["", Validators.required],
             startDate: ["", Validators.required],
             endDate: ["", Validators.required],
         },
@@ -88,40 +121,30 @@ export class EditSessionComponent implements OnInit {
         return null;
     }
 
-    fetchTP(): void {
-        this.tps = TPs;
-    }
-
     passwordVisible = false;
     public viewPassword(): void {
         this.passwordVisible = !this.passwordVisible;
     }
 
     onSubmit() {
-        // const startDate = new Date(this.editSessionForm.value.startDate as string);
-        // const endDate = new Date(this.editSessionForm.value.endDate as string);
-        // const editedSession: CreateSession = {
-        //     name: this.editSessionForm.value.name as string,
-        //     password: this.editSessionForm.value.password as string,
-        //     TP: this.session.status=='scheduled' ? this.editSessionForm.value.TP as string : this.session.TP,
-        //     startDate: this.session.status=='scheduled' ? startDate : this.session.startDate,
-        //     endDate: endDate,
-        // };
+        const startDate = new Date(this.editSessionForm.value.startDate as string);
+        const endDate = new Date(this.editSessionForm.value.endDate as string);
+        const editedSession: CreateSession = {
+            name: this.editSessionForm.value.name as string,
+            password: this.editSessionForm.value.password as string,
+            TP: this.session.status == "scheduled" ? (this.editSessionForm.value.TP as string) : this.session.TP,
+            startDate: this.session.status == "scheduled" ? startDate : this.session.startDate,
+            endDate: endDate,
+        };
 
-        // this.sessionService.editSession(editedSession).subscribe(() => {
-        //     window.location.href = "/sessions/";
-        // });
-
-        window.location.href = "/sessions/";
+        this.sessionService.editSession(this.session.id, editedSession).subscribe({
+            next: () => {
+                this.router.navigate(["/session"]);
+            },
+            error: (err) => {
+                console.log(err);
+                this.router.navigate(["/session"]);
+            },
+        });
     }
 }
-
-interface TP {
-    name: string;
-    id: string;
-}
-
-const TPs: TP[] = [
-    { name: "kafka", id: "1d234cef65487" },
-    { name: "scrapping", id: "1d4578cab" },
-];

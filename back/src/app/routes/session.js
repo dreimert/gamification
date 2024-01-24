@@ -1,7 +1,7 @@
 import express from "express";
 import SessionModel from "../models/session.js";
 import { isAuthenticated, logger } from "../app.js";
-import Progression from "../models/progression.js";
+import { Progression } from "../models/progression.js";
 import jwt from "jsonwebtoken";
 import { getIndexGrades } from "../tp/indexGrades.js";
 
@@ -9,7 +9,7 @@ const sessionRouter = express.Router();
 sessionRouter.get("/available", isAuthenticated, async (req, res) => {
     try {
         const sessions = await SessionModel.find({ startDate: { $lte: Date.now() }, endDate: { $gte: Date.now() } });
-        return res.status(200).json(sessions.map((session) => session.serialize()));
+        return res.status(200).json(sessions.map((session) => session.serialize(req.user.id)));
     } catch (e) {
         logger.error(e);
         return res.status(500).json({ message: "Internal server error" });
@@ -29,7 +29,7 @@ sessionRouter.get("/all", isAuthenticated, async (req, res) => {
                     { endDate: { $lte: Date.now() }, students: { $in: [req.user.id] } },
                 ],
             });
-            return res.status(200).json(sessions.map((session) => session.serializeStudent()));
+            return res.status(200).json(sessions.map((session) => session.serializeStudent(req.user.id)));
         } catch (e) {
             logger.error(e);
             return res.status(500).json({ message: "Internal server error" });
@@ -50,27 +50,6 @@ sessionRouter.get("/all", isAuthenticated, async (req, res) => {
             logger.error(e);
             return res.status(500).json({ message: "Internal server error" });
         }
-    }
-});
-sessionRouter.get("/testNew", async (req, res) => {
-    let newSession = new SessionModel({
-        name: "test12345",
-        password: "test",
-        startDate: Date.now() - 1000 * 60 * 60 * 24 * 14,
-        endDate: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        students: [],
-        teachers: [req.user.id],
-        tp: "kafka",
-    });
-    try {
-        const savedSession = await newSession.save();
-        return res.status(200).json(savedSession.serializeTeacher());
-    } catch (e) {
-        if (e.name === "ValidationError") {
-            return res.status(400).json({ message: e.message });
-        }
-        logger.error(e);
-        return res.status(500).json({ message: "Internal server error" });
     }
 });
 
@@ -102,6 +81,33 @@ sessionRouter.post("/new", isAuthenticated, async (req, res) => {
         if (e.name === "ValidatorError") {
             return res.status(400).json({ message: e.message });
         }
+        logger.error(e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+sessionRouter.get("/fetchTPs", isAuthenticated, async (req, res) => {
+    if (!req.user.isTeacher()) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+    return res.status(200).json(Array.from(getIndexGrades().keys()));
+});
+
+sessionRouter.get("/:id", isAuthenticated, async (req, res) => {
+    try {
+        const session = await SessionModel.findById(req.params.id);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (req.user.isStudent()) {
+            return res.status(200).json(session.serializeStudent(req.user.id));
+        } else if (req.user.isTeacher()) {
+            return res.status(200).json(session.serializeTeacher());
+        } else if (req.user.isAdmin()) {
+            return res.status(200).json(session.serializeTeacher());
+        }
+        return res.status(403).json({ message: "Forbidden" });
+    } catch (e) {
         logger.error(e);
         return res.status(500).json({ message: "Internal server error" });
     }
@@ -175,9 +181,11 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
                 { userId: req.user.id, sessionId: session.id, exp: session.endDate.getTime() / 1000 },
                 process.env.ACCESS_TOKEN_SECRET,
             );
-            return res
-                .status(200)
-                .json({ session: session.serializeStudent(), token: token, progression: progression.serialize() });
+            return res.status(200).json({
+                session: session.serializeStudent(req.user.id),
+                token: token,
+                progression: progression.serialize(),
+            });
         }
         if (!req.body.password) {
             return res.status(400).json({ message: "Missing password" });
@@ -204,11 +212,52 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
                 { userId: req.user.id, sessionId: session.id, exp: session.endDate.getTime() / 1000 },
                 process.env.ACCESS_TOKEN_SECRET,
             );
-            return res
-                .status(200)
-                .json({ session: session.serializeStudent(), token: token, progression: progression.serialize() });
+            return res.status(200).json({
+                session: session.serializeStudent(req.user.id),
+                token: token,
+                progression: progression.serialize(),
+            });
         }
         return res.status(403).json({ message: "Invalid password" });
+    } catch (e) {
+        logger.error(e);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+sessionRouter.post("/:id/edit", isAuthenticated, async (req, res) => {
+    if (!req.user.isTeacher()) {
+        return res.status(403).json({ message: "Forbidden" });
+    }
+    try {
+        const session = await SessionModel.findById(req.params.id);
+        if (!session) {
+            return res.status(404).json({ message: "Session not found" });
+        }
+        if (!session.teachers.includes(req.user.id) && !req.user.isAdmin()) {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+        if (session.startDate > Date.now()) {
+            if (req.body.startDate) {
+                session.startDate = req.body.startDate;
+            }
+            if (req.body.TP) {
+                session.TP = req.body.TP;
+            }
+            if (req.body.name) {
+                session.name = req.body.name;
+            }
+        }
+        if (session.endDate > Date.now()) {
+            if (req.body.endDate) {
+                session.endDate = req.body.endDate;
+            }
+        }
+        if (req.body.password) {
+            session.password = req.body.password;
+        }
+        await session.save();
+        return res.status(200).json(session.serializeTeacher());
     } catch (e) {
         logger.error(e);
         return res.status(500).json({ message: "Internal server error" });

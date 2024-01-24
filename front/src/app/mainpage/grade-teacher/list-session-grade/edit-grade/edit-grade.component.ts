@@ -1,23 +1,25 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
     AbstractControl,
     FormBuilder,
     ReactiveFormsModule,
     ValidationErrors,
-    Validators,
     ValidatorFn,
+    Validators,
 } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { Observable } from "rxjs";
-import { startWith, map } from "rxjs/operators";
+import { map, startWith } from "rxjs/operators";
 import { HeaderComponent } from "../../../header/header.component";
 import { Header } from "../../../header/header";
-import { TeacherSession, Session } from "../../../../models/session.model";
-import { levels, listsGrade } from "../list_grade";
+import { Session, TeacherSession } from "../../../../models/session.model";
+import { SessionService } from "../../../../services/session.service";
+import { TeacherGrade } from "../../../../models/grade.model";
+import { GradeService, OverrideGrade } from "../../../../services/grade.service";
 
 @Component({
     selector: "app-edit-grade",
@@ -37,36 +39,53 @@ import { levels, listsGrade } from "../list_grade";
 export class EditGradeComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Notes/SESSION_NAME/modifier` };
+    loading = true;
 
-    studentListAutocompletion!: Observable<string[]> | undefined;
-    gradeOfSelectedLevel: number = 0.0;
+    studentListAutocompletion!: Observable<TeacherGrade[]> | undefined;
+    gradeOfSelectedLevel!: number | undefined;
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
+        private activeRoute: ActivatedRoute,
+        private sessionService: SessionService,
+        private gradeService: GradeService,
     ) {}
 
     ngOnInit(): void {
-        this.session = history.state;
+        this.session = history.state.session;
+        if (this.session === undefined) {
+            this.activeRoute.params.subscribe((params) => {
+                this.sessionService.getSession(params["id"]).subscribe({
+                    next: (session) => {
+                        this.session = session;
+                        this.section = {
+                            name: `Notes/${this.session.name}/modifier`,
+                        };
+                        this.loading = false;
+                        // filter student
+                        this.initAutoCompletion();
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        this.router.navigate(["/"]);
+                    },
+                });
+            });
+            return;
+        }
+        this.loading = false;
         this.section = {
             name: `Notes/${this.session.name}/modifier`,
         };
-
         // filter student
-        this.studentListAutocompletion = this.singleGradeForm.get("name")?.valueChanges.pipe(
-            startWith(""),
-            map((value) => this.studentFilter(value)),
-        );
-
-        this.levelGradeForm.get("level")?.valueChanges.subscribe((selectedLevel) => {
-            const levelKey = Number(selectedLevel);
-            this.gradeOfSelectedLevel = this.getGradeForLevel(levelKey);
-        });
+        this.initAutoCompletion();
     }
 
     singleGradeForm = this.formBuilder.group({
         name: ["", [Validators.required, this.validateName.bind(this)]],
         grade: ["", [Validators.required, this.validateNote()]],
+        comment: [""],
     });
 
     levelGradeForm = this.formBuilder.group({
@@ -75,40 +94,48 @@ export class EditGradeComponent implements OnInit {
     });
 
     // change form of students data
-    levels = Object.entries(levels).map(([key, value], index) => {
-        return { id: index, key: key, value: value };
-    });
-    listGrade = [...listsGrade];
-    students_info: { [key: string]: number } = this.listGrade.reduce((result: Record<string, number>, listGrade) => {
-        result[listGrade.name] = Number(listGrade.grade);
-        return result;
-    }, {});
-    allStudents = Object.keys(this.students_info);
-
-    gradestudentChosen!: number | null;
-    levelstudentChosen!: string | null;
+    listGrades!: TeacherGrade[];
+    chosenStudent!: TeacherGrade | null;
 
     validateName(control: AbstractControl): ValidationErrors | null {
         const name: string = control.value;
-
         if (name) {
-            const existsName: boolean = this.allStudents.includes(name);
+            const existsName: boolean = this.listGrades.some((student) => student.studentName === name);
             if (!existsName) {
                 control.setErrors({ nameError: "Le nom entré n'existe pas" });
                 return { nameError: "Le nom entré n'existe pas" };
-            } else {
-                this.gradestudentChosen = this.students_info[name];
-                this.levelstudentChosen = this.listGrade.find((student) => student.name === name)?.level || null;
-                return null;
             }
-        } else {
+            this.chosenStudent = this.listGrades.find((student) => student.studentName === name)!;
+            this.singleGradeForm.get("grade")?.setValue(this.chosenStudent.grade.toString());
             return null;
         }
+        return null;
+    }
+
+    private initAutoCompletion() {
+        this.gradeService.getGrades(this.session.id).subscribe({
+            next: (grades: TeacherGrade[]) => {
+                this.listGrades = grades;
+                this.studentListAutocompletion = this.singleGradeForm.get("name")?.valueChanges.pipe(
+                    startWith(""),
+                    map((value) => this.studentFilter(value)),
+                );
+
+                this.levelGradeForm.get("level")?.valueChanges.subscribe((selectedLevel) => {
+                    const levelKey = Number(selectedLevel);
+                    this.gradeOfSelectedLevel = this.getGradeForLevel(levelKey);
+                });
+            },
+            error: (err) => {
+                console.log(err);
+                this.router.navigate(["/"]);
+            },
+        });
     }
 
     getGradeForLevel(levelKey: number): number {
-        const level = this.levels.find((level) => level.id === levelKey);
-        return level ? Number(level.value) : NaN;
+        const grade = this.session.indexGrades.get(levelKey.toString());
+        return grade !== undefined ? grade : NaN;
     }
 
     validateNote(): ValidatorFn {
@@ -123,16 +150,97 @@ export class EditGradeComponent implements OnInit {
         };
     }
 
-    private studentFilter(value: string | null): string[] {
+    private studentFilter(value: string | null): TeacherGrade[] {
         if (value) {
             const filterValue = value.toLowerCase();
-            return this.allStudents.filter((student) => student.toLowerCase().includes(filterValue));
+            return this.listGrades.filter((student) => student.studentName.toLowerCase().includes(filterValue));
         }
-        return this.allStudents;
+        return this.listGrades;
     }
 
-    onSubmit() {
-        this.gotoListGrade();
+    onSubmitStudentGrade() {
+        const gradeString = this.singleGradeForm.get("grade")?.value;
+        const comment = this.singleGradeForm.get("comment")?.value || "";
+
+        if (!this.chosenStudent || !this.singleGradeForm.valid || gradeString === undefined || gradeString === null) {
+            return;
+        }
+        const overrideGrade: OverrideGrade = {
+            grade: parseInt(gradeString),
+            comment: comment,
+        };
+        this.gradeService.setGradeOverride(this.chosenStudent.progressionId, overrideGrade).subscribe({
+            next: () => {
+                this.gotoListGrade();
+            },
+            error: (err) => {
+                console.log(err);
+                alert("Impossible de modifier la note");
+            },
+        });
+    }
+
+    resetGrade() {
+        if (!this.chosenStudent) {
+            return;
+        }
+        this.gradeService.removeGradeOverride(this.chosenStudent.progressionId).subscribe({
+            next: () => {
+                this.gotoListGrade();
+            },
+            error: (err) => {
+                console.log(err);
+                alert("Impossible de réinitialiser la note");
+            },
+        });
+    }
+
+    onSubmitLevelGrade() {
+        const gradeString = this.levelGradeForm.get("grade")?.value;
+        const levelString = this.levelGradeForm.get("level")?.value;
+        if (
+            !this.levelGradeForm.valid ||
+            gradeString === undefined ||
+            gradeString === null ||
+            levelString === undefined ||
+            levelString === null
+        ) {
+            return;
+        }
+        this.gradeService
+            .setLevelGradeOverride(this.session.id, {
+                level: parseInt(levelString),
+                grade: parseInt(gradeString),
+            })
+            .subscribe({
+                next: (nonModified) => {
+                    alert(
+                        "Les notes des élèves suivants n'ont pas été modifiées: \n" +
+                            nonModified.map((g) => g.studentName).reduce((a, b) => a + "\n " + b),
+                    );
+                    this.gotoListGrade();
+                },
+                error: (err) => {
+                    console.log(err);
+                    alert("Impossible de modifier la note");
+                },
+            });
+    }
+
+    resetLevelGrade() {
+        this.gradeService.removeLevelGradeOverride(this.session.id).subscribe({
+            next: (nonModified) => {
+                alert(
+                    "Les notes des élèves suivants n'ont pas été modifiées: \n" +
+                        nonModified.map((g) => g.studentName).reduce((a, b) => a + "\n " + b),
+                );
+                this.gotoListGrade();
+            },
+            error: (err) => {
+                console.log(err);
+                alert("Impossible de réinitialiser la note");
+            },
+        });
     }
     gotoListGrade() {
         this.router.navigateByUrl(`/grade-teacher/${this.session.id}/lookup`, { state: this.session });

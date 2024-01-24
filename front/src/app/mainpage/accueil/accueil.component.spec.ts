@@ -33,6 +33,8 @@ describe("AccueilComponent", () => {
                     endDate: new Date(Date.now() + 1000 * 60 * 60 * 2),
                     TP: "1",
                     status: SessionStatus.SCHEDULED,
+                    indexGrades: new Map<string, number>([["1", 1]]),
+                    joined: false,
                 },
             ]);
         },

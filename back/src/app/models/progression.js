@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Session from "./session.js";
 
 const progressionSchema = mongoose.Schema({
     userId: {
@@ -42,4 +43,32 @@ progressionSchema.methods.serialize = function () {
     };
 };
 
-export default mongoose.model("Progression", progressionSchema);
+progressionSchema.pre("save", async function (next) {
+    if (!this.isModified("grade") || this.isNew) {
+        return next();
+    }
+    if (this.grade > 20) {
+        this.grade = 20;
+    }
+    if (this.grade < 0) {
+        this.grade = 0;
+    }
+    try {
+        const sess = await Session.findById(this.sessionId);
+        const progressions = await Progression.find({ sessionId: this.sessionId });
+        const filtered = progressions.filter((p) => p.id !== this.id);
+        filtered.push(this);
+        const grades = filtered.map((p) => p.grade);
+        const avg = grades.reduce((a, b) => a + b, 0) / grades.length;
+        sess.meanGrades = avg;
+        sess.standDevGrades = Math.sqrt(
+            grades.map((grade) => Math.pow(grade - avg, 2)).reduce((a, b) => a + b, 0) / grades.length,
+        );
+        await sess.save();
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+export const Progression = mongoose.model("Progression", progressionSchema);

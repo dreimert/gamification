@@ -1,4 +1,4 @@
-import Progression from "../models/progression.js";
+import { Progression } from "../models/progression.js";
 
 export const checkProgressionValidity = (level) => {
     return async (req, res, next) => {

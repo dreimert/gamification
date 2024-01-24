@@ -34,7 +34,12 @@ describe("SessionCreateComponent", () => {
                 TP: session.TP,
                 students: [],
                 status: SessionStatus.SCHEDULED,
+                indexGrades: new Map<string, number>([["1", 1]]),
+                joined: false,
             });
+        },
+        fetchTPs(): Observable<string[]> {
+            return of<string[]>(["TP1", "TP2"]);
         },
     };
     let component: SessionCreateComponent;

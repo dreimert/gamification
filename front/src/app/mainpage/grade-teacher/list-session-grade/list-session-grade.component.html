@@ -1,7 +1,7 @@
-<div class="flex flex-col w-full min-h-screen bg-grey">
+<div class="flex flex-col w-full min-h-screen bg-grey" *ngIf="!loading">
     <app-header [section]="section" />
     <div class="grid grid-cols-8 mt-9 mb-4 items-center overflow-auto">
-        <p class="col-span-4 ml-4">{{ session.name }}</p>
+        <p class="col-span-4 ml-4">Session : {{ session.name }}</p>
         <div class="flex items-center justify-center col-span-2 h-10">
             <input
                 class="w-full h-full rounded-lg border border-zinc-600 border-opacity-80 pl-5"
@@ -16,18 +16,36 @@
             Modifier les notes d'un élève
         </button>
     </div>
-    <div class="flex flex-col mt-5 m-3">
-        <div class="flex flex-row justify-center items-center bg-bgHeaderTable border border-borderTable rounded-t-lg">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">Élève</p>
-            <p class="flex w-full py-2">Notes</p>
-        </div>
-        <div
-            *ngFor="let studentGrade of filteredStudentGrades"
-            class="flex flex-row justify-center bg-bgTable border-x border-b border-borderTable">
-            <p class="flex w-full py-2 mx-3 border-r border-borderTable">{{ studentGrade.name }}</p>
-            <p class="flex w-full py-2">{{ studentGrade.grade }}</p>
-        </div>
-    </div>
+    <table
+        class="mt-5 m-3 bg-bgTable text-center border-y border-x border-separate border-spacing-0 rounded-t-lg rounded-b-lg overflow-hidden">
+        <thead class="justify-center items-center border-t rounded-t-lg bg-bgHeaderTable">
+            <tr>
+                <th class="border-r border-borderTable">Élève</th>
+                <th class="">Note</th>
+            </tr>
+        </thead>
+        <tbody class="[&>*:nth-child(even)]:bg-bgTableDark">
+            <tr *ngFor="let studentGrade of filteredStudentGrades">
+                <td class="border-r border-borderTable">{{ studentGrade.studentName }}</td>
+                <td
+                    class="justify-center flex items-center"
+                    [ngClass]="{ 'text-orange-800': studentGrade.gradeOverriden }">
+                    <p
+                        class="flex w-fit"
+                        [matTooltip]="
+                            studentGrade.gradeOverriden
+                                ? studentGrade.gradeComment
+                                    ? studentGrade.gradeComment
+                                    : 'La note a été modifiée manuellement'
+                                : ''
+                        "
+                        matTooltipPosition="above">
+                        {{ studentGrade.grade.toString().concat(studentGrade.gradeOverriden ? "*" : "") }}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="fixed bottom-0 right-0 mb-4 mr-4">
         <button [routerLink]="['/grade-teacher']" class="w-fit bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
@@ -35,3 +53,4 @@
         </button>
     </div>
 </div>
+<div class="flex flex-col w-full min-h-screen bg-grey" *ngIf="loading"></div>

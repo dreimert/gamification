@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.subscription = this.loadingService.loading$.subscribe((loading) => (this.loading = loading));
-        console.log(this.loading);
     }
 
     protected readonly location = location;

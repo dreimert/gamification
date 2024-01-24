@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { RouterLink, ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
-import { progressions, levels, progression } from "./progression";
 import { SessionService } from "../../../services/session.service";
-import { TeacherSession, Session } from "../../../models/session.model";
+import { Session, TeacherSession } from "../../../models/session.model";
+import { TeacherGrade } from "../../../models/grade.model";
+import { GradeService } from "../../../services/grade.service";
 
 @Component({
     selector: "app-progression",
@@ -18,34 +19,69 @@ import { TeacherSession, Session } from "../../../models/session.model";
 export class ProgressionComponent implements OnInit {
     session!: Session | TeacherSession;
     section: Header = { name: `Session//avancement` };
+    loading: boolean = true;
+    listProgression!: TeacherGrade[];
+    filteredProgressions: TeacherGrade[] = this.listProgression;
+    studentNameSearch = "";
+    maxLevel: number = 0;
 
     constructor(
         private sessionService: SessionService,
+        private gradeService: GradeService,
         private router: Router,
         private activeRoute: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
-        this.session = history.state;
+        this.session = history.state.session;
+        if (this.session === undefined) {
+            this.activeRoute.params.subscribe((params) => {
+                this.sessionService.getSession(params["id"]).subscribe({
+                    next: (session) => {
+                        this.session = session;
+                        this.section = {
+                            name: `Session/${this.session.name}/avancement`,
+                        };
+                        this.withSession();
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        this.router.navigate(["/"]);
+                    },
+                });
+            });
+            return;
+        }
         this.section = {
             name: `Session/${this.session.name}/avancement`,
         };
+        this.withSession();
     }
 
-    progressions = [...progressions];
-    levels = levels;
-    studentNameSearch = "";
-    filteredProgressions: progression[] = this.progressions;
+    withSession() {
+        this.maxLevel = this.session.indexGrades.size - 1;
+        this.gradeService.getGrades(this.session.id).subscribe({
+            next: (grades) => {
+                this.listProgression = grades;
+                this.filteredProgressions = this.listProgression;
+                this.loading = false;
+            },
+            error: (err) => {
+                console.log(err);
+                this.router.navigate(["/"]);
+            },
+        });
+    }
 
     searchStudent() {
-        this.filteredProgressions = this.progressions.filter((progression) =>
-            progression.name.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
+        this.filteredProgressions = this.listProgression.filter((progression) =>
+            progression.studentName.toLowerCase().includes(this.studentNameSearch.toLowerCase()),
         );
     }
 
-    getPercentage(level: string): string {
-        if (level in levels) {
-            return `Niveau ${level} (${levels[level]})`;
+    getPercentage(level: number): string {
+        if (0 <= level && level <= this.maxLevel) {
+            return `Niveau ${level} (${(level / this.maxLevel) * 100}%)`;
         } else {
             return `Il n'y a pas de niveau: ${level}`;
         }

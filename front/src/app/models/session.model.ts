@@ -5,7 +5,9 @@ export class Session {
     startDate: Date;
     endDate: Date;
     TP: string;
+    indexGrades: Map<string, number>;
     status: SessionStatus;
+    joined: boolean;
 
     constructor(
         id: string,
@@ -14,7 +16,9 @@ export class Session {
         startDate: Date,
         endDate: Date,
         TP: string,
+        indexGrades: Map<string, number>,
         status: SessionStatus,
+        joined: boolean,
     ) {
         this.id = id;
         this.name = name;
@@ -22,7 +26,9 @@ export class Session {
         this.startDate = startDate;
         this.endDate = endDate;
         this.TP = TP;
+        this.indexGrades = new Map<string, number>(indexGrades);
         this.status = status;
+        this.joined = joined;
     }
 
     public static compareStatus(a: Session, b: Session): number {
@@ -53,9 +59,10 @@ export class TeacherSession extends Session {
         startDate: Date,
         endDate: Date,
         TP: string,
+        indexGrades: Map<string, number>,
         status: SessionStatus,
     ) {
-        super(id, name, teachers, startDate, endDate, TP, status);
+        super(id, name, teachers, startDate, endDate, TP, indexGrades, status, false);
         this.students = students;
     }
 }
