@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CommonModule, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 @Component({
     selector: "app-list-session-grade",
     standalone: true,
-    imports: [HeaderComponent, CommonModule, FormsModule, RouterLink, NgIf, MatTooltipModule],
+    imports: [HeaderComponent, CommonModule, FormsModule, RouterLink, MatTooltipModule],
     templateUrl: "./list-session-grade.component.html",
     styleUrl: "./list-session-grade.component.css",
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CommonModule, NgIf } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import {
     AbstractControl,
@@ -32,7 +32,6 @@ import { GradeService, OverrideGrade } from "../../../../services/grade.service"
         MatAutocompleteModule,
         MatInputModule,
         MatFormFieldModule,
-        NgIf,
     ],
     templateUrl: "./edit-grade.component.html",
     styleUrl: "./edit-grade.component.css",

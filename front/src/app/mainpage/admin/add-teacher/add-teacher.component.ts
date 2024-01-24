@@ -127,4 +127,8 @@ export class AddTeacherComponent implements OnInit {
             });
         }
     }
+
+    onCancel() {
+        this.router.navigate(["/admin"]);
+    }
 }

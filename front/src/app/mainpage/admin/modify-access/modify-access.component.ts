@@ -134,4 +134,8 @@ export class ModifyAccessComponent implements OnInit {
             },
         });
     }
+
+    onCancel() {
+        this.router.navigate(["/admin"]);
+    }
 }
