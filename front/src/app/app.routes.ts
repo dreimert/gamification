@@ -13,7 +13,7 @@ import { EditProgressionComponent } from "./mainpage/session/progression/edit-pr
 import { AddTeacherComponent } from "./mainpage/admin/add-teacher/add-teacher.component";
 import { EditSessionComponent } from "./mainpage/session/edit-session/edit-session.component";
 import { LoginComponent } from "./login/login.component";
-import { AuthGuard, NoAuthGuard } from "./login/authguard.guard";
+import { AdminGuard, AuthGuard, NoAuthGuard, TeacherGuard } from "./login/authguard.guard";
 import { RegisterComponent } from "./register/register.component";
 
 export const routes: Routes = [
@@ -39,25 +39,25 @@ export const routes: Routes = [
         path: "session/create",
         component: SessionCreateComponent,
         title: "Session",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "session/:id/progressions",
         component: ProgressionComponent,
         title: "Progressions",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "session/:id/progressions/edit",
         component: EditProgressionComponent,
         title: "Edit Progressions",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "session/:id/editSession",
         component: EditSessionComponent,
         title: "Edit Session",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "grade",
@@ -69,37 +69,37 @@ export const routes: Routes = [
         path: "grade-teacher",
         component: GradeTeacherComponent,
         title: "Notes",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "grade-teacher/:id/lookup",
         component: ListSessionGradeComponent,
         title: "Notes",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "grade-teacher/:id/lookup/edit",
         component: EditGradeComponent,
         title: "Notes",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, TeacherGuard],
     },
     {
         path: "admin",
         component: AdminComponent,
         title: "Admin",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, AdminGuard],
     },
     {
         path: "admin/modifyAccess",
         component: ModifyAccessComponent,
         title: "Modifier accès",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, AdminGuard],
     },
     {
         path: "admin/addTeacher",
         component: AddTeacherComponent,
         title: "Ajouter un professeur",
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, AdminGuard],
     },
     {
         path: "home",
