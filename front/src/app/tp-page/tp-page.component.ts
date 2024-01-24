@@ -1,13 +1,10 @@
-import { Component } from "@angular/core";
-import { OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { TpKafkaComponent } from "./tp-kafka/tp-kafka.component";
 import { TpScrappingComponent } from "./tp-scrapping/tp-scrapping.component";
 import { CommonModule } from "@angular/common";
 import { Session, TeacherSession } from "../models/session.model";
 import { SessionService } from "../services/session.service";
-import { ParamPopupComponent } from "./tp-kafka/param-popup/param-popup.component";
-
 
 @Component({
     selector: "app-tp-page",
@@ -27,6 +24,7 @@ export class TpPageComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params) => {
             this.tpId = params["id"];
+            console.log("tp-page");
         });
         this.fetchSessionInfo(this.tpId);
     }

@@ -111,6 +111,7 @@ export const routes: Routes = [
     {
         path: "tp/:id",
         component: TpPageComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: "",

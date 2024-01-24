@@ -2,7 +2,7 @@
     <div
         class="flex flex-row h-fit overflow-visible"
         *ngIf="
-            ['/login', '/register'].indexOf(location.pathname) === -1 && router.url.split('/')[1] !== 'tp';
+            ['/login', '/register'].indexOf(location.pathname) === -1 && location.pathname.split('/')[1] !== 'tp';
             else elseBlock
         ">
         <div class="w-1/5 min-h-full">
