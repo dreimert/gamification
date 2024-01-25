@@ -5,6 +5,8 @@ import { CommonModule } from "@angular/common";
 import { GradeService } from "../../services/grade.service";
 import { StudentGrade } from "../../models/grade.model";
 import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { HelpingBonusComponent } from "./helping-bonus/helping-bonus.component";
 
 @Component({
     selector: "app-grade",
@@ -23,6 +25,7 @@ export class GradeComponent implements OnInit {
     constructor(
         private gradeService: GradeService,
         private router: Router,
+        private dialog: MatDialog,
     ) {}
 
     ngOnInit() {
@@ -34,6 +37,13 @@ export class GradeComponent implements OnInit {
                 console.log(err);
                 this.router.navigate(["/"]);
             },
+        });
+    }
+    popupBonus() {
+        const dialog = this.dialog.open(HelpingBonusComponent, {
+            width: "60%",
+            height: "25%",
+            // data: session,
         });
     }
 }

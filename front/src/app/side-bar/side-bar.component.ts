@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { sidebars_admin, sidebars_prof, sidebars_stu } from "./side-bar";
 import { SidebarButtonComponent } from "./sidebar-button/sidebar-button.component";
 import { UserService } from "../services/user.service";
@@ -17,7 +17,10 @@ export class SideBarComponent implements OnInit {
     sidebarButtons_teacher = sidebars_prof;
     sidebarButtons_admin = sidebars_admin;
 
-    constructor(private userService: UserService) {}
+    constructor(
+        private userService: UserService,
+        private router: Router,
+    ) {}
 
     ngOnInit() {
         this.userService.getCurrentUser().subscribe((user: PrivateUser) => {
@@ -27,7 +30,7 @@ export class SideBarComponent implements OnInit {
 
     logout() {
         this.userService.logout().subscribe(() => {
-            window.location.href = "/home";
+            this.router.navigate(["/home"]);
         });
     }
 

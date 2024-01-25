@@ -10,7 +10,8 @@
                 <th class="border-r border-borderTable">Note</th>
                 <th class="border-r border-borderTable">Moyenne</th>
                 <th class="border-r border-borderTable">Ecart-type</th>
-                <th class="">Coefficient</th>
+                <th class="border-r border-borderTable">Coefficient</th>
+                <th class="">Bonus</th>
             </tr>
         </thead>
         <tbody class="[&>*:nth-child(even)]:bg-bgTableDark">
@@ -21,7 +22,8 @@
                 <td class="border-r border-borderTable">{{ grade.grade }}</td>
                 <td class="border-r border-borderTable">{{ grade.mean }}</td>
                 <td class="border-r border-borderTable">{{ grade.std }}</td>
-                <td>{{ grade.coefficient }}</td>
+                <td class="border-r border-borderTable">{{ grade.coefficient }}</td>
+                <td><button class="" (click)="popupBonus()">Bonus</button></td>
             </tr>
         </tbody>
     </table>
