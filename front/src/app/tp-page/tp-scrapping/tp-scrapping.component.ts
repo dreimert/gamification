@@ -213,8 +213,36 @@ export class TpScrappingComponent implements OnInit {
         Entrer le nom de l'utilisateur : >`,
                 ];
                 break;
-            default:
-                this.sentences = ["默认句子数组", "默认句子数组的下一句", "..."];
+            case 2:
+                this.sentences = [
+                    `^1000Attend..... mais quoi.....?`,
+                    `^1000Normalement, je devrais pouvoir accéder à la liste des cours avec les 3 années du département TC , mais il semble que toutes les années et tous les noms de cours sont chiffrés !`,
+                    `^1000Je compte sur vous maintenant ! Ce que je sais, c'est que cette page présente trois années de departement (3TC, 4TC et 5TC). A l'intérieur de chaque lien se trouvent les cours correspondant. Chaque cours a son propre numéro d'identification.`,
+                    `^1000Pouvez-vous m'aider à trouver le code de cours <span class="text-yellow-200">4TC-SYD</span> s'il vous plaît ?^100
+        <span class="text-yellow-200">liste des cours du département TC:</span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
+        Entrez le nom, le nombre d'heure et le nombre de crédit du cours  : >`,
+                ];
+                break;
+            case 3:
+                this.sentences = [
+                    `^1000Je vais vous dire, je vais aller sur planete et faire changer mon score ! Tu devras garder le secret pour moi !`,
+                    `^1000Accès à la base de données de planete.... Voila! C'est fait! Entrer le code de cours.....`,
+                    `^1000"Vérification d'identité "??? "Parmi les livres suivants, lequel a la plus petite somme de numéros d'ISBM ?"`,
+                    `^1000Dites-moi que ce n'est pas vrai!!!! Est-ce une question qu'une personne normale pourrait poser? Mais bon, ici, c’est l”INSA..... Si je comprends bien, il m'a donné une liste de livres, et chaque titre doit être suivi de son numéro ISBM (InternationalStandardBookNumber).Il faudrait additionner les chiffres de l'ISBM pour chaque livre et trouver le livre dont la somme est la plus petite.^100
+        <span class="text-yellow-200">liste de livre : </span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
+        En cas d'égalité, on renvoie celui dont le titre est le premier dans l'ordre alphabétique. 
+        Entrez le titre du livre : > `,
+                ];
+                break;
+            case 4:
+                this.sentences = [
+                    `^1000C'est presque terminé !! J'avais anticipé cela. Saisir le code de confirmation. Pour autant que je sache, Il recueille les informations personnelles de quatre personnes. Ce code est constitué des <span class="text-yellow-200">initiales de la première personne + les 3 derniers chiffres du numéro de téléphone de la deuxième personne + lu jour de naissance de la troisième personne (2 chiffres) + le nom du chien de la quatrième personne </span>.`,
+                    `^1000Le plus gros problème est que je ne sais pas qui sont ces quatre personnes ! Je ne connais que certaines de leurs données. Vous devrez utiliser ces informations pour trouver ces quatre personnes, et enfin le code de confirmation.`,
+                    `^1000 N'abandonnez pas !! Je pourrai changer vos notes lorsque j'entrerai dans le système : D^100
+        <span class="text-yellow-200">liste d’information personnelle des enseignants : </span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
+        En cas d'égalité, on renvoie celui dont le titre est le premier dans l'ordre alphabétique. 
+        Entrez  le code de confirmation : >  `,
+                ];
                 break;
         }
     }
