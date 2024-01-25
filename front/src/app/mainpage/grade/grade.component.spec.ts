@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { GradeComponent } from "./grade.component";
 import { GradeService } from "../../services/grade.service";
 import { Observable, of } from "rxjs";
 import { StudentGrade } from "../../models/grade.model";
 
-let gradeServiceStub: Partial<GradeService>;
-
 describe("GradeComponent", () => {
-    gradeServiceStub = {
+    let component: GradeComponent;
+    let fixture: ComponentFixture<GradeComponent>;
+    const gradeServiceStub: Partial<GradeService> = {
         getMyGrades(): Observable<StudentGrade[]> {
             return of<StudentGrade[]>([
                 {
@@ -23,10 +22,6 @@ describe("GradeComponent", () => {
             ]);
         },
     };
-
-    let component: GradeComponent;
-    let fixture: ComponentFixture<GradeComponent>;
-
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [GradeComponent],

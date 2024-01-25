@@ -40,7 +40,7 @@ export class GradeComponent implements OnInit {
         });
     }
     popupBonus() {
-        const dialog = this.dialog.open(HelpingBonusComponent, {
+        this.dialog.open(HelpingBonusComponent, {
             width: "60%",
             height: "25%",
             // data: session,
