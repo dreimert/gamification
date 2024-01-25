@@ -24,19 +24,6 @@ export class TpScrappingService {
         })
     }
 
-    // public getLvl1Scrap(token:string):Observable<lvl1Code>{
-    //     const header = new HttpHeaders()
-    //         .set('authorization', 'Bearer ' + token)
-    //         .set("user-agent", 'scrapper scrapper')
-    //     return new Observable<lvl1Code>((subscriber)=>{
-    //         this.http
-    //             .get<lvl1Code>(this.root + 'lvl1', {headers:header})
-    //             .subscribe((res)=>{
-    //                 subscriber.next(res)
-    //             })
-    //     })
-    // }
-
     public getLvl2Course(token:string):Observable<lvl2Course>{
         const header = new HttpHeaders().set('authorization', 'Bearer ' + token)
         return new Observable<lvl2Course>((subscriber)=>{
@@ -84,7 +71,7 @@ export class TpScrappingService {
 
 }
 
-export interface lvl1Code {teacherInitials:string};
+export interface lvl1Code {teacherName:string};
 export interface lvl2Course{courseCode: string};
 export interface lvl3Res{};
 export interface lvl4Res{
