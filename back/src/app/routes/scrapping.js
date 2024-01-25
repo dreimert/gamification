@@ -33,7 +33,7 @@ scrappingRouter.get(
         shuffleArraySeeded(teachers, req.user.id);
         const index = getIntFromRange(0, teachers.length - 1, req.user.id + "teacher");
         const teacher = teachers[index];
-        res.json({ teacherInitials: teacher.initials });
+        res.json({ teacherName: teacher.name });
     },
 );
 

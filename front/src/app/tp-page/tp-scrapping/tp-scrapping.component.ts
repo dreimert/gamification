@@ -6,8 +6,10 @@ import { NgxTypedJsModule } from "ngx-typed-js";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DialogHelpComponent } from "./dialog-help/dialog-help.component";
 import { Session } from "../../models/session.model";
-
-// import { TpScrappingService } from '../../services/tp-scrapping.service';
+import { UserService } from "../../services/user.service";
+import { PrivateUser } from "../../models/user.model";
+import { TpScrappingService, lvl1Code, lvl2Course, lvl3Res, lvl4Res, verifyPassCode } from '../../services/tp-scrapping.service';
+import { asapScheduler } from "rxjs";
 
 @Component({
     selector: "app-tp-scrapping",
@@ -18,9 +20,12 @@ import { Session } from "../../models/session.model";
 })
 export class TpScrappingComponent implements OnInit {
     @Input() session!: Session | undefined;
+    @Input() token!:string
+    @Input() historyStudentLevel!:string;
+    userName!:string;
     sentences: string[] = [];
     lvl!: number;
-    passcodeList!: string[];
+    passcodeList: any[] = [];
     passcode!: string;
     codeCorrect: boolean = false;
     codeEntered: boolean = false;
@@ -32,21 +37,25 @@ export class TpScrappingComponent implements OnInit {
     constructor(
         private titleService: Title,
         public dialog: MatDialog,
-        // private tpService: TpScrappingService
+        private userService: UserService,
+        private tpService: TpScrappingService,
     ) {
         this.titleService.setTitle("Tp Scrapping");
     }
 
     ngOnInit(): void {
-        // this.tpService.getInitialsTeacher().subscribe((initialTeacher: {"teacherInitials":string})=>{
-        //     this.initialTeacher = initialTeacher;
-        //     console.log(this.initialTeacher)
-        // })
+        this.getUserName();
         this.fetchLevel();
         this.getDate();
         this.getDuration();
         this.loadSentences();
         this.fetchPasscode();
+    }
+
+    getUserName(){
+        this.userService.getCurrentUser().subscribe((user: PrivateUser) => {
+            this.userName = user.name;
+        });
     }
 
     getDate() {
@@ -63,28 +72,113 @@ export class TpScrappingComponent implements OnInit {
         console.log("lvl: ", this.lvl);
     }
     fetchLevel() {
-        this.lvl = 0;
+        this.lvl = parseInt(this.historyStudentLevel);
     }
     fetchPasscode() {
         // Service to get all passcode for all levels
-        this.passcodeList = ["start", "lvl1", "lvl2", "lvl3"];
+        // this.passcodeList = ["start", "ablanc", "lvl2", "lvl3"];
+        
+        switch (this.lvl){
+            case 1:
+                this.tpService.getLvl1Code(this.token).subscribe((lvl1Code: lvl1Code)=>{
+                    this.passcodeList.push(lvl1Code);
+                })
+                break;
+            case 2:
+                this.tpService.getLvl2Course(this.token).subscribe((lvl2Code: lvl2Course)=>{
+                    this.passcodeList.push(lvl2Code);
+                })
+                break;
+            case 3:
+                this.tpService.getLvl3BookInfo(this.token).subscribe((lvl3Res: lvl3Res)=>{
+                    this.passcodeList.push(lvl3Res);
+                })
+                break;
+            case 4:
+                this.tpService.getLvl4TeacherInfo(this.token).subscribe((lvl4Res: lvl4Res)=>{
+                    this.passcodeList.push(lvl4Res);
+                })
+                break;
+            default:
+                this.passcodeList.push('start');
+
+        }
+        console.log(this.passcodeList)
     }
 
-    getEnteredPasscode(currentLvl: number) {
+
+    verifyEnteredPasscode(currentLvl: number) {
+        // ['start', 'ablanc', {}]
         this.codeEntered = true;
         // Service to valid passcode
-        if (this.passcode == this.passcodeList[currentLvl]) {
-            this.codeCorrect = true;
-            setTimeout(() => {
-                this.sentenceIndex = 0;
-                this.changeLevel();
-                this.loadSentences();
-                this.codeEntered = false;
-                this.codeCorrect = false;
-                this.passcode = "";
-            }, 1000);
+
+        if (currentLvl == 0){
+            if (this.codeCorrect = (this.passcode == 'start')){
+                this.gotoNextLevel()
+            };
+        }else{
+            // export interface codeLvl1{
+            //     username:string
+            // }
+            
+            // export interface codeLvl2{
+            //     name:string,
+            //     hours:number,
+            //     ects:number,
+            // }
+            
+            // export interface codeLvl3{
+            //     title:string,
+            //     isbn:number,
+            // }
+            
+            // export interface codeLvl4{
+            //     password:string,
+            // }
+            let code:any;
+            switch (currentLvl){
+                case 1:
+                    code = {username:this.passcode}
+                    break;
+                case 2:
+                    code = {
+                        // name:string,
+                        // hours:number,
+                        // ects:number,
+                    }
+                    break;
+                case 3:
+                    code = {
+                        // title:string,
+                        // isbn:number,
+                    }
+                    break;
+                case 4:
+                    code = {password:this.passcode}
+                    break;
+            }
+            this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode)=>{
+                if (this.codeCorrect = verifyPassCode.success){
+                    this.gotoNextLevel();
+                }
+            });
         }
+        
     }
+
+    gotoNextLevel(){
+        setTimeout(() => {
+            this.sentenceIndex = 0;
+            this.changeLevel();
+            this.fetchPasscode();
+            this.loadSentences();
+            this.codeEntered = false;
+            this.codeCorrect = false;
+            this.passcode = "";
+        }, 1000);
+    }
+
+
     stringToNumber(string: string): number {
         return parseInt(string);
     }
@@ -104,8 +198,8 @@ export class TpScrappingComponent implements OnInit {
         switch (this.lvl) {
             case 0:
                 this.sentences = [
-                    `^1000Bienvenue dans le tp scrapping! Vous ne me connaissez peut-être pas, mais j'ai besoin de votre aide en ce moment.^100`,
-                    `^1000Je suis en train de me connecter au serveur principal de l'INSA. J'ai besoin que vous m'aidiez à trouver les informations pertinentes pour m'aider à faire quelque chose. Je suis sûr que tu seras intéressé : )^100`,
+                    // `^1000Bienvenue dans le tp scrapping! Vous ne me connaissez peut-être pas, mais j'ai besoin de votre aide en ce moment.^100`,
+                    // `^1000Je suis en train de me connecter au serveur principal de l'INSA. J'ai besoin que vous m'aidiez à trouver les informations pertinentes pour m'aider à faire quelque chose. Je suis sûr que tu seras intéressé : )^100`,
                     `^1000Pour vous aider, j'ai préparé un dossier contenant les informations dont vous avez besoin.^500
         Appuyer sur <span class="text-yellow-200">'help'</span> pour plus d'informations.
         Tapez <span class="text-yellow-200">\'start\'</span> et appuyez <span class="text-yellow-200">\'Entrer\'</span> pour continuer^100`,
@@ -125,3 +219,6 @@ export class TpScrappingComponent implements OnInit {
         }
     }
 }
+
+
+
