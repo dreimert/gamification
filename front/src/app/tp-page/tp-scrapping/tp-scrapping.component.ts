@@ -220,7 +220,7 @@ export class TpScrappingComponent implements OnInit {
                     `^1000Je compte sur vous maintenant ! Ce que je sais, c'est que cette page présente trois années de departement (3TC, 4TC et 5TC). A l'intérieur de chaque lien se trouvent les cours correspondant. Chaque cours a son propre numéro d'identification.`,
                     `^1000Pouvez-vous m'aider à trouver le code de cours <span class="text-yellow-200">4TC-SYD</span> s'il vous plaît ?^100
         <span class="text-yellow-200">liste des cours du département TC:</span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
-        Entrez le nom, le nombre d'heure et le nombre de crédit du cours  : >`,
+        Entrez le nom, le nombre d'heure et le nombre de crédit du cours (forme: nom/number d'heure/ECTS): >`,
                 ];
                 break;
             case 3:
@@ -231,7 +231,7 @@ export class TpScrappingComponent implements OnInit {
                     `^1000Dites-moi que ce n'est pas vrai!!!! Est-ce une question qu'une personne normale pourrait poser? Mais bon, ici, c’est l”INSA..... Si je comprends bien, il m'a donné une liste de livres, et chaque titre doit être suivi de son numéro ISBM (InternationalStandardBookNumber).Il faudrait additionner les chiffres de l'ISBM pour chaque livre et trouver le livre dont la somme est la plus petite.^100
         <span class="text-yellow-200">liste de livre : </span> <a class="text-blue-200" href="http://xxxxxxxxxxxx" target="_blank">http://xxxxxxxxxxxx</a>
         En cas d'égalité, on renvoie celui dont le titre est le premier dans l'ordre alphabétique. 
-        Entrez le titre du livre : > `,
+        Entrez le titre du livre et son code ISBM (forme: titre du livre/ISBM): > `,
                 ];
                 break;
             case 4:
