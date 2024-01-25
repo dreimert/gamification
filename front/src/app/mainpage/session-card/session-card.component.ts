@@ -28,10 +28,8 @@ export class SessionCardComponent implements OnInit {
             if (password) {
                 this.sessionService.joinSession(session, password).subscribe({
                     next: () => {
-                        // TODO: redirect to game page
                         alert("Vous avez rejoint la session" + session.name);
-                        const windowTP = window.open("tp/" + session.id, "_blank");
-                        //TODO: ajouter un lien pour accéder au tp lorsqu'on fait une requête pour une session
+                        window.open("tp/" + session.id, "_blank");
                     },
                     error: (err) => {
                         console.log(err);
@@ -84,9 +82,10 @@ export class SessionCardComponent implements OnInit {
 
     rejoinSession(session: Session) {
         this.sessionService.joinSession(session, "").subscribe({
-            next: (session: Session) => {
+            next: () => {
                 // TODO: redirect to game page
-                alert("Vous avez rejoint la session" + session.name);
+                alert("Vous avez rejoint la session " + session.name);
+                window.open("tp/" + session.id, "_blank");
             },
             error: (err) => {
                 console.log(err);
