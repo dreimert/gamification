@@ -16,6 +16,7 @@ gradeRouter.get("/my", isAuthenticated, async (req, res) => {
                         sessionName: progression.sessionId.name,
                         tp: progression.sessionId.TP,
                         grade: progression.grade,
+                        bonus: progression.helped.length > 0 ? Math.floor(Math.log2(progression.helped.length)) : 0,
                         level: progression.level,
                         mean: progression.sessionId.meanGrades,
                         std: progression.sessionId.standDevGrades,
@@ -43,6 +44,7 @@ gradeRouter.get("/all/:sessionId", isAuthenticated, async (req, res) => {
                         progressionId: progression._id,
                         studentName: progression.userId.name + " " + progression.userId.surname,
                         grade: progression.grade,
+                        bonus: progression.helped.length > 0 ? Math.floor(Math.log2(progression.helped.length)) : 0,
                         level: progression.level,
                         gradeOverriden: progression.teacherGradeOverride,
                         gradeComment: progression.teacherGradeComment,
@@ -189,9 +191,11 @@ gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
 
             // Find users where either name or surname matches any of the regex patterns
             const users = session.students.filter((user) => {
-                return regexPatterns.some((pattern) => {
-                    return pattern.test(user.name) || pattern.test(user.surname);
-                });
+                return (
+                    regexPatterns.some((pattern) => {
+                        return pattern.test(user.name) || pattern.test(user.surname);
+                    }) && user.id !== req.user.id
+                );
             });
             return res.status(200).json(
                 users.map((user) => {

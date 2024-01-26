@@ -125,7 +125,7 @@ export class HelpingBonusComponent implements OnInit {
                     control.setErrors({ nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" });
                     return { nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" };
                 }
-                this.chosenStudent2 = this.usersList.find((student) => this.studentName(student) === name)!;
+                this.chosenStudent2 = this.usersList2.find((student) => this.studentName(student) === name)!;
             }
             return null;
         }
@@ -140,6 +140,7 @@ export class HelpingBonusComponent implements OnInit {
             if (this.chosenStudent2 !== undefined) {
                 students.push(this.chosenStudent2);
             }
+            console.log(students);
             this.gradeService.setBonus(students, this.grade.progressionId).subscribe({
                 next: () => {
                     this.router.navigate(["/admin"]);

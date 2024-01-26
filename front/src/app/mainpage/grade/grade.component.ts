@@ -7,11 +7,12 @@ import { StudentGrade } from "../../models/grade.model";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { HelpingBonusComponent } from "./helping-bonus/helping-bonus.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
     selector: "app-grade",
     standalone: true,
-    imports: [HeaderComponent, CommonModule],
+    imports: [HeaderComponent, CommonModule, MatTooltipModule],
     templateUrl: "./grade.component.html",
     styleUrl: "./grade.component.css",
 })

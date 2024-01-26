@@ -50,6 +50,8 @@ export class Session {
 
 export class TeacherSession extends Session {
     students: string[];
+    mean: number;
+    std: number;
 
     constructor(
         id: string,
@@ -61,9 +63,13 @@ export class TeacherSession extends Session {
         TP: string,
         indexGrades: Map<string, number>,
         status: SessionStatus,
+        mean: number,
+        std: number,
     ) {
         super(id, name, teachers, startDate, endDate, TP, indexGrades, status, false);
         this.students = students;
+        this.mean = mean;
+        this.std = std;
     }
 }
 

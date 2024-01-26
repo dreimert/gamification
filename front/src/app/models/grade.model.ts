@@ -3,6 +3,7 @@ export class StudentGrade {
     tp: string;
     level: number;
     grade: number;
+    bonus: number;
     mean: number;
     std: number;
     coefficient: number;
@@ -15,6 +16,7 @@ export class StudentGrade {
         tp: string,
         level: number,
         grade: number,
+        bonus: number,
         mean: number,
         std: number,
         coefficient: number,
@@ -26,6 +28,7 @@ export class StudentGrade {
         this.tp = tp;
         this.level = level;
         this.grade = grade;
+        this.bonus = bonus;
         this.mean = mean;
         this.std = std;
         this.coefficient = coefficient;
@@ -40,6 +43,7 @@ export class TeacherGrade {
     studentName: string;
     level: number;
     grade: number;
+    bonus: number;
     gradeOverriden: boolean;
     gradeComment: string;
 
@@ -48,6 +52,7 @@ export class TeacherGrade {
         studentName: string,
         level: number,
         grade: number,
+        bonus: number,
         gradeOverriden: boolean,
         gradeComment: string,
     ) {
@@ -55,6 +60,7 @@ export class TeacherGrade {
         this.studentName = studentName;
         this.level = level;
         this.grade = grade;
+        this.bonus = bonus;
         this.gradeOverriden = gradeOverriden;
         this.gradeComment = gradeComment;
     }

@@ -102,6 +102,8 @@ sessionSchema.methods.serializeTeacher = function () {
         TP: this.TP,
         indexGrades: Array.from(this.indexGrades.entries()),
         status: this.startDate <= Date.now() ? (this.endDate <= Date.now() ? "done" : "inProgress") : "scheduled",
+        mean: this.meanGrades,
+        std: this.standDevGrades,
     };
 };
 

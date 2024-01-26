@@ -29,8 +29,13 @@ export class SideBarComponent implements OnInit {
     }
 
     logout() {
-        this.userService.logout().subscribe(() => {
-            this.router.navigate(["/home"]);
+        this.userService.logout().subscribe({
+            next: () => {
+                this.router.navigate(["/login"]);
+            },
+            error: (err) => {
+                console.log(err);
+            },
         });
     }
 

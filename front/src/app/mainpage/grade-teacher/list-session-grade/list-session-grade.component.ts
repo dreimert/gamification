@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { HeaderComponent } from "../../header/header.component";
 import { Header } from "../../header/header";
 import { SessionService } from "../../../services/session.service";
-import { Session, TeacherSession } from "../../../models/session.model";
+import { TeacherSession } from "../../../models/session.model";
 import { GradeService } from "../../../services/grade.service";
 import { TeacherGrade } from "../../../models/grade.model";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -18,7 +18,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     styleUrl: "./list-session-grade.component.css",
 })
 export class ListSessionGradeComponent implements OnInit {
-    session!: Session | TeacherSession;
+    session!: TeacherSession;
     section: Header = { name: `Notes/` };
     loading: boolean = true;
     listGrade!: TeacherGrade[];
@@ -38,7 +38,7 @@ export class ListSessionGradeComponent implements OnInit {
             this.activeRoute.params.subscribe((params) => {
                 this.sessionService.getSession(params["id"]).subscribe({
                     next: (session) => {
-                        this.session = session;
+                        this.session = session as TeacherSession;
                         this.section = {
                             name: `Notes/${this.session.name}`,
                         };
