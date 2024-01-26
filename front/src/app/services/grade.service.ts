@@ -111,7 +111,7 @@ export class GradeService {
         });
     }
 
-    public getUserList(filter: string): Observable<User[]> {
+    public getUserList(sessionId: string, filter: string): Observable<User[]> {
         return new Observable<User[]>((subscriber) => {
             // Split the string into words
             const words = filter.split(" ");
@@ -125,20 +125,20 @@ export class GradeService {
             });
             subscriber.next(users);
             // Le code en dessous est une version qui devrait marcher avec le back
-            // this.http.post<User[]>(this.root + "students/" + , { searchString: filter }).subscribe({
-            //     next: (users: User[]) => {
-            //         subscriber.next(users);
-            //     },
-            //     error: (err) => {
-            //         console.log(err);
-            //         subscriber.error(err);
-            //     },
-            // });
+            this.http.post<User[]>(this.root + "students/" + sessionId, { searchString: filter }).subscribe({
+                next: (users: User[]) => {
+                    subscriber.next(users);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
         });
     }
-    public setBonus(user: User[], sessionId: string): Observable<void> {
+    public setBonus(users: User[], gradeId: string): Observable<void> {
         return new Observable<void>((subscriber) => {
-            this.http.post<void>(this.root + "setBonus/" + sessionId, { usersWithBonus: user }).subscribe({
+            this.http.post<void>(this.root + "setBonus/" + gradeId, { usersWithBonus: users }).subscribe({
                 next: () => {
                     subscriber.next();
                 },
@@ -150,18 +150,17 @@ export class GradeService {
         });
     }
     //Soit utiliser cette fonction soit le rajouter dans modele grade
-    public getBonus(gradeId: string): Observable<string[]> {
-        return new Observable<string[]>((subscriber) => {
-            subscriber.next(["abdel taya", "xinyi zhao"]);
-            // this.http.get<string[]>(this.root + "getBonus/" + gradeId).subscribe({
-            //     next: (bonus: string[]) => {
-            //         subscriber.next(bonus);
-            //     },
-            //     error: (err) => {
-            //         console.log(err);
-            //         subscriber.error(err);
-            //     },
-            // });
+    public getBonus(gradeId: string): Observable<User[]> {
+        return new Observable<User[]>((subscriber) => {
+            this.http.get<User[]>(this.root + "getBonus/" + gradeId).subscribe({
+                next: (bonus: User[]) => {
+                    subscriber.next(bonus);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
         });
     }
 }

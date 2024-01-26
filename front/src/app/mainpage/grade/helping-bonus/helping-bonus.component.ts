@@ -1,24 +1,27 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import {
-    FormBuilder,
-    Validators,
-    ReactiveFormsModule,
     AbstractControl,
-    ValidationErrors,
+    FormBuilder,
     FormControl,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
 } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { User } from "../../../models/user.model";
-import { Observable, debounceTime, of, startWith } from "rxjs";
+import { debounceTime, Observable, of, startWith } from "rxjs";
 import { GradeService } from "../../../services/grade.service";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { StudentGrade } from "../../../models/grade.model";
+import { Router } from "@angular/router";
+import { MatInputModule } from "@angular/material/input";
 
 @Component({
     selector: "app-helping-bonus",
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule, MatAutocompleteModule, MatTooltipModule],
+    imports: [ReactiveFormsModule, CommonModule, MatAutocompleteModule, MatTooltipModule, MatInputModule],
     templateUrl: "./helping-bonus.component.html",
     styleUrl: "./helping-bonus.component.css",
 })
@@ -27,33 +30,37 @@ export class HelpingBonusComponent implements OnInit {
     studentListAutocompletion!: Observable<User[]>;
     usersList: User[] = [];
     student2ListAutocompletion!: Observable<User[]>;
-    usersList2!: User[];
-    chosenStudent!: User;
-    chosenStudent2!: User;
+    usersList2: User[] = [];
+    chosenStudent!: User | undefined;
+    chosenStudent2!: User | undefined;
     constructor(
         public dialogRef: MatDialogRef<HelpingBonusComponent>,
         private formBuilder: FormBuilder,
         private gradeService: GradeService,
+        private router: Router,
+        @Inject(MAT_DIALOG_DATA) public grade: StudentGrade,
     ) {}
     studentBonusForm = this.formBuilder.group({
-        student1: ["", [Validators.required, (c: FormControl) => this.validateName(c, "student1")]],
+        student1: ["", [Validators.nullValidator, (c: FormControl) => this.validateName(c, "student1")]],
         student2: ["", [Validators.nullValidator, (c: FormControl) => this.validateName(c, "student2")]],
     });
     ngOnInit(): void {
         this.initStudent();
-        this.initAutoCompletion();
     }
     initStudent() {
-        this.gradeService.getBonus("").subscribe({
-            next: (students: string[]) => {
+        this.gradeService.getBonus(this.grade.progressionId).subscribe({
+            next: (students: User[]) => {
                 if (students.length >= 1) {
-                    this.studentBonusForm.get("student1")?.setValue(students[0]);
-                    this.studentFilter(students[0], 0);
+                    this.chosenStudent = students[0];
+                    this.studentBonusForm.get("student1")?.setValue(this.studentName(students[0]));
+                    this.studentFilter(this.studentName(students[0]), 0);
                     if (students.length >= 2) {
-                        this.studentBonusForm.get("student2")?.setValue(students[1]);
-                        this.studentFilter(students[1], 1);
+                        this.chosenStudent2 = students[1];
+                        this.studentBonusForm.get("student2")?.setValue(this.studentName(students[1]));
+                        this.studentFilter(this.studentName(students[1]), 1);
                     }
                 }
+                this.initAutoCompletion();
             },
             error: (err) => {
                 console.log(err);
@@ -73,7 +80,7 @@ export class HelpingBonusComponent implements OnInit {
     studentFilter(value: string | null, index: number): void {
         if (value && value.length > 2) {
             const filterValue = value.toLowerCase();
-            this.gradeService.getUserList(filterValue as string).subscribe({
+            this.gradeService.getUserList(this.grade.sessionId, filterValue as string).subscribe({
                 next: (users: User[]) => {
                     if (index === 0) {
                         this.usersList = users;
@@ -115,8 +122,8 @@ export class HelpingBonusComponent implements OnInit {
                     return { nameError: "Le nom entré n'existe pas" };
                 }
                 if (name === this.studentName(this.chosenStudent)) {
-                    control.setErrors({ nameUsedError: "Le nom entré est déjà utilisé pour le première étudiant" });
-                    return { nameUsedError: "Le nom entré est déjà utilisé pour le première étudiant" };
+                    control.setErrors({ nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" });
+                    return { nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" };
                 }
                 this.chosenStudent2 = this.usersList.find((student) => this.studentName(student) === name)!;
             }
@@ -126,23 +133,36 @@ export class HelpingBonusComponent implements OnInit {
     }
     onSubmit() {
         if (this.studentBonusForm.valid) {
-            const student: User[] = [this.chosenStudent];
-            if (this.chosenStudent2 !== undefined) {
-                student.push(this.chosenStudent2);
+            const students: User[] = [];
+            if (this.chosenStudent !== undefined) {
+                students.push(this.chosenStudent);
             }
-            console.log(student);
-            this.dialogRef.close();
-            // TODO : create id in grade class to change value
-            // this.gradeService.setBonus(student,sessionId).subscribe({
-            //     next: () => {
-            //         this.router.navigate(["/admin"]);
-            //     },
-            //     error: (err) => {
-            //         console.log(err);
-            //     },
-            // });
+            if (this.chosenStudent2 !== undefined) {
+                students.push(this.chosenStudent2);
+            }
+            this.gradeService.setBonus(students, this.grade.progressionId).subscribe({
+                next: () => {
+                    this.router.navigate(["/admin"]);
+                    this.dialogRef.close();
+                },
+                error: (err) => {
+                    console.log(err);
+                    this.dialogRef.close();
+                },
+            });
         }
     }
+
+    deleteStudent1() {
+        this.chosenStudent = undefined;
+        this.studentBonusForm.get("student1")?.setValue("");
+    }
+
+    deleteStudent2() {
+        this.chosenStudent2 = undefined;
+        this.studentBonusForm.get("student2")?.setValue("");
+    }
+
     onCancel() {
         this.dialogRef.close();
     }

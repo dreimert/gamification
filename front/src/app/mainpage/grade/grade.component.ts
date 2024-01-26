@@ -39,11 +39,11 @@ export class GradeComponent implements OnInit {
             },
         });
     }
-    popupBonus() {
+    popupBonus(grade: StudentGrade) {
+        console.log(grade);
         this.dialog.open(HelpingBonusComponent, {
             width: "60%",
-            height: "25%",
-            // data: session,
+            data: grade,
         });
     }
 }

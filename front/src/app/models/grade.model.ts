@@ -6,6 +6,9 @@ export class StudentGrade {
     mean: number;
     std: number;
     coefficient: number;
+    helpedBy: string[];
+    progressionId: string;
+    sessionId: string;
 
     constructor(
         sessionName: string,
@@ -15,6 +18,9 @@ export class StudentGrade {
         mean: number,
         std: number,
         coefficient: number,
+        helpedBy: string[],
+        progressionId: string,
+        sessionId: string,
     ) {
         this.sessionName = sessionName;
         this.tp = tp;
@@ -23,6 +29,9 @@ export class StudentGrade {
         this.mean = mean;
         this.std = std;
         this.coefficient = coefficient;
+        this.helpedBy = helpedBy;
+        this.progressionId = progressionId;
+        this.sessionId = sessionId;
     }
 }
 
