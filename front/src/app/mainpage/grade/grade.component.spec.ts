@@ -18,6 +18,9 @@ describe("GradeComponent", () => {
                     mean: 10,
                     std: 0,
                     coefficient: 1,
+                    helpedBy: [],
+                    progressionId: "1",
+                    sessionId: "1",
                 },
             ]);
         },
