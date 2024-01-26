@@ -21,6 +21,7 @@ describe("HelpingBonusComponent", () => {
         helpedBy: [],
         progressionId: "1",
         sessionId: "1",
+        bonus: 0,
     };
     const gradeServiceStub: Partial<GradeService> = {
         getBonus(): Observable<User[]> {

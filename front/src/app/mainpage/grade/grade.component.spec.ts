@@ -21,6 +21,7 @@ describe("GradeComponent", () => {
                     helpedBy: [],
                     progressionId: "1",
                     sessionId: "1",
+                    bonus: 0,
                 },
             ]);
         },

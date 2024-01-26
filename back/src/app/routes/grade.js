@@ -231,7 +231,10 @@ gradeRouter.post("/setBonus/:progressionId", isAuthenticated, async (req, res) =
         if (users.some((user) => user.id === req.user.id)) {
             return res.status(400).json({ message: "You can't set yourself as a bonus" });
         }
-        const progression = await Progression.findById(req.params.progressionId);
+        const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
+        if (progression.sessionId.endDate < new Date().setTime(new Date().getTime() - 60 * 60 * 1000)) {
+            return res.status(400).json({ message: "cannot edit bonuses 1h after session ends" });
+        }
         await progression.setHelpedBy(users);
         return res.status(200).json({ message: "Bonus set" });
     } catch (err) {

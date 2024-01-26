@@ -36,6 +36,8 @@ describe("SessionCreateComponent", () => {
                 status: SessionStatus.SCHEDULED,
                 indexGrades: new Map<string, number>([["1", 1]]),
                 joined: false,
+                mean: 0,
+                std: 0,
             });
         },
         fetchTPs(): Observable<string[]> {

@@ -36,6 +36,7 @@ describe("ListSessionGradeComponent", () => {
                     studentName: "test",
                     level: 1,
                     grade: 1,
+                    bonus: 1,
                     gradeOverriden: false,
                     gradeComment: "",
                 },
