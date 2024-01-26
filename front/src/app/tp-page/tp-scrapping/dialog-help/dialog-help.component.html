@@ -1,32 +1,23 @@
-<div class="h-full grid grid-cols-7 justify-center items-start overflow-y-auto">
-    <div
-        class="col-span-3 w-1/2 h-1/2 left-1/4 top-1/4 relative flex flex-col justify-center bg-grey-dark border-4 border-black shadow-shadow_img">
-        <div class="container mx-auto w-full border-b bg-white">
-            <img class="object-contain" src="/assets/imgJoin/kafka.png" alt="Icône du TP" />
-            <!-- TODO : change image -->
-        </div>
-        <div class="justify-center mt-6">
-            <!-- <p
-                class="mb-5 mx-1 text-center text-xl font-medium font-inter"
-                [ngStyle]="{ 'font-size': calculateFontSize(session.name.length) }">
-                {{ session.name }}
-            </p> -->
+<div class="h-full justify-center items-start flex-wrap bg-gray-300 text-black overflow-y-hidden">
+    <div class="h-1/6 w-full">
+        <div class="flex items-center h-2/3 bg-gray-500">
+            <p class="ml-5 py-2 text-lg">Help</p>
+            <button (click)="closeDialog()" class="w-7 h-7 right-4 absolute">
+                <img src="/assets/imgJoin/close.png" alt="closeDialog" />
+            </button>
         </div>
     </div>
 
-    <!-- <div class="col-span-4 h-full">
-        <div class="top-1/4 relative text-black text-xl font-medium font-['Inter'] leading-9">
-            Date de début : {{ session.startDate | date: "medium" }} <br />
-            Date de fin : {{ session.endDate | date: "medium" }} <br />
-            TODO:
-            <a class="text-lg underline text-blue-500" href="https://angular.io/api/common/DatePipe#usage-example">
-                https://angular.io/api/common/DatePipe#usage-example
-            </a>
-            <br /><br /><br /><br />
-        </div>
-    </div> -->
-</div>
+    <div class="h-5/6 w-full overflow-y-auto">
+        <div class="w-6/7 ml-5 mb-10" style="word-break: break-all">
+            Vous devez utiliser ce token pour réaliser le scrapping:
+            <br />
+            <p class="mt-2">token:</p>
+            <p class="text-blue-500 ml-2">"{{ token }}"</p>
 
-<button (click)="closeDialog()" class="w-10 h-10 right-3 top-3 absolute">
-    <img src="/assets/imgJoin/close.png" alt="closeDialog" />
-</button>
+            <br /><br />
+            Si vous voulez plus de tutoriels sur le scrapping, vous cliquerez sur les liens suivants:
+            <a href="lien" class="text-blue-500 underline">lien</a>
+        </div>
+    </div>
+</div>

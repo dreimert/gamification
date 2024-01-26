@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { TpPageComponent } from "./tp-page.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("TpPageComponent", () => {
     let component: TpPageComponent;
@@ -7,7 +8,7 @@ describe("TpPageComponent", () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [TpPageComponent],
+            imports: [TpPageComponent, RouterTestingModule],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TpPageComponent);

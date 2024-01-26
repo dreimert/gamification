@@ -61,7 +61,7 @@ export class TpKafkaComponent implements OnInit {
     popup(element: Block) {
         console.log("clicked");
         console.log(element);
-        const dialogRef = this.dialog.open(ParamPopupComponent, {
+        this.dialog.open(ParamPopupComponent, {
             width: "50%",
             height: "50%",
             data: element,
