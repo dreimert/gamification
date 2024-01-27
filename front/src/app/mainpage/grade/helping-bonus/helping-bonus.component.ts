@@ -26,7 +26,6 @@ import { MatInputModule } from "@angular/material/input";
     styleUrl: "./helping-bonus.component.css",
 })
 export class HelpingBonusComponent implements OnInit {
-    students: User[] = [];
     studentListAutocompletion!: Observable<User[]>;
     usersList: User[] = [];
     student2ListAutocompletion!: Observable<User[]>;
@@ -107,10 +106,12 @@ export class HelpingBonusComponent implements OnInit {
             if (s === "student1") {
                 const existsName: boolean = this.usersList.some((student) => this.studentName(student) === name);
                 if (!existsName) {
+                    this.chosenStudent = undefined;
                     control.setErrors({ nameError: "Le nom entré n'existe pas" });
                     return { nameError: "Le nom entré n'existe pas" };
                 }
                 if (name === this.studentName(this.chosenStudent2)) {
+                    this.chosenStudent = undefined;
                     control.setErrors({ nameUsedError: "Le nom entré est déjà utilisé pour le deuxième étudiant" });
                     return { nameUsedError: "Le nom entré est déjà utilisé pour le deuxième étudiant" };
                 }
@@ -118,10 +119,12 @@ export class HelpingBonusComponent implements OnInit {
             } else {
                 const existsName: boolean = this.usersList2.some((student) => this.studentName(student) === name);
                 if (!existsName) {
+                    this.chosenStudent2 = undefined;
                     control.setErrors({ nameError: "Le nom entré n'existe pas" });
                     return { nameError: "Le nom entré n'existe pas" };
                 }
                 if (name === this.studentName(this.chosenStudent)) {
+                    this.chosenStudent2 = undefined;
                     control.setErrors({ nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" });
                     return { nameUsedError: "Le nom entré est déjà utilisé pour le premier étudiant" };
                 }
@@ -140,10 +143,8 @@ export class HelpingBonusComponent implements OnInit {
             if (this.chosenStudent2 !== undefined) {
                 students.push(this.chosenStudent2);
             }
-            console.log(students);
             this.gradeService.setBonus(students, this.grade.progressionId).subscribe({
                 next: () => {
-                    this.router.navigate(["/admin"]);
                     this.dialogRef.close();
                 },
                 error: (err) => {
