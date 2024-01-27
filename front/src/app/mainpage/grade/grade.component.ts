@@ -26,32 +26,37 @@ export class GradeComponent implements OnInit {
     grades!: StudentGrade[];
 
     constructor(
+        // service pour récupérer les notes
         private gradeService: GradeService,
+        // Element de routage pour changer de page
         private router: Router,
+        // Element pour afficher le popup
         private dialog: MatDialog,
+        // service pour récupérer les notes
         private sessionService: SessionService,
     ) {}
 
     ngOnInit() {
+        // Récupérer les notes de l'élève
         this.gradeService.getMyGrades().subscribe({
             next: (grades) => {
                 this.grades = grades;
             },
             error: (err) => {
+                // Si erreur on redirige le user vers l'accueil
                 console.log(err);
                 this.router.navigate(["/"]);
             },
         });
     }
+    // Va soit ouvrir le popup si le temps est inférieur à la deadline pour voter soit afficher une alerte qui spécifie pour qui on a voté
     popupBonus(grade: StudentGrade) {
         let editTimeEnded: boolean;
         const date = new Date();
         date.setHours(date.getHours() - 1);
-        console.log(date.toISOString());
         this.sessionService.getSession(grade.sessionId).subscribe({
             next: (session) => {
                 const endDate = new Date(session.endDate);
-                console.log(endDate.toISOString());
                 editTimeEnded = endDate.toISOString() < date.toISOString();
                 if (editTimeEnded) {
                     this.gradeService.getBonus(grade.progressionId).subscribe({
@@ -61,7 +66,6 @@ export class GradeComponent implements OnInit {
                                     "Vous ne pouvez plus voter.\nVous avez voté pour " +
                                         this.studentName(students[0]) +
                                         (students.length > 1 ? " et " + this.studentName(students[1]) : "") +
-                                        this.studentName(students[1]) +
                                         ".",
                                 );
                             } else {
@@ -84,6 +88,7 @@ export class GradeComponent implements OnInit {
             },
         });
     }
+    // Retourne le nom complet de l'élève
     studentName(student: User | undefined) {
         return student === undefined ? null : student.name + " " + student.surname;
     }

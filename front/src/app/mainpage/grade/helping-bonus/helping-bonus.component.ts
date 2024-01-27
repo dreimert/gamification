@@ -26,11 +26,16 @@ import { MatInputModule } from "@angular/material/input";
     styleUrl: "./helping-bonus.component.css",
 })
 export class HelpingBonusComponent implements OnInit {
+    // Liste pour l'autocomplétion lors de la recherche
     studentListAutocompletion!: Observable<User[]>;
+    // Liste des users filtrés lors de la recherche
     usersList: User[] = [];
-    student2ListAutocompletion!: Observable<User[]>;
-    usersList2: User[] = [];
     chosenStudent!: User | undefined;
+    // Deuxième liste pour l'autocomplétion lors de la recherche
+    student2ListAutocompletion!: Observable<User[]>;
+    // Deuxième liste des users filtrés lors de la recherche
+    usersList2: User[] = [];
+    // Deuxième objet user envoyé lors de la suoumission
     chosenStudent2!: User | undefined;
     constructor(
         public dialogRef: MatDialogRef<HelpingBonusComponent>,
@@ -47,6 +52,7 @@ export class HelpingBonusComponent implements OnInit {
         this.initStudent();
     }
     initStudent() {
+        // Requête pour obtenir les élèves pour qui l'utilisateur a voté
         this.gradeService.getBonus(this.grade.progressionId).subscribe({
             next: (students: User[]) => {
                 if (students.length >= 1) {
@@ -66,6 +72,7 @@ export class HelpingBonusComponent implements OnInit {
             },
         });
     }
+    // Initialiser l'autocomplétion à chaque changement de valeur
     initAutoCompletion(): void {
         this.studentBonusForm
             .get("student1")
@@ -76,6 +83,7 @@ export class HelpingBonusComponent implements OnInit {
             ?.valueChanges.pipe(debounceTime(300), startWith(""))
             .subscribe((value) => this.studentFilter(value, 1));
     }
+    // Affecter à la liste d'autocomplétion les valeurs filtrés du back
     studentFilter(value: string | null, index: number): void {
         if (value && value.length > 2) {
             const filterValue = value.toLowerCase();
@@ -97,9 +105,11 @@ export class HelpingBonusComponent implements OnInit {
             this.studentListAutocompletion = of([]);
         }
     }
+    // Retourne le nom complet de l'élève
     studentName(student: User | undefined) {
         return student === undefined ? null : student.name + " " + student.surname;
     }
+    // Vérifie que l'input correspond à un élève dans la userList et qu'il n'a pas été assigné deux fois
     validateName(control: AbstractControl, s: string): ValidationErrors | null {
         const name: string = control.value;
         if (name) {
@@ -134,6 +144,7 @@ export class HelpingBonusComponent implements OnInit {
         }
         return null;
     }
+    // Enregistrer les modifications dans le back
     onSubmit() {
         if (this.studentBonusForm.valid) {
             const students: User[] = [];
@@ -160,17 +171,17 @@ export class HelpingBonusComponent implements OnInit {
             });
         }
     }
-
+    // Supprimer l'élève dans le premier input
     deleteStudent1() {
         this.chosenStudent = undefined;
         this.studentBonusForm.get("student1")?.setValue("");
     }
-
+    // Supprimer l'élève dans le second input
     deleteStudent2() {
         this.chosenStudent2 = undefined;
         this.studentBonusForm.get("student2")?.setValue("");
     }
-
+    // Annuler la saisie
     onCancel() {
         this.dialogRef.close();
     }
