@@ -34,15 +34,10 @@ export class SessionCardComponent implements OnInit {
                         const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`], {
                             queryParams: {
                                 id: data.session.id,
-                                name: data.session.name,
-                                TP: data.session.TP,
-                                endDate: data.session.endDate,
-                                startDate: data.session.startDate,
                                 token: data.token,
                                 level: data.progression.level,
                             },
                         });
-                        // const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`]);
                         const url = this.router.serializeUrl(urlTree);
                         window.open(url, "_blank");
                     },
