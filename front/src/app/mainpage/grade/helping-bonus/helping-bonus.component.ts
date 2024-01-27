@@ -149,6 +149,11 @@ export class HelpingBonusComponent implements OnInit {
                     alert("Vos changements ont été enregistrés.");
                 },
                 error: (err) => {
+                    if (err.error.message === "cannot edit bonuses 1h after session ends") {
+                        alert(
+                            "Vos changements n'ont pas été enregistrés. Vous ne pouvez pas ajouter de bonus une heure après la fin de la session.",
+                        );
+                    }
                     console.log(err);
                     this.dialogRef.close();
                 },

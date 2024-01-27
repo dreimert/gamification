@@ -46,26 +46,22 @@ export class GradeComponent implements OnInit {
     popupBonus(grade: StudentGrade) {
         let editTimeEnded: boolean;
         const date = new Date();
-        date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
+        date.setHours(date.getHours() - 1);
+        console.log(date.toISOString());
         this.sessionService.getSession(grade.sessionId).subscribe({
             next: (session) => {
                 const endDate = new Date(session.endDate);
-                editTimeEnded = endDate.getTime() < date.getTime();
+                console.log(endDate.toISOString());
+                editTimeEnded = endDate.toISOString() < date.toISOString();
                 if (editTimeEnded) {
                     this.gradeService.getBonus(grade.progressionId).subscribe({
                         next: (students: User[]) => {
-                            if (students.length >= 2) {
+                            if (students.length >= 1) {
                                 alert(
                                     "Vous ne pouvez plus voter.\nVous avez voté pour " +
                                         this.studentName(students[0]) +
-                                        " et " +
+                                        (students.length > 1 ? " et " + this.studentName(students[1]) : "") +
                                         this.studentName(students[1]) +
-                                        ".",
-                                );
-                            } else if (students.length == 1) {
-                                alert(
-                                    "Vous ne pouvez plus voter.\nVous avez voté pour " +
-                                        this.studentName(students[0]) +
                                         ".",
                                 );
                             } else {
