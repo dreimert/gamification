@@ -146,6 +146,7 @@ export class HelpingBonusComponent implements OnInit {
             this.gradeService.setBonus(students, this.grade.progressionId).subscribe({
                 next: () => {
                     this.dialogRef.close();
+                    alert("Vos changements ont été enregistrés.");
                 },
                 error: (err) => {
                     console.log(err);
