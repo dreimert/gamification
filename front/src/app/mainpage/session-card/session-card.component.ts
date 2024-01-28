@@ -7,7 +7,7 @@ import { Session, SessionStatus, TeacherSession } from "../../models/session.mod
 import { Router, RouterLink } from "@angular/router";
 import { PrivateUser, UserType } from "../../models/user.model";
 import { UserService } from "../../services/user.service";
-import { JoinSessionResponse, SessionService } from "../../services/session.service";
+import { SessionService } from "../../services/session.service";
 
 @Component({
     selector: "app-session-card",
@@ -26,26 +26,7 @@ export class SessionCardComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((password) => {
             if (password) {
-                this.sessionService.joinSession(session, password).subscribe({
-                    next: (data) => {
-                        // TODO: redirect to game page
-                        console.log(data);
-                        alert("Vous avez rejoint la session: " + data.session.name);
-                        const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`], {
-                            queryParams: {
-                                id: data.session.id,
-                                token: data.token,
-                                level: data.progression.level,
-                            },
-                        });
-                        const url = this.router.serializeUrl(urlTree);
-                        window.open(url, "_blank");
-                    },
-                    error: (err) => {
-                        console.log(err);
-                        alert("Impossible de rejoindre la session");
-                    },
-                });
+                this.rejoinSession(session, password);
             }
         });
     }
@@ -90,11 +71,19 @@ export class SessionCardComponent implements OnInit {
         });
     }
 
-    rejoinSession(session: Session) {
-        this.sessionService.joinSession(session, "").subscribe({
-            next: (data: JoinSessionResponse) => {
-                // TODO: redirect to game page
-                alert("Vous avez rejoint la session" + data.session.name);
+    rejoinSession(session: Session, password = "") {
+        this.sessionService.joinSession(session, password).subscribe({
+            next: (data) => {
+                console.log(data);
+                alert("Vous avez rejoint la session: " + data.session.name);
+                const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`], {
+                    queryParams: {
+                        token: data.token,
+                        level: data.progression.level,
+                    },
+                });
+                const url = this.router.serializeUrl(urlTree);
+                window.open(url, "_blank");
             },
             error: (err) => {
                 console.log(err);

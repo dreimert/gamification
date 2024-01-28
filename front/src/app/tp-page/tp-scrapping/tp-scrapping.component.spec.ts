@@ -7,7 +7,7 @@ import { PrivateUser, UserType } from "../../models/user.model";
 import { SessionStatus } from "../../models/session.model";
 import { TpScrappingService } from "../../services/tp-scrapping.service";
 import { UserService } from "../../services/user.service";
-import { lvl1Code, lvl2Course, lvl3Res, lvl4Res, verifyPassCode } from "../../services/tp-scrapping.service";
+import { lvl1Code, lvl2Course, lvl4Res, verifyPassCode } from "../../services/tp-scrapping.service";
 import { Observable, of } from "rxjs";
 
 let tpScrappingService: Partial<TpScrappingService>;
@@ -40,9 +40,6 @@ describe("TpScrappingComponent", () => {
                 return of<lvl2Course>({
                     courseCode: "string",
                 });
-            },
-            getLvl3BookInfo(): Observable<lvl3Res> {
-                return of<lvl3Res>({});
             },
             getLvl4TeacherInfo(): Observable<lvl4Res> {
                 return of<lvl4Res>({

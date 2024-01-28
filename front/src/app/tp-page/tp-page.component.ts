@@ -3,7 +3,8 @@ import { ActivatedRoute } from "@angular/router";
 import { TpKafkaComponent } from "./tp-kafka/tp-kafka.component";
 import { TpScrappingComponent } from "./tp-scrapping/tp-scrapping.component";
 import { CommonModule } from "@angular/common";
-import { Session, SessionStatus } from "../models/session.model";
+import { Session, TeacherSession } from "../models/session.model";
+import { SessionService } from "../services/session.service";
 
 @Component({
     selector: "app-tp-page",
@@ -14,33 +15,29 @@ import { Session, SessionStatus } from "../models/session.model";
 })
 export class TpPageComponent implements OnInit {
     tpId!: string;
-    tp = tp;
-    session!: Session;
+    session!: Session | undefined;
     token!: string;
     historyStudentLevel!: string;
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(
+        private route: ActivatedRoute,
+        private sessionService: SessionService,
+    ) {}
     ngOnInit() {
         this.route.params.subscribe((params) => {
             this.tpId = params["id"];
-            console.log("tp-page");
         });
         const receivedData = this.route.snapshot.queryParams;
-        console.log(receivedData);
         this.token = receivedData["token"];
         this.historyStudentLevel = receivedData["level"];
+        this.fetchSessionInfo(this.tpId);
+    }
 
-        this.session = {
-            id: receivedData["id"],
-            name: receivedData["name"],
-            TP: receivedData["TP"],
-            teachers: [],
-            startDate: receivedData["startDate"],
-            endDate: receivedData["endDate"],
-            indexGrades: new Map<string, number>(),
-            status: SessionStatus.INPROGRESS,
-            joined: true,
-        };
+    fetchSessionInfo(id: string) {
+        this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
+            this.session = sessions.find((e) => {
+                return e.id === id;
+            }) as Session;
+        });
     }
 }
-const tp = "kafka";

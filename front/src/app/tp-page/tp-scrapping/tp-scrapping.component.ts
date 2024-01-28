@@ -74,10 +74,12 @@ export class TpScrappingComponent implements OnInit {
 
     changeLevel() {
         this.lvl += 1;
-        console.log("lvl: ", this.lvl);
     }
     fetchLevel() {
         this.lvl = parseInt(this.historyStudentLevel);
+        if (this.lvl !== 0) {
+            this.lvl += 1;
+        }
     }
     fetchInfoFromBack() {
         // Service to get the information to show for each level
@@ -98,7 +100,6 @@ export class TpScrappingComponent implements OnInit {
                 this.loadSentences();
                 break;
         }
-        console.log(this.listResponse);
     }
 
     verifyEnteredPasscode(currentLvl: number) {
@@ -137,6 +138,9 @@ export class TpScrappingComponent implements OnInit {
             this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode) => {
                 this.codeCorrect = verifyPassCode.success;
             });
+            if (this.lvl === 4 && this.codeCorrect) {
+                this.changeLevel();
+            }
         }
     }
 
@@ -193,43 +197,48 @@ export class TpScrappingComponent implements OnInit {
             case 2:
                 this.sentences = [
                     `^1000Attend..... mais quoi.....?`,
-                    `^1000Normalement, je devrais pouvoir accéder à la liste des cours avec les 3 années du département TC , mais il semble que toutes les années et tous les noms de cours sont chiffrés !`,
-                    `^1000Je compte sur vous maintenant ! Ce que je sais, c'est que cette page présente trois années de departement (3TC, 4TC et 5TC). A l'intérieur de chaque lien se trouvent la liste UE qui contient la liste des cours. Chaque cours a son propre numéro d'identification.`,
-                    `^1000Pouvez-vous m'aider à trouver le code de cours <span class="text-yellow-200">${
+                    `^1000Normalement, je devrais pouvoir accéder à la liste des cours avec les 3 années du département TC , mais il semble que toutes les années et tous les noms de cours soient chiffrés !`,
+                    `^1000Je compte sur vous maintenant ! Ce que je sais, c'est que cette page présente trois années de departement (3TC, 4TC et 5TC). A l'intérieur de chaque lien se trouvent la liste des UEs qui contient elle-même la liste des cours. Chaque cours a son propre numéro d'identification.`,
+                    `^1000Pouvez-vous m'aider à trouver le code du cours <span class="text-yellow-200">${
                         this.listResponse.lvl2
                     }</span> s'il vous plaît ?^100
         <span class="text-yellow-200">liste des cours du département TC:</span> <a class="text-blue-200" href="${
             environment.backendUrl + "/api/scrapping"
         }/lvl2/scrap" target="_blank">${environment.backendUrl + "/api/scrapping"}/lvl2/scrap</a>
-        Entrez le nom, le nombre d'heure et le nombre de crédit du cours (forme: nom/nombre d'heure/ECTS): >`,
+        Entrez le nom, le nombre d'heure et le nombre de crédit du cours (forme: nom,nombre d'heure,ECTS): >`,
                 ];
                 break;
             case 3:
                 this.sentences = [
-                    `^1000Je vais vous dire, je vais aller sur planete et faire changer mon score ! Tu devras garder le secret pour moi !`,
+                    `^1000Je vais vous dire, je vais aller sur planete et faire changer ma note ! Tu devras garder le secret pour moi !`,
                     `^1000Accès à la base de données de planete.... Voila! C'est fait! Entrer le code de cours.....`,
                     `^1000"Vérification d'identité "??? "Parmi les livres suivants, lequel a la plus petite somme de numéros d'ISBN ?"`,
                     `^1000Dites-moi que ce n'est pas vrai!!!! Est-ce une question qu'une personne normale pourrait poser? Mais bon, ici, c'est l”INSA..... Si je comprends bien, il m'a donné une liste de livres, et chaque titre doit être suivi de son numéro ISBN (InternationalStandardBookNumber).Il faudrait additionner les chiffres de l'ISBN pour chaque livre et trouver le livre dont la somme est la plus petite.^100
         <span class="text-yellow-200">liste de livre : </span> <a class="text-blue-200" href="${
             environment.backendUrl + "/api/scrapping"
         }/lvl3/scrap target="_blank">${environment.backendUrl + "/api/scrapping"}/lvl3/scrap</a>
-        En cas d'égalité, on renvoie celui dont le titre est le premier dans l'ordre alphabétique. 
-        Entrez le titre du livre et son code ISBN (forme: titre du livre/ISBN): > `,
+        En cas d'égalité, donnez celui dont le titre est le premier dans l'ordre alphabétique. 
+        Entrez le titre du livre et son code ISBN (forme: titre du livre,ISBN): > `,
                 ];
                 break;
             case 4:
                 this.sentences = [
-                    `^1000C'est presque terminé !! J'avais anticipé cela. Saisir le code de confirmation. Pour autant que je sache, Il recueille les informations personnelles de quatre personnes. Ce code est constitué des <span class="text-yellow-200">initiales de la première personne + les 3 derniers chiffres du numéro de téléphone de la deuxième personne + lu jour de naissance de la troisième personne (2 chiffres) + le nom du chien de la quatrième personne </span>.`,
+                    `^1000C'est presque terminé !! J'avais anticipé cela. Saisir le code de confirmation. Pour autant que je sache, il demande les informations personnelles de quatre personnes. Ce code est constitué des <span class="text-yellow-200">initiales de la première personne + les 3 derniers chiffres du numéro de téléphone de la deuxième personne + le jour de naissance de la troisième personne (2 chiffres) + le nom du chien de la quatrième personne </span>.`,
                     `^1000Le plus gros problème est que je ne sais pas qui sont ces quatre personnes ! Je ne connais que certaines de leurs données. Vous devrez utiliser ces informations pour trouver ces quatre personnes, et enfin le code de confirmation.`,
                     `^1000 N'abandonnez pas !! Je pourrai changer vos notes lorsque j'entrerai dans le système : D^100
-        <span class="text-yellow-200">liste d'information personnelle des enseignants : </span> <a class="text-blue-200" href="${
+        <span class="text-yellow-200">liste d'information personnelles des enseignants : </span> <a class="text-blue-200" href="${
             environment.backendUrl + "/api/scrapping"
         }/lvl4/scrap" target="_blank">${environment.backendUrl + "/api/scrapping"}/lvl4/scrap</a>
-        En cas d'égalité, on renvoie celui dont le titre est le premier dans l'ordre alphabétique. 
         Entrez  le code de confirmation : >  `,
                 ];
                 break;
-            case 5:
+            case 6:
+                this.sentences = [
+                    `<span class="text-red-500">Finalement, ce collègue de 5TC a été arrêté. Et il vous a dénoncé comme son complice.</span>`,
+                    `^1000Nous espérons que vous avez apprécié ce jeu !^500`,
+                    `^500Courage pour la suite !`,
+                ];
+                break;
         }
     }
 }

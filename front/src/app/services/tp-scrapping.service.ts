@@ -30,20 +30,11 @@ export class TpScrappingService {
         });
     }
 
-    public getLvl3BookInfo(token: string): Observable<lvl3Res> {
-        const header = new HttpHeaders().set("authorization", "Bearer " + token);
-        return new Observable<lvl3Res>((subscriber) => {
-            this.http.get<lvl3Res>(this.root + "lvl3", { headers: header }).subscribe((course) => {
-                subscriber.next(course);
-            });
-        });
-    }
-
     public getLvl4TeacherInfo(token: string): Observable<lvl4Res> {
         const header = new HttpHeaders().set("authorization", "Bearer " + token);
         return new Observable<lvl4Res>((subscriber) => {
-            this.http.get<lvl4Res>(this.root + "lvl4", { headers: header }).subscribe((course) => {
-                subscriber.next(course);
+            this.http.get<lvl4Res>(this.root + "lvl4", { headers: header }).subscribe((teacherInfo) => {
+                subscriber.next(teacherInfo);
             });
         });
     }
@@ -65,7 +56,6 @@ export interface lvl1Code {
 export interface lvl2Course {
     courseCode: string;
 }
-export interface lvl3Res {}
 export interface lvl4Res {
     p1Name: string;
     p2Initials: string;
