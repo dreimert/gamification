@@ -96,6 +96,10 @@ gradeRouter.post("/setGrade/:progressionId", isAuthenticated, async (req, res) =
 gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
+            const session = await Session.findById(req.params.sessionId);
+            if (!session.teachers.some((teacher) => teacher.id === req.user.id) && !req.user.isAdmin()) {
+                return res.status(403).json({ message: "You are not allowed to access this resource" });
+            }
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
             const filtered = progressions.filter((progression) => progression.level === req.body.level);
             filtered.forEach((progression) => {
@@ -104,7 +108,6 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
                     progression.save();
                 }
             });
-            const session = await Session.findById(req.params.sessionId);
             session.indexGrades.set(req.body.level.toString(), req.body.grade);
             await session.save();
             // Non modified progressions
@@ -132,6 +135,10 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
 gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
+            const session = await Session.findById(req.params.sessionId);
+            if (!session.teachers.some((teacher) => teacher.id === req.user.id) && !req.user.isAdmin()) {
+                return res.status(403).json({ message: "You are not allowed to access this resource" });
+            }
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
             progressions.forEach((progression) => {
                 if (progression.teacherGradeOverride === false) {
@@ -139,7 +146,6 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
                     progression.save();
                 }
             });
-            const session = await Session.findById(req.params.sessionId);
             session.indexGrades = new Map(getIndexGrades().get(session.TP)());
             await session.save();
             // Non modified progressions
@@ -184,6 +190,12 @@ gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
     if (req.user.isStudent()) {
         try {
             const session = await Session.findById(req.params.sessionid).populate("students");
+            if (!session) {
+                return res.status(404).json({ message: "Session not found" });
+            }
+            if (!session.students.some((student) => student.id === req.user.id)) {
+                return res.status(403).json({ message: "You are not in this session" });
+            }
             // Filter the students based on the searchString
             const words = req.body.searchString.split(" ");
             // Create a regex pattern for each word
@@ -213,6 +225,12 @@ gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
 gradeRouter.get("/getBonus/:progressionId", isAuthenticated, async (req, res) => {
     try {
         const progression = await Progression.findById(req.params.progressionId).populate("helpedBy");
+        if (!progression) {
+            return res.status(404).json({ message: "Progression not found" });
+        }
+        if (progression.userId !== req.user.id) {
+            return res.status(403).json({ message: "You are not allowed to access this resource" });
+        }
         return res.status(200).json(progression.helpedBy.map((user) => user.serializePublic()));
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -232,6 +250,12 @@ gradeRouter.post("/setBonus/:progressionId", isAuthenticated, async (req, res) =
             return res.status(400).json({ message: "You can't set yourself as a bonus" });
         }
         const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
+        if (!progression) {
+            return res.status(404).json({ message: "Progression not found" });
+        }
+        if (progression.userId !== req.user.id) {
+            return res.status(403).json({ message: "You are not allowed to access this resource" });
+        }
         if (progression.sessionId.endDate < new Date().setTime(new Date().getTime() - 60 * 60 * 1000)) {
             return res.status(400).json({ message: "cannot edit bonuses 1h after session ends" });
         }
