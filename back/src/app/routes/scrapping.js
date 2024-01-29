@@ -29,9 +29,10 @@ scrappingRouter.get(
     checkSessionValidity("scrapping"),
     checkProgressionValidity(0),
     (req, res) => {
+        const baseSeed = req.user.id + req.tpSession.id;
         const teachers = getDataFromFile("lvl1_data.json");
-        shuffleArraySeeded(teachers, req.user.id);
-        const index = getIntFromRange(0, teachers.length - 1, req.user.id + "teacher");
+        shuffleArraySeeded(teachers, baseSeed);
+        const index = getIntFromRange(0, teachers.length - 1, baseSeed + "teacher");
         const teacher = teachers[index];
         res.json({ teacherInitials: teacher.initials });
     },
@@ -46,8 +47,9 @@ scrappingRouter.post(
     checkProgressionValidity(0),
     async (req, res) => {
         const teachers = getDataFromFile("lvl1_data.json");
-        shuffleArraySeeded(teachers, req.user.id);
-        const index = getIntFromRange(0, teachers.length - 1, req.user.id + "teacher");
+        const baseSeed = req.user.id + req.tpSession.id;
+        shuffleArraySeeded(teachers, baseSeed);
+        const index = getIntFromRange(0, teachers.length - 1, baseSeed + "teacher");
         const trueTeacher = teachers[index];
         const username = req.body.username;
         if (!username) {
@@ -81,7 +83,8 @@ scrappingRouter.get(
     checkProgressionValidity(0),
     (req, res) => {
         const teachers = getDataFromFile("lvl1_data.json");
-        shuffleArraySeeded(teachers, req.user.id);
+        const baseSeed = req.user.id + req.tpSession.id;
+        shuffleArraySeeded(teachers, baseSeed);
         res.render("scrapping/lvl1.njk", { teachers: teachers });
     },
 );
