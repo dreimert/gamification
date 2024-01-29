@@ -9,6 +9,7 @@ module.exports = {
                     dark: "#D7D7D7",
                 },
                 sidebar: "#45504F",
+                avatar: "#466a67",
                 redButton: "#CF2700",
                 blueButton: "#004FFF",
                 bgHeaderTable: "#AAAAAA",
