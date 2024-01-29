@@ -8,9 +8,14 @@
                 <th class="border-r border-borderTable">Session</th>
                 <th class="border-r border-borderTable">Niveau atteint</th>
                 <th class="border-r border-borderTable">Note</th>
-                <th class="border-r border-borderTable">Moyenne</th>
-                <th class="border-r border-borderTable">Ecart-type</th>
-                <th class="">Coefficient</th>
+                <th class="border-r border-borderTable" matTooltip="Indépendante des bonus" matTooltipPosition="above">
+                    Moyenne
+                </th>
+                <th class="border-r border-borderTable" matTooltip="Indépendant des bonus" matTooltipPosition="above">
+                    Ecart-type
+                </th>
+                <th class="border-r border-borderTable">Coefficient</th>
+                <th class="">Bonus</th>
             </tr>
         </thead>
         <tbody class="[&>*:nth-child(even)]:bg-bgTableDark">
@@ -18,10 +23,27 @@
                 <td class="border-r border-borderTable">{{ grade.tp | titlecase }}</td>
                 <td class="border-r border-borderTable">{{ grade.sessionName }}</td>
                 <td class="border-r border-borderTable">{{ grade.level }}</td>
-                <td class="border-r border-borderTable">{{ grade.grade }}</td>
+                <td class="border-r border-borderTable">
+                    {{ grade.grade }}
+                    <span
+                        *ngIf="grade.bonus > 0"
+                        class="text-green-500"
+                        matTooltip="Bonus pour avoir aidé des étudiants"
+                        matTooltipPosition="above">
+                        + {{ grade.bonus }}</span
+                    >
+                </td>
                 <td class="border-r border-borderTable">{{ grade.mean }}</td>
                 <td class="border-r border-borderTable">{{ grade.std }}</td>
-                <td>{{ grade.coefficient }}</td>
+                <td class="border-r border-borderTable">{{ grade.coefficient }}</td>
+                <td class="flex justify-center">
+                    <!-- TODO Show voted students -->
+                    <button
+                        class="flex justify-center items-center text-white w-fit bg-blueButton disabled:bg-blue-400 hover:bg-blue-800 rounded-lg py-2 px-2 my-1"
+                        (click)="popupBonus(grade)">
+                        Ajouter un bonus
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>

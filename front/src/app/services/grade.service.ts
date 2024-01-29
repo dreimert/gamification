@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { StudentGrade, TeacherGrade } from "../models/grade.model";
+import { User, UserType } from "../models/user.model";
 
 @Injectable({
     providedIn: "root",
@@ -109,8 +110,66 @@ export class GradeService {
             });
         });
     }
-}
 
+    public getUserList(sessionId: string, filter: string): Observable<User[]> {
+        return new Observable<User[]>((subscriber) => {
+            // Split the string into words
+            const words = filter.split(" ");
+
+            // Create a regex pattern for each word
+
+            // Find users where either name or surname matches any of the regex patterns
+            const users = userList.filter((user) => {
+                const w = words.some((word) => user.name.includes(word) || user.surname.includes(word));
+                return w;
+            });
+            subscriber.next(users);
+            // Le code en dessous est une version qui devrait marcher avec le back
+            this.http.post<User[]>(this.root + "students/" + sessionId, { searchString: filter }).subscribe({
+                next: (users: User[]) => {
+                    subscriber.next(users);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
+    public setBonus(users: User[], gradeId: string): Observable<void> {
+        return new Observable<void>((subscriber) => {
+            this.http.post<void>(this.root + "setBonus/" + gradeId, { usersWithBonus: users }).subscribe({
+                next: () => {
+                    subscriber.next();
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
+    //Soit utiliser cette fonction soit le rajouter dans modele grade
+    public getBonus(gradeId: string): Observable<User[]> {
+        return new Observable<User[]>((subscriber) => {
+            this.http.get<User[]>(this.root + "getBonus/" + gradeId).subscribe({
+                next: (bonus: User[]) => {
+                    subscriber.next(bonus);
+                },
+                error: (err) => {
+                    console.log(err);
+                    subscriber.error(err);
+                },
+            });
+        });
+    }
+}
+const userList: User[] = [
+    { id: "1", name: "abdel", surname: "taya", type: UserType.STUDENT },
+    { id: "2", name: "xinyi", surname: "zhao", type: UserType.STUDENT },
+    { id: "3", name: "chijin", surname: "gui", type: UserType.STUDENT },
+    { id: "4", name: "valentin", surname: "lemaire", type: UserType.STUDENT },
+];
 export interface OverrideGrade {
     grade: number;
     comment: string;

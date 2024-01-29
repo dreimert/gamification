@@ -33,6 +33,18 @@ const progressionSchema = mongoose.Schema({
         type: String,
         required: false,
     },
+    helpedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "User",
+        default: [],
+        required: false,
+    },
+    helped: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "User",
+        required: true,
+        default: [],
+    },
 });
 
 progressionSchema.methods.serialize = function () {
@@ -70,5 +82,26 @@ progressionSchema.pre("save", async function (next) {
         next(err);
     }
 });
+
+progressionSchema.methods.setHelpedBy = async function (helpedBy) {
+    const helpedByUsers = helpedBy.map((user) => user.id);
+    const progressions = await Progression.find({
+        $and: [
+            { sessionId: this.sessionId },
+            { userId: { $ne: this.userId } },
+            { $or: [{ helped: { $in: [this.userId] } }, { userId: { $in: helpedByUsers } }] },
+        ],
+    });
+    const helped = progressions.map((p) => {
+        p.helped = p.helped.filter((id) => id.toString() !== this.userId.toString());
+        if (helpedByUsers.some((id) => id.toString() === p.userId.toString())) {
+            p.helped.push(this.userId);
+        }
+        return p;
+    });
+    await Promise.all(helped.map((p) => p.save()));
+    this.helpedBy = helpedByUsers;
+    await this.save();
+};
 
 export const Progression = mongoose.model("Progression", progressionSchema);

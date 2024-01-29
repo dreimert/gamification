@@ -10,24 +10,27 @@ gradeRouter.get("/my", isAuthenticated, async (req, res) => {
     if (req.user.isStudent()) {
         try {
             const progressions = await Progression.find({ userId: req.user.id }).populate("sessionId");
-            res.status(200).json(
+            return res.status(200).json(
                 progressions.map((progression) => {
                     return {
                         sessionName: progression.sessionId.name,
                         tp: progression.sessionId.TP,
                         grade: progression.grade,
+                        bonus: progression.helped.length > 0 ? Math.floor(Math.log2(progression.helped.length)) : 0,
                         level: progression.level,
                         mean: progression.sessionId.meanGrades,
                         std: progression.sessionId.standDevGrades,
                         coefficient: 1,
+                        sessionId: progression.sessionId._id,
+                        progressionId: progression._id,
                     };
                 }),
             );
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You should not be here" });
+        return res.status(403).json({ message: "You should not be here" });
     }
 });
 
@@ -35,12 +38,13 @@ gradeRouter.get("/all/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
-            res.status(200).json(
+            return res.status(200).json(
                 progressions.map((progression) => {
                     return {
                         progressionId: progression._id,
                         studentName: progression.userId.name + " " + progression.userId.surname,
                         grade: progression.grade,
+                        bonus: progression.helped.length > 0 ? Math.floor(Math.log2(progression.helped.length)) : 0,
                         level: progression.level,
                         gradeOverriden: progression.teacherGradeOverride,
                         gradeComment: progression.teacherGradeComment,
@@ -48,10 +52,10 @@ gradeRouter.get("/all/:sessionId", isAuthenticated, async (req, res) => {
                 }),
             );
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
     }
 });
 
@@ -63,12 +67,12 @@ gradeRouter.post("/resetGrade/:progressionId", isAuthenticated, async (req, res)
             progression.teacherGradeOverride = false;
             progression.teacherGradeComment = "";
             await progression.save();
-            res.status(200).json({ message: "Grade reset" });
+            return res.status(200).json({ message: "Grade reset" });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
     }
 });
 
@@ -80,12 +84,12 @@ gradeRouter.post("/setGrade/:progressionId", isAuthenticated, async (req, res) =
             progression.teacherGradeOverride = true;
             progression.teacherGradeComment = req.body.comment;
             await progression.save();
-            res.status(200).json({ message: "Grade overriden" });
+            return res.status(200).json({ message: "Grade overriden" });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
     }
 });
 
@@ -105,7 +109,7 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
             await session.save();
             // Non modified progressions
             const nonModified = filtered.filter((progression) => progression.teacherGradeOverride === true);
-            res.status(200).json(
+            return res.status(200).json(
                 nonModified.map((progression) => {
                     return {
                         progressionId: progression._id,
@@ -118,10 +122,10 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
                 }),
             );
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
     }
 });
 
@@ -140,7 +144,7 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
             await session.save();
             // Non modified progressions
             const nonModified = progressions.filter((progression) => progression.teacherGradeOverride === true);
-            res.status(200).json(
+            return res.status(200).json(
                 nonModified.map((progression) => {
                     return {
                         progressionId: progression._id,
@@ -154,10 +158,10 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
             );
         } catch (err) {
             logger.error(err);
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
     }
 });
 
@@ -167,12 +171,75 @@ gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req
             const progression = await Progression.findById(req.params.progressionId);
             progression.level = req.body.level;
             await progression.save();
-            res.status(200).json({ message: "Level edited" });
+            return res.status(200).json({ message: "Level edited" });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ message: err.message });
         }
     } else {
-        res.status(403).json({ message: "You are not allowed to access this resource" });
+        return res.status(403).json({ message: "You are not allowed to access this resource" });
+    }
+});
+
+gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
+    if (req.user.isStudent()) {
+        try {
+            const session = await Session.findById(req.params.sessionid).populate("students");
+            // Filter the students based on the searchString
+            const words = req.body.searchString.split(" ");
+            // Create a regex pattern for each word
+            const regexPatterns = words.map((word) => new RegExp(word, "i"));
+
+            // Find users where either name or surname matches any of the regex patterns
+            const users = session.students.filter((user) => {
+                return (
+                    regexPatterns.some((pattern) => {
+                        return pattern.test(user.name) || pattern.test(user.surname);
+                    }) && user.id !== req.user.id
+                );
+            });
+            return res.status(200).json(
+                users.map((user) => {
+                    return user.serializePublic();
+                }),
+            );
+        } catch (err) {
+            return res.status(500).json({ message: err.message });
+        }
+    } else {
+        return res.status(403).json({ message: "You should not be here" });
+    }
+});
+
+gradeRouter.get("/getBonus/:progressionId", isAuthenticated, async (req, res) => {
+    try {
+        const progression = await Progression.findById(req.params.progressionId).populate("helpedBy");
+        return res.status(200).json(progression.helpedBy.map((user) => user.serializePublic()));
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+});
+
+gradeRouter.post("/setBonus/:progressionId", isAuthenticated, async (req, res) => {
+    const users = req.body.usersWithBonus;
+    try {
+        if (users.length > 2) {
+            return res.status(400).json({ message: "You can't set more than 2 bonuses" });
+        }
+        if (users.length === 2 && users[0].id === users[1].id) {
+            return res.status(400).json({ message: "You can't set the same user twice" });
+        }
+        if (users.some((user) => user.id === req.user.id)) {
+            return res.status(400).json({ message: "You can't set yourself as a bonus" });
+        }
+        const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
+        if (progression.sessionId.endDate < new Date().setTime(new Date().getTime() - 60 * 60 * 1000)) {
+            return res.status(400).json({ message: "cannot edit bonuses 1h after session ends" });
+        }
+        await progression.setHelpedBy(users);
+        return res.status(200).json({ message: "Bonus set" });
+    } catch (err) {
+        logger.error(err);
+        return res.status(500).json({ message: err.message });
     }
 });
 
