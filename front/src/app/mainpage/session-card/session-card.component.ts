@@ -63,21 +63,30 @@ export class SessionCardComponent implements OnInit {
     }
 
     deleteSession(session: Session | TeacherSession) {
-        this.sessionService.deleteSession(session).subscribe(() => {
-            this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
-        });
+        if (confirm("Etes-vous sûr de supprimer cette session?")) {
+            this.sessionService.deleteSession(session).subscribe({
+                next: () => {
+                    this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
+                },
+                error: () => {
+                    alert("Impossible de supprimer la session, veuillez réessayer plus tard.");
+                },
+            });
+        }
     }
 
     endSession(session: Session | TeacherSession) {
-        this.sessionService.endSession(session).subscribe({
-            next: (session) => {
-                this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
-                this.sessions.push(session);
-            },
-            error: () => {
-                alert("Impossible de terminer la session");
-            },
-        });
+        if (confirm("Etes-vous sûr de fermer la session?")) {
+            this.sessionService.endSession(session).subscribe({
+                next: (session) => {
+                    this.sessions = this.sessions.filter((s: Session | TeacherSession) => s.id != session.id);
+                    this.sessions.push(session);
+                },
+                error: (err) => {
+                    alert("Impossible de terminer la session.\n" + "Erreur: " + err.error.message);
+                },
+            });
+        }
     }
 
     rejoinSession(session: Session) {
@@ -87,8 +96,7 @@ export class SessionCardComponent implements OnInit {
                 alert("Vous allez rejoindre la session " + session.name);
             },
             error: (err) => {
-                console.log(err);
-                alert("Impossible de rejoindre la session");
+                alert("Impossible de rejoindre la session.\n" + "Erreur: " + err.error.message);
             },
         });
     }
