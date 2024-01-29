@@ -27,9 +27,9 @@ export class SessionCardComponent implements OnInit {
         dialogRef.afterClosed().subscribe((password) => {
             if (password) {
                 this.sessionService.joinSession(session, password).subscribe({
-                    next: (session: Session) => {
+                    next: () => {
                         // TODO: redirect to game page
-                        alert("Vous avez rejoint la session" + session.name);
+                        alert("Vous avez rejoint la session " + session.name);
                     },
                     error: (err) => {
                         console.log(err);
@@ -82,9 +82,9 @@ export class SessionCardComponent implements OnInit {
 
     rejoinSession(session: Session) {
         this.sessionService.joinSession(session, "").subscribe({
-            next: (session: Session) => {
+            next: () => {
                 // TODO: redirect to game page
-                alert("Vous allez rejoindre la session" + session.name);
+                alert("Vous allez rejoindre la session " + session.name);
             },
             error: (err) => {
                 console.log(err);
