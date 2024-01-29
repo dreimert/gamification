@@ -84,7 +84,7 @@ export class SessionCardComponent implements OnInit {
         this.sessionService.joinSession(session, "").subscribe({
             next: (session: Session) => {
                 // TODO: redirect to game page
-                alert("Vous avez rejoint la session" + session.name);
+                alert("Vous allez rejoindre la session" + session.name);
             },
             error: (err) => {
                 console.log(err);
