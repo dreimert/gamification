@@ -113,17 +113,6 @@ export class GradeService {
 
     public getUserList(sessionId: string, filter: string): Observable<User[]> {
         return new Observable<User[]>((subscriber) => {
-            // Split the string into words
-            const words = filter.split(" ");
-
-            // Create a regex pattern for each word
-
-            // Find users where either name or surname matches any of the regex patterns
-            const users = userList.filter((user) => {
-                const w = words.some((word) => user.name.includes(word) || user.surname.includes(word));
-                return w;
-            });
-            subscriber.next(users);
             // Le code en dessous est une version qui devrait marcher avec le back
             this.http.post<User[]>(this.root + "students/" + sessionId, { searchString: filter }).subscribe({
                 next: (users: User[]) => {
