@@ -19,8 +19,8 @@ import { SessionService } from "../../services/session.service";
 export class SessionCardComponent implements OnInit {
     openDialog(session: Session): void {
         const dialogRef = this.dialog.open(JoinComponent, {
-            width: "60%",
-            height: "70%",
+            // width: "60%",
+            height: "40%",
             data: session,
         });
 
