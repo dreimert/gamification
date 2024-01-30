@@ -228,7 +228,7 @@ gradeRouter.get("/getBonus/:progressionId", isAuthenticated, async (req, res) =>
         if (!progression) {
             return res.status(404).json({ message: "Progression not found" });
         }
-        if (progression.userId !== req.user.id) {
+        if (progression.userId.toString() !== req.user.id) {
             return res.status(403).json({ message: "You are not allowed to access this resource" });
         }
         return res.status(200).json(progression.helpedBy.map((user) => user.serializePublic()));
