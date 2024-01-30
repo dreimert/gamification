@@ -27,7 +27,4 @@
 
 ## Routes
 
-Main route: `/api/user`
-
-- `GET /me` - Returns the current user with default serialization.
-- `GET /:id` - Returns the user with the given ID with public serialization. Only teachers and admin can access this route for any user, while students can only access this route for themselves.
+See [API](API.md "API documentation") for more information.

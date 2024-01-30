@@ -163,6 +163,9 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
     if (req.user.isTeacher()) {
         try {
             const session = await Session.findById(req.params.sessionId);
+            if (!session) {
+                return res.status(404).json({ message: "Session not found" });
+            }
             if (!session.teachers.some((teacher) => teacher.id === req.user.id) && !req.user.isAdmin()) {
                 return res.status(403).json({ message: "You are not allowed to access this resource" });
             }
@@ -202,6 +205,12 @@ gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req
     if (req.user.isTeacher()) {
         try {
             const progression = await Progression.findById(req.params.progressionId);
+            if (!progression) {
+                return res.status(404).json({ message: "Progression not found" });
+            }
+            if (!req.body.level) {
+                return res.status(400).json({ message: "Level is missing" });
+            }
             progression.level = req.body.level;
             await progression.save();
             return res.status(200).json({ message: "Level edited" });

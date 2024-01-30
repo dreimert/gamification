@@ -30,9 +30,4 @@
 - `serialize()` - Default serialization method. By default, uses `serializeStudent()`.
 
 ## Routes
-Main route: `/api/session`
-- `GET /available` - Returns all available sessions with default serialization.
-- `GET /all` - Returns all sessions. Takes into account the user's role and serializes accordingly :
-  - If the user is an admin, uses `serializeTeacher()`, and returns all sessions.
-  - If the user is a teacher, uses `serializeTeacher()` and returns all sessions where the user is a teacher.
-  - If the user is a student, uses `serializeStudent()` and returns all sessions where the user is a student and are done or the sessions that are available.
+See [API](API.md "API documentation") for more information.

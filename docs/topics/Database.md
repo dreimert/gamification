@@ -4,4 +4,4 @@ Cette section est dédiée à la base de données de l'application.
 
 ## Schéma
 
-![Schéma de la base de données](//www.plantuml.com/plantuml/dpng/fP8_JyCm4CNtV8fJMTi5jgYgAb49CL06HeGgfpwr1l-9xYu5HFhTYHsQfk6FAk7jdfz_VkVpd4MHLCvc4agG04KG2Gwq8LoB2JxZ5-DBHSg1DHxblKG89DkGPMkhcA6ai25aRhmC7na0h8pE8HJF4Q2JiDhbOBnSNSQAM_Fjm5Gnqb3RaDBOEogerbkacoZVxv38nEqY18lAzmpNmJdqaiE3aF4Rc2yhQrLXCNeixj0UeFklBlZl3j3hXP8OXODMaZXUkKRWT4EiqqiEN5qYpi4Qbka1EcjFL1gz_BXdlCQtr6YpVQVAQNlHU5cv0cdM1O_FzblgRmah6afndlqwueOUTChOlb0gvjT0kjFsMNRo3Q2k9vF7YqLQuz8guvycTGt7PuuhXz7nBpJXHsT04gNjEQr4YVK1SN83xCz5TAFu3wIRTOBCqUlAsKy0)
+![Schéma de la base de données](datamodel.png)
