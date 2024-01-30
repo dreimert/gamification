@@ -280,7 +280,7 @@ gradeRouter.post("/setBonus/:progressionId", isAuthenticated, async (req, res) =
         if (!progression) {
             return res.status(404).json({ message: "Progression not found" });
         }
-        if (progression.userId !== req.user.id) {
+        if (progression.userId.toString() !== req.user.id) {
             return res.status(403).json({ message: "You are not allowed to access this resource" });
         }
         if (progression.sessionId.endDate < new Date().setTime(new Date().getTime() - 60 * 60 * 1000)) {
