@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { StudentGrade, TeacherGrade } from "../models/grade.model";
-import { User, UserType } from "../models/user.model";
+import { User } from "../models/user.model";
 
 @Injectable({
     providedIn: "root",
@@ -113,7 +113,6 @@ export class GradeService {
 
     public getUserList(sessionId: string, filter: string): Observable<User[]> {
         return new Observable<User[]>((subscriber) => {
-            // Le code en dessous est une version qui devrait marcher avec le back
             this.http.post<User[]>(this.root + "students/" + sessionId, { searchString: filter }).subscribe({
                 next: (users: User[]) => {
                     subscriber.next(users);
@@ -138,7 +137,6 @@ export class GradeService {
             });
         });
     }
-    //Soit utiliser cette fonction soit le rajouter dans modele grade
     public getBonus(gradeId: string): Observable<User[]> {
         return new Observable<User[]>((subscriber) => {
             this.http.get<User[]>(this.root + "getBonus/" + gradeId).subscribe({
@@ -153,12 +151,6 @@ export class GradeService {
         });
     }
 }
-const userList: User[] = [
-    { id: "1", name: "abdel", surname: "taya", type: UserType.STUDENT },
-    { id: "2", name: "xinyi", surname: "zhao", type: UserType.STUDENT },
-    { id: "3", name: "chijin", surname: "gui", type: UserType.STUDENT },
-    { id: "4", name: "valentin", surname: "lemaire", type: UserType.STUDENT },
-];
 export interface OverrideGrade {
     grade: number;
     comment: string;
