@@ -124,7 +124,7 @@ userSchema.pre("save", function (next) {
         //hash and salt password
         const salt = crypto.randomBytes(16).toString("hex");
         this.salt = salt;
-        this.iterations = 50000;
+        this.iterations = 210000;
         try {
             this.password = crypto.pbkdf2Sync(this.password, salt, this.iterations, 64, "sha512").toString("hex");
         } catch (e) {
