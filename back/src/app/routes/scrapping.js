@@ -112,7 +112,7 @@ scrappingRouter.post(
             res.status(400).json({ error: "no course name or code or ects" });
             return;
         }
-        if (courseName === trueCourse.name && courseHours === trueCourse.hours && courseECTS === trueCourse.ects) {
+        if (courseName === trueCourse.name && courseHours === trueCourse.hours && courseECTS === trueCourse.credits) {
             try {
                 req.progression.level = 2;
                 if (!req.progression.teacherGradeOverride) {

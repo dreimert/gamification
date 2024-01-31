@@ -15,6 +15,7 @@ import { EditSessionComponent } from "./mainpage/session/edit-session/edit-sessi
 import { LoginComponent } from "./login/login.component";
 import { AdminGuard, AuthGuard, NoAuthGuard, TeacherGuard } from "./login/authguard.guard";
 import { RegisterComponent } from "./register/register.component";
+import { TpPageComponent } from "./tp-page/tp-page.component";
 
 export const routes: Routes = [
     {
@@ -105,6 +106,11 @@ export const routes: Routes = [
         path: "home",
         component: AccueilComponent,
         title: "Home",
+        canActivate: [AuthGuard],
+    },
+    {
+        path: "tp/:id",
+        component: TpPageComponent,
         canActivate: [AuthGuard],
     },
     {

@@ -63,15 +63,15 @@ export class SessionService {
         });
     }
 
-    public joinSession(session: Session, password: string): Observable<Session> {
-        return new Observable<Session>((subscriber) => {
+    public joinSession(session: Session, password: string): Observable<JoinSessionResponse> {
+        return new Observable<JoinSessionResponse>((subscriber) => {
             this.http
-                .post<Session>(this.root + session.id + "/join", {
+                .post<JoinSessionResponse>(this.root + session.id + "/join", {
                     id: session.id,
                     password,
                 })
                 .subscribe({
-                    next: (data: Session) => {
+                    next: (data: JoinSessionResponse) => {
                         subscriber.next(data);
                     },
                     error: (err) => {
@@ -161,9 +161,15 @@ export class SessionService {
         });
     }
 }
-// TODO: implement this
-// interface JoinSessionResponse {
-//     session: Session;
-//     token: string;
-//     progression: Progression;
-// }
+
+export interface JoinSessionResponse {
+    session: Session;
+    token: string;
+    progression: Progression;
+}
+
+interface Progression {
+    userId: string;
+    sessionId: string;
+    level: number;
+}

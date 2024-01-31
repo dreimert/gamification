@@ -1,7 +1,10 @@
 <main class="w-full h-full justify-start items-start" *ngIf="!loading">
     <div
         class="flex flex-row h-fit overflow-visible"
-        *ngIf="['/login', '/register'].indexOf(location.pathname) === -1; else elseBlock">
+        *ngIf="
+            ['/login', '/register'].indexOf(location.pathname) === -1 && location.pathname.split('/')[1] !== 'tp';
+            else elseBlock
+        ">
         <div class="w-1/5 min-h-full">
             <app-side-bar></app-side-bar>
         </div>

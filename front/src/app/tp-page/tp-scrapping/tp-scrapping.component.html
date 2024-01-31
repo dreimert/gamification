@@ -1,0 +1,246 @@
+<div class="h-screen">
+    <div class="bg-black h-4/5 w-4/5 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div class="flex flex-row justify-center items-center bg-bgHeaderTable rounded-t-lg">
+            <p class="flex w-full py-2 mx-3">TP Scrapping</p>
+        </div>
+        <div class="w-full h-5/6 overflow-auto mb-40">
+            <div *ngIf="lvl === 0" class="text-white font-light mx-1">
+                {{ session?.name }} [{{ date }}]<br />Durée {{ duree }}h<br /><br />
+                <div
+                    *ngFor="let sentence of sentences; let i = index"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt -ml-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        *ngIf="i <= sentenceIndex"
+                        [typeSpeed]="1"
+                        [strings]="[sentence]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        5TC:\Accueil> <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+                <p *ngIf="sentenceIndex === sentences.length">{{ userName }}:\Accueil> {{ passcode }}</p>
+                <p *ngIf="codeEntered && !codeCorrect" class="text-red-400 mx-1 font-medium">
+                    &emsp;&emsp;Veuillez taper 'start'.
+                </p>
+                <p *ngIf="codeEntered && codeCorrect" class="text-green-600 mx-1 font-medium">&emsp;&emsp;Très bien</p>
+            </div>
+
+            <div *ngIf="lvl === 1">
+                <div
+                    *ngFor="let sentence of sentences; let i = index"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        *ngIf="i <= sentenceIndex"
+                        [typeSpeed]="1"
+                        [strings]="[sentence]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        5TC:\Niveau_1 > <span class="typing"></span>
+                        <input
+                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            class="relative bg-black border-none outline-none ml-1"
+                            type="text"
+                            [(ngModel)]="passcode" />
+                    </ngx-typed-js>
+                </div>
+                <p
+                    *ngIf="codeEntered && !codeCorrect"
+                    class="text-red-400 font-medium whitespace-break-spaces flexmt mx-1">
+                    Veuillez saisir un nom d'utilisateur valide.
+                </p>
+                <div *ngIf="codeEntered && codeCorrect" class="text-white font-light my-2">
+                    <p class="text-green-600 font-medium whitespace-break-spaces flexmt mx-1">
+                        Nom d'utilisateur correct Authentification réussie
+                    </p>
+                    <ngx-typed-js
+                        [typeSpeed]="1"
+                        [strings]="['Parfait! J\'ai réussi à me connecter.']"
+                        [showCursor]="false"
+                        (completed)="gotoNextLevel()">
+                        5TC:\Niveau_1 > <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+            </div>
+
+            <div *ngIf="lvl === 2" class="text-white">
+                <div
+                    *ngFor="let sentence of sentences; let i = index"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        *ngIf="i <= sentenceIndex"
+                        [typeSpeed]="1"
+                        [strings]="[sentence]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        5TC:\Niveau_2 > <span class="typing"></span>
+                        <input
+                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            class="relative bg-black border-none outline-none ml-1"
+                            type="text"
+                            [(ngModel)]="passcode" />
+                    </ngx-typed-js>
+                </div>
+                <p
+                    *ngIf="codeEntered && !codeCorrect"
+                    class="text-red-400 font-medium whitespace-break-spaces flexmt mx-1">
+                    Informations incorrectes
+                </p>
+                <div *ngIf="codeEntered && codeCorrect" class="text-white font-light my-2">
+                    <p class="text-green-600 font-medium whitespace-break-spaces flexmt mx-1">
+                        Cours correct Chargement des informations
+                    </p>
+                    <ngx-typed-js
+                        [typeSpeed]="1"
+                        [strings]="['C\'est bon! Vous l\'avez trouvé! Vous gérez!']"
+                        [showCursor]="false"
+                        (completed)="gotoNextLevel()">
+                        5TC:\Niveau_2 > <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+            </div>
+
+            <div *ngIf="lvl === 3" class="text-white">
+                <div
+                    *ngFor="let sentence of sentences; let i = index"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        *ngIf="i <= sentenceIndex"
+                        [typeSpeed]="1"
+                        [strings]="[sentence]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        5TC:\Niveau_3 > <span class="typing"></span>
+                        <input
+                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            class="relative bg-black border-none outline-none ml-1"
+                            type="text"
+                            [(ngModel)]="passcode" />
+                    </ngx-typed-js>
+                </div>
+                <p
+                    *ngIf="codeEntered && !codeCorrect"
+                    class="text-red-400 font-medium whitespace-break-spaces flexmt mx-1">
+                    Erreur de titre du livre Échec de la vérification.
+                </p>
+                <div *ngIf="codeEntered && codeCorrect" class="text-white font-light my-2">
+                    <p class="text-green-600 font-medium whitespace-break-spaces flexmt mx-1">
+                        Livre correct Vérification réussie
+                    </p>
+                    <ngx-typed-js
+                        [typeSpeed]="1"
+                        [strings]="['Excellent!!!!']"
+                        [showCursor]="false"
+                        (completed)="gotoNextLevel()">
+                        5TC:\Niveau_3 > <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+            </div>
+
+            <div *ngIf="lvl === 4 || lvl === 5" class="text-white">
+                <div
+                    *ngFor="let sentence of sentences; let i = index"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        *ngIf="i <= sentenceIndex"
+                        [typeSpeed]="1"
+                        [strings]="[sentence]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        5TC:\Niveau_4 > <span class="typing"></span>
+                        <input
+                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            class="relative bg-black border-none outline-none ml-1"
+                            type="text"
+                            [(ngModel)]="passcode" />
+                    </ngx-typed-js>
+                </div>
+                <p
+                    *ngIf="codeEntered && !codeCorrect"
+                    class="text-red-400 font-medium whitespace-break-spaces flexmt mx-1">
+                    Code de confirmation incorrect
+                </p>
+                <div *ngIf="codeEntered && codeCorrect" class="text-white font-light my-2">
+                    <p
+                        class="text-green-600 font-medium whitespace-break-spaces flexmt mx-1 -mt-2"
+                        (completed)="gotoNextLevel()">
+                        Code de confirmation correct Connexion réussie
+                    </p>
+                </div>
+
+                <div class="text-white font-light my-2 ml-2">
+                    Informations données: <br />
+                    Nom de la personne 1: {{ listResponse.lvl4.p1Name }}<br />
+                    Initiales de la personne 2: {{ listResponse.lvl4.p2Initials }}<br />
+                    Téléphone de la personne 3: {{ listResponse.lvl4.p3Phone }}<br />
+                    Mail de la personne 4: {{ listResponse.lvl4.p4Mail }}<br />
+                </div>
+
+                <div *ngIf="lvl === 5" class="text-white">
+                    <div
+                        class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
+                        <ngx-typed-js
+                            [typeSpeed]="1"
+                            [strings]="[
+                                'Mon score a été modifié, voulez-vous que je vous aide à modifier votre score 4TC-SYD aussi ? Combien de points voulez-vous que je mette ?'
+                            ]"
+                            [showCursor]="false"
+                            (completed)="nextSentence()">
+                            <br />5TC:\Fin> <span class="typing"></span>
+                        </ngx-typed-js>
+                    </div>
+                    <div *ngIf="sentenceIndex >= 1">
+                        <span class="font-light">{{ userName }}:\Fin></span>
+                        <input
+                            class="relative bg-black border-none outline-none ml-1 font-light"
+                            type="text"
+                            [(ngModel)]="commentaire" />
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="lvl === 6" class="h-3/4 flex flex-col items-center justify-center text-white font-light">
+                <div
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt -ml-1 text-white font-light my-2">
+                    <ngx-typed-js
+                        [typeSpeed]="1"
+                        [strings]="[sentences[0]]"
+                        [showCursor]="false"
+                        (completed)="nextSentence()">
+                        <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+                <br />
+                <div
+                    *ngIf="sentenceIndex === 1"
+                    class="animate-typing overflow-hidden whitespace-break-spaces flexmt -ml-1 text-white font-light my-2">
+                    <ngx-typed-js [typeSpeed]="1" [strings]="[sentences[1], sentences[2]]" [showCursor]="false">
+                        <span class="typing"></span>
+                    </ngx-typed-js>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute flex w-full items-center justify-center bottom-3">
+            <input
+                *ngIf="lvl !== 5"
+                class="rounded-lg w-1/2 outline-none ml-0 pl-2 font-light"
+                type="text"
+                [(ngModel)]="passcode"
+                (keyup.enter)="verifyEnteredPasscode(lvl)"
+                placeholder="Entrer votre réponse ici" />
+            <input
+                *ngIf="lvl === 5"
+                class="rounded-lg w-1/2 outline-none ml-0 pl-2 font-light"
+                type="text"
+                [(ngModel)]="commentaire"
+                placeholder="Dites moi ce que vous voulez faire"
+                (keyup.enter)="gotoNextLevel()" />
+        </div>
+
+        <button
+            class="w-14 h-8 absolute right-3 bottom-3 text-white bg-blue-600 rounded-lg"
+            (click)="showHelpDialog(token)">
+            help
+        </button>
+    </div>
+</div>

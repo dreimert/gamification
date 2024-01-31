@@ -3,6 +3,9 @@ module.exports = {
     content: ["./src/**/*.{html,ts}"],
     theme: {
         extend: {
+            fontFamily: {
+                inter: ['Inter'],
+              },
             colors: {
                 grey: {
                     DEFAULT: "#EAEAEA",
