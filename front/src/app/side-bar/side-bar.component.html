@@ -8,18 +8,18 @@
             </svg>
             <p class="text-2xl leading-6 text-white">SYD</p>
         </div>
-        <div class="flex justify-between items-center w-full">
-            <div class="flex justify-start w-5/6 items-center px-3 space-x-2">
+        <div class="pl-2 flex items-center w-full">
+            <div class="flex justify-center items-center px-3 space-x-2">
                 <div class="rounded-full bg-avatar shadow-xl shadow-rock-500" alt="avatar">
                     <p class="p-1 text-grey-dark text-center tracking-wide">
                         {{ user.name[0].toUpperCase() + user.surname[0].toUpperCase() }}
                     </p>
                 </div>
                 <div class="flex justify-start flex-col items-start">
-                    <p class="cursor-pointer text-sm leading-5 text-white">
+                    <p class="text-sm leading-5 text-white">
                         {{ user.name + " " + user.surname }}
                     </p>
-                    <p class="cursor-pointer text-xs leading-3 text-gray-300">
+                    <p class="text-xs leading-3 text-gray-300">
                         {{ user.email }}
                     </p>
                 </div>
