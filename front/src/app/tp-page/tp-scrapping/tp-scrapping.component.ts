@@ -86,7 +86,7 @@ export class TpScrappingComponent implements OnInit {
         switch (this.lvl) {
             case 1:
                 this.tpService.getLvl1Code(this.token).subscribe((lvl1Code: lvl1Code) => {
-                    this.listResponse.lvl1 = lvl1Code.teacherName;
+                    this.listResponse.lvl1 = lvl1Code.teacherInitials;
                     this.loadSentences();
                 });
                 break;
@@ -135,10 +135,9 @@ export class TpScrappingComponent implements OnInit {
                     code = { password: this.passcode };
                     break;
             }
-            // this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode) => {
-            //     this.codeCorrect = verifyPassCode.success;
-            // });
-            this.codeCorrect = true;
+            this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode) => {
+                this.codeCorrect = verifyPassCode.success;
+            });
             if (this.lvl === 4 && this.codeCorrect) {
                 this.changeLevel();
             }

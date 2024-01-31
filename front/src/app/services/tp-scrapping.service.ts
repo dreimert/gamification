@@ -51,7 +51,7 @@ export class TpScrappingService {
 }
 
 export interface lvl1Code {
-    teacherName: string;
+    teacherInitials: string;
 }
 export interface lvl2Course {
     courseCode: string;
