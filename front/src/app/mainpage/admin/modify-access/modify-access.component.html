@@ -44,16 +44,11 @@
                 <label for="TP" class="flex bg-white rounded py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg"
                     >TP accessibles par l'encadrant
                 </label>
-                <select multiple id="TP" class="flex w-3/4 rounded-r-lg" formControlName="TP" required>
+                <select multiple id="TP" class="flex w-3/4 rounded-r-lg" formControlName="TP">
                     <option *ngFor="let tp of tps" value="{{ tp }}">{{ tp | titlecase }}</option>
                 </select>
             </div>
             <div class="flex mx-3 pl-6 text-gray-600 text-xs">Ctrl + clic pour sélectionner plusieurs TP.</div>
-            <div
-                *ngIf="modifyAccessForm.controls['TP'].errors?.['required']"
-                class="flex mt-3 mx-3 pl-6 text-red-500 text-sm">
-                Veuillez choisir un TP.
-            </div>
 
             <div class="flex flex-row">
                 <button

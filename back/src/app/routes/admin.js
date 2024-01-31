@@ -46,12 +46,7 @@ adminRouter.delete("/teachers/:id", isAuthenticated, async (req, res) => {
 adminRouter.post("/setTps/:id", isAuthenticated, async (req, res) => {
     if (req.user.isAdmin()) {
         const tps = Array.from(getIndexGrades().keys());
-        if (
-            !req.body.tps ||
-            !Array.isArray(req.body.tps) ||
-            req.body.tps.length === 0 ||
-            req.body.tps.some((tp) => !tps.includes(tp))
-        ) {
+        if (!req.body.tps || !Array.isArray(req.body.tps) || req.body.tps.some((tp) => !tps.includes(tp))) {
             return res.status(400).json({ message: "TPs not provided" });
         }
         try {
