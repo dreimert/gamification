@@ -13,20 +13,18 @@ describe("TpPageComponent", () => {
 
     beforeEach(async () => {
         sessionServiceStub = {
-            getAvailableSessions(): Observable<Session[] | TeacherSession[]> {
-                return of<Session[]>([
-                    {
-                        id: "1",
-                        name: "test",
-                        teachers: ["1"],
-                        startDate: new Date(),
-                        endDate: new Date(Date.now() + 1000 * 60 * 60 * 2),
-                        TP: "1",
-                        status: SessionStatus.SCHEDULED,
-                        indexGrades: new Map<string, number>([["1", 1]]),
-                        joined: false,
-                    },
-                ]);
+            getSession(): Observable<Session | TeacherSession> {
+                return of<Session>({
+                    id: "1",
+                    name: "test",
+                    teachers: ["1"],
+                    startDate: new Date(),
+                    endDate: new Date(Date.now() + 1000 * 60 * 60 * 2),
+                    TP: "1",
+                    status: SessionStatus.SCHEDULED,
+                    indexGrades: new Map<string, number>([["1", 1]]),
+                    joined: false,
+                });
             },
         };
         await TestBed.configureTestingModule({

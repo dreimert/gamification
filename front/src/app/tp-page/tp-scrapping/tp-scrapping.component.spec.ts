@@ -33,7 +33,7 @@ describe("TpScrappingComponent", () => {
         tpScrappingService = {
             getLvl1Code(): Observable<lvl1Code> {
                 return of<lvl1Code>({
-                    teacherName: "teacherName",
+                    teacherInitials: "teacherInitials",
                 });
             },
             getLvl2Course(): Observable<lvl2Course> {

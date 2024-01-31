@@ -34,10 +34,8 @@ export class TpPageComponent implements OnInit {
     }
 
     fetchSessionInfo(id: string) {
-        this.sessionService.getAvailableSessions().subscribe((sessions: Session[] | TeacherSession[]) => {
-            this.session = sessions.find((e) => {
-                return e.id === id;
-            }) as Session;
+        this.sessionService.getSession(id).subscribe((session: Session | TeacherSession) => {
+            this.session = session;
         });
     }
 }

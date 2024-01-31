@@ -39,6 +39,7 @@ export class TpScrappingComponent implements OnInit {
     sentenceIndex: number = 0;
     initialTeacher!: { teacherInitials: string };
     commentaire!: "";
+    timer: number = new Date().getMinutes();
 
     constructor(
         private titleService: Title,
@@ -47,6 +48,12 @@ export class TpScrappingComponent implements OnInit {
         private tpService: TpScrappingService,
     ) {
         this.titleService.setTitle("Tp Scrapping");
+        setInterval(() => {
+            this.timer = new Date().getMinutes();
+            if (this.lvl === 4 && this.timer % 5 === 0) {
+                this.fetchInfoFromBack();
+            }
+        }, 5000);
     }
 
     ngOnInit(): void {
@@ -141,7 +148,6 @@ export class TpScrappingComponent implements OnInit {
             if (this.lvl === 4 && this.codeCorrect) {
                 this.changeLevel();
             }
-
         }
     }
 
@@ -200,7 +206,7 @@ export class TpScrappingComponent implements OnInit {
                     `^1000Attend..... mais quoi.....?`,
                     `^1000Normalement, je devrais pouvoir accéder à la liste des cours avec les 3 années du département TC , mais il semble que toutes les années et tous les noms de cours soient chiffrés !`,
                     `^1000Je compte sur vous maintenant ! Ce que je sais, c'est que cette page présente trois années de departement (3TC, 4TC et 5TC). A l'intérieur de chaque lien se trouvent la liste des UEs qui contient elle-même la liste des cours. Chaque cours a son propre numéro d'identification.`,
-                    `^1000Pouvez-vous m'aider à trouver le code du cours <span class="text-yellow-200">${
+                    `^1000Pouvez-vous m'aider à trouver les informations du cours <span class="text-yellow-200">${
                         this.listResponse.lvl2
                     }</span> s'il vous plaît ?^100
         <span class="text-yellow-200">liste des cours du département TC:</span> <a class="text-blue-200" href="${
@@ -230,6 +236,7 @@ export class TpScrappingComponent implements OnInit {
         <span class="text-yellow-200">liste d'information personnelles des enseignants : </span> <a class="text-blue-200" href="${
             environment.backendUrl + "/api/scrapping"
         }/lvl4/scrap" target="_blank">${environment.backendUrl + "/api/scrapping"}/lvl4/scrap</a>
+        <span class="text-yellow-200">Attention! Le code de confirmation du système est mis à jour toutes les 5 minutes! (eg. 10h05, 10h10, 10h15) </span>
         Entrez  le code de confirmation : >  `,
                 ];
                 break;
