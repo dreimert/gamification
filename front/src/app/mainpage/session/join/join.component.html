@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="col-span-4 h-full mr-10">
+    <div class="col-span-4 h-full mr-10 overflow-auto">
         <div class="top-1/4 relative text-black text-2xl font-medium font-['Inter'] leading-9">
             Voulez-vous rejoindre cette session ? <br /><br />
             Session : {{ session.name }} <br />
@@ -24,7 +24,8 @@
     </div>
 </div>
 
-<div class="w-96 h-fit ml-auto mr-10">
+<!-- <div class="w-96 h-fit ml-auto mr-10"> -->
+<div class="w-96 h-16 right-10 bottom-3 absolute flex flex-col">
     <div class="flex">
         <input
             class="w-72 h-12 rounded-tl-xl rounded-bl-xl border border-zinc-400 border-opacity-80 pl-5"
