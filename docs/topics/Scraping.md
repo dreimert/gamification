@@ -21,27 +21,23 @@ Donner les outils de base du TP/TD.
 #### Description : {id="description_lvl0"}
 On donne des bouts de code aux élèves pour leur montrer comment faire des requêtes HTTP, des regex.
 ### Niveau 1 :
-![]()
 #### Objectif : {id="objectif_lvl1"}
 Chercher à la main le username du prof sur une seule page Web
 #### Description : {id="description_lvl1"}
 On donne à l'étudiant une page Web qui contient les initiales des profs et l'username associé. Pas forcé d'automatiser le processus, on donne l'idée de base du scraping.
 ### Niveau 2 :
-![]()
 #### Objectif : {id="objectif_lvl2"}
-Forcer l'automatisation du processus. L'élève doit chercher le code de la matière SYD (Nombre aléatoire) dans la base de données de TC.
+Forcer l'automatisation du processus. L'élève doit chercher les détails d'un cours de TC (aléatoire) dans la base de données de TC.
 #### Description : {id="description_lvl2"}
-On donne à l'élève une page avec les 3 années de TC. Les noms des pages sont obfusqués. Sur la page de chaque année, on a les différentes UE (là encore obfusquées) qui donnent des liens vers les matières (sous la forme IP:4512789, NRP:1514522, SYD: 2554588).
-Une fois le code trouvé, l'étudiant le donne au 5TC et passe à l'étape suivante.
+On donne à l'élève une page avec les 3 années de TC. Les noms des pages sont obfusqués. Sur la page de chaque année, on a les différentes UE (là encore obfusquées) qui donnent des liens vers les cours.
+Une fois le cours trouvé, l'étudiant donne les détails demandés au 5TC et passe à l'étape suivante.
 ### Niveau 3 :
-![]()
 #### Objectif : {id="objectif_lvl3"}
-Passage à l'échelle
+Passage à l'échelle et forcer l'exploration totale du site. L'élève doit trouver le livre avec l'ISBN dont la somme des chiffres est la plus faible.
 #### Description : {id="description_lvl3"}
-L'élève va devoir chercher la correspondance entre le numéro de la matière dans la base de données du département et de celle de Planète. Il atterit sur une page contenant la liste des départements, puis pour chaque département les années et enfin la liste des matières avec la correspondance des codes. Tous les noms sont obfusqués pour éviter la recherche manuelle.
+On donne à l'élève une page avec la liste des livres. Chaque livre a un lien vers sa page de détails. L'élève doit donc parcourir toutes les pages de détails pour trouver le livre avec l'ISBN dont la somme des chiffres est la plus faible.
 ### Niveau 4 :
-![]()
 #### Objectif : {id="objectif_lvl4"}
-Faire comprendre l'importance de RGPD
+Forcer l'exploration de données personnelles. L'élève doit trouver le mot de passe du prof à partir de données de 4 personnes différentes.
 #### Description : {id="description_lvl4"}
-L'élève est à la recherche des informations personnelles permettant de cracker le mot de passe du prof. Pour cela il a accès à une page avec la liste des profs (obfusqués) qui renvoie sur des pages avec les infos des profs. L'élève doit renvoyer le mail, le numéro de tel, le département, le nom du chien pour cracker le mot de passe. Une fois le mot de passe cracké, le 5TC lui propose un bouton pour modifier sa note et partir, mais en cliquant on affiche un Game Over avec le fait que la CNIL l'a attrapé en train de partager des données personnelles et qu'il ne respecte pas le RGPD et qu'il va donc en prison.
+On donne à l'élève une page avec la liste des personnes. Chaque personne a un lien vers sa page de détails. L'élève doit donc parcourir toutes les pages de détails pour trouver le mot de passe du prof.

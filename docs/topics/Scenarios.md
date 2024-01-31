@@ -4,4 +4,3 @@ Cette section contient les différents scénarios pour les différents TP/TD. Le
 
 - <a href="Kafka.md" summary="Scénario de Kafka">Kafka</a>
 - <a href="Scraping.md" summary="Scénario de scraping">Scraping</a>
-- <a href="DHT.md" summary="Scénario de dht">DHT</a>

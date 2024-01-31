@@ -95,7 +95,7 @@ export class ModifyAccessComponent implements OnInit {
 
     modifyAccessForm = this.formBuilder.group({
         teacher: ["", [Validators.required, this.validateName.bind(this)]],
-        TP: [[""], Validators.required],
+        TP: [[""], [Validators.nullValidator]],
     });
 
     validateName(control: AbstractControl): ValidationErrors | null {

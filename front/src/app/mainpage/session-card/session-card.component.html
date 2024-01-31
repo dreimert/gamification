@@ -1,7 +1,7 @@
 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 ml-5 overflow-y-auto">
     <div *ngFor="let session of sessions" class="flex flex-col justify-center mt-4 mx-4 bg-grey-dark rounded-lg">
         <div class="container h-full mx-auto relative border-b justify-center flex">
-            <img class="object-contain top-0" src="/assets/imgJoin/kafka.png" alt="Icône du TP" />
+            <img class="object-contain top-0" src="{{ '/assets/imgJoin/' + session.TP + '.png' }}" alt="Icône du TP" />
             <!-- TODO: change image -->
             <div
                 class="absolute top-0 right-0 mt-1 mr-1 h-fit rounded-lg"
@@ -77,9 +77,9 @@
                     </button>
                     <button
                         *ngIf="session.status === SessionStatus.DONE"
-                        [routerLink]="['/session', session.id]"
+                        [routerLink]="['/grade-teacher', session.id, 'lookup']"
                         class="w-fit mx-auto mt-auto mb-3 justify-center bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
-                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Consulter</p>
+                        <p class="cursor-pointer text-base my-3 mx-1 leading-3 text-white font-inter">Voir notes</p>
                     </button>
                 </div>
                 <div *ngIf="Header.name === 'Notes'">

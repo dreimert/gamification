@@ -19,7 +19,6 @@
         </toc-element>
     </toc-element>
     <toc-element topic="Scenarios.md">
-        <toc-element topic="DHT.md"/>
         <toc-element topic="Kafka.md"/>
         <toc-element topic="Scraping.md"/>
     </toc-element>

@@ -13,19 +13,19 @@ const getScrappingGrades = () => {
     return scrappingIndexGrades;
 };
 
-const getKafkaGrades = () => {
-    const kafkaIndexGrades = new Map();
-    kafkaIndexGrades.set("0", 0);
-    kafkaIndexGrades.set("1", 7);
-    kafkaIndexGrades.set("2", 12);
-    kafkaIndexGrades.set("3", 15);
-    kafkaIndexGrades.set("4", 18);
-    return kafkaIndexGrades;
-};
+// const getKafkaGrades = () => {
+//     const kafkaIndexGrades = new Map();
+//     kafkaIndexGrades.set("0", 0);
+//     kafkaIndexGrades.set("1", 7);
+//     kafkaIndexGrades.set("2", 12);
+//     kafkaIndexGrades.set("3", 15);
+//     kafkaIndexGrades.set("4", 18);
+//     return kafkaIndexGrades;
+// };
 
 export const getIndexGrades = () => {
     const indexGrades = new Map();
     indexGrades.set("scrapping", getScrappingGrades);
-    indexGrades.set("kafka", getKafkaGrades);
+    // indexGrades.set("kafka", getKafkaGrades);
     return indexGrades;
 };

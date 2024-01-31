@@ -38,6 +38,9 @@ gradeRouter.get("/all/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
+            if (!progressions) {
+                return res.status(404).json({ message: "Progressions not found" });
+            }
             return res.status(200).json(
                 progressions.map((progression) => {
                     return {
@@ -63,6 +66,9 @@ gradeRouter.post("/resetGrade/:progressionId", isAuthenticated, async (req, res)
     if (req.user.isTeacher()) {
         try {
             const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
+            if (!progression) {
+                return res.status(404).json({ message: "Progression not found" });
+            }
             progression.grade = progression.sessionId.indexGrades.get(progression.level.toString());
             progression.teacherGradeOverride = false;
             progression.teacherGradeComment = "";
@@ -78,8 +84,17 @@ gradeRouter.post("/resetGrade/:progressionId", isAuthenticated, async (req, res)
 
 gradeRouter.post("/setGrade/:progressionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
+        if (req.body.grade === undefined || req.body.grade === null) {
+            return res.status(400).json({ message: "Grade is missing" });
+        }
+        if (req.body.grade < 0 || req.body.grade > 20) {
+            return res.status(400).json({ message: "Grade must be between 0 and 20" });
+        }
         try {
             const progression = await Progression.findById(req.params.progressionId);
+            if (!progression) {
+                return res.status(404).json({ message: "Progression not found" });
+            }
             progression.grade = req.body.grade;
             progression.teacherGradeOverride = true;
             progression.teacherGradeComment = req.body.comment;
@@ -96,6 +111,22 @@ gradeRouter.post("/setGrade/:progressionId", isAuthenticated, async (req, res) =
 gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
+            if (req.body.level === undefined || req.body.level === null) {
+                return res.status(400).json({ message: "Level is missing" });
+            }
+            if (req.body.grade === undefined || req.body.grade === null) {
+                return res.status(400).json({ message: "Grade is missing" });
+            }
+            if (req.body.grade < 0 || req.body.grade > 20) {
+                return res.status(400).json({ message: "Grade must be between 0 and 20" });
+            }
+            const session = await Session.findById(req.params.sessionId);
+            if (!session) {
+                return res.status(404).json({ message: "Session not found" });
+            }
+            if (!session.teachers.some((teacher) => teacher.id === req.user.id) && !req.user.isAdmin()) {
+                return res.status(403).json({ message: "You are not allowed to access this resource" });
+            }
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
             const filtered = progressions.filter((progression) => progression.level === req.body.level);
             filtered.forEach((progression) => {
@@ -104,7 +135,6 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
                     progression.save();
                 }
             });
-            const session = await Session.findById(req.params.sessionId);
             session.indexGrades.set(req.body.level.toString(), req.body.grade);
             await session.save();
             // Non modified progressions
@@ -132,6 +162,13 @@ gradeRouter.post("/setLevelGrade/:sessionId", isAuthenticated, async (req, res) 
 gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
+            const session = await Session.findById(req.params.sessionId);
+            if (!session) {
+                return res.status(404).json({ message: "Session not found" });
+            }
+            if (!session.teachers.some((teacher) => teacher.id === req.user.id) && !req.user.isAdmin()) {
+                return res.status(403).json({ message: "You are not allowed to access this resource" });
+            }
             const progressions = await Progression.find({ sessionId: req.params.sessionId }).populate("userId");
             progressions.forEach((progression) => {
                 if (progression.teacherGradeOverride === false) {
@@ -139,7 +176,6 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
                     progression.save();
                 }
             });
-            const session = await Session.findById(req.params.sessionId);
             session.indexGrades = new Map(getIndexGrades().get(session.TP)());
             await session.save();
             // Non modified progressions
@@ -169,6 +205,12 @@ gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req
     if (req.user.isTeacher()) {
         try {
             const progression = await Progression.findById(req.params.progressionId);
+            if (!progression) {
+                return res.status(404).json({ message: "Progression not found" });
+            }
+            if (!req.body.level) {
+                return res.status(400).json({ message: "Level is missing" });
+            }
             progression.level = req.body.level;
             await progression.save();
             return res.status(200).json({ message: "Level edited" });
@@ -184,6 +226,12 @@ gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
     if (req.user.isStudent()) {
         try {
             const session = await Session.findById(req.params.sessionid).populate("students");
+            if (!session) {
+                return res.status(404).json({ message: "Session not found" });
+            }
+            if (!session.students.some((student) => student.id === req.user.id)) {
+                return res.status(403).json({ message: "You are not in this session" });
+            }
             // Filter the students based on the searchString
             const words = req.body.searchString.split(" ");
             // Create a regex pattern for each word
@@ -213,6 +261,12 @@ gradeRouter.post("/students/:sessionid", isAuthenticated, async (req, res) => {
 gradeRouter.get("/getBonus/:progressionId", isAuthenticated, async (req, res) => {
     try {
         const progression = await Progression.findById(req.params.progressionId).populate("helpedBy");
+        if (!progression) {
+            return res.status(404).json({ message: "Progression not found" });
+        }
+        if (progression.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "You are not allowed to access this resource" });
+        }
         return res.status(200).json(progression.helpedBy.map((user) => user.serializePublic()));
     } catch (err) {
         return res.status(500).json({ message: err.message });
@@ -232,6 +286,12 @@ gradeRouter.post("/setBonus/:progressionId", isAuthenticated, async (req, res) =
             return res.status(400).json({ message: "You can't set yourself as a bonus" });
         }
         const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
+        if (!progression) {
+            return res.status(404).json({ message: "Progression not found" });
+        }
+        if (progression.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "You are not allowed to access this resource" });
+        }
         if (progression.sessionId.endDate < new Date().setTime(new Date().getTime() - 60 * 60 * 1000)) {
             return res.status(400).json({ message: "cannot edit bonuses 1h after session ends" });
         }

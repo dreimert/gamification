@@ -146,7 +146,7 @@ sessionRouter.post("/:id/end", isAuthenticated, async (req, res) => {
             return res.status(404).json({ message: "Session not found" });
         }
         if (!session.teachers.includes(req.user.id)) {
-            return res.status(403).json({ message: "Forbidden" });
+            return res.status(403).json({ message: "Vous n'avez pas les droits pour terminer la session" });
         }
         if (session.endDate < Date.now()) {
             return res.status(400).json({ message: "Session already ended" });
