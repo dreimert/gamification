@@ -8,7 +8,7 @@ import { DialogHelpComponent } from "./dialog-help/dialog-help.component";
 import { Session } from "../../models/session.model";
 import { UserService } from "../../services/user.service";
 import { PrivateUser } from "../../models/user.model";
-import { TpScrappingService, lvl1Code, lvl2Course, verifyPassCode } from "../../services/tp-scrapping.service";
+import { TpScrappingService, lvl1Code, lvl2Course, lvl4Res, verifyPassCode } from "../../services/tp-scrapping.service";
 import { environment } from "../../../environments/environment";
 
 @Component({
@@ -29,7 +29,12 @@ export class TpScrappingComponent implements OnInit {
         lvl1: "",
         lvl2: "",
         lvl3: "",
-        lvl4: "",
+        lvl4: {
+            p1Name: "",
+            p2Initials: "",
+            p3Phone: "",
+            p4Mail: "",
+        },
     };
     passcode: string = "";
     codeCorrect: boolean = false;
@@ -100,6 +105,12 @@ export class TpScrappingComponent implements OnInit {
             case 2:
                 this.tpService.getLvl2Course(this.token).subscribe((lvl2Code: lvl2Course) => {
                     this.listResponse.lvl2 = lvl2Code.courseCode;
+                    this.loadSentences();
+                });
+                break;
+            case 4:
+                this.tpService.getLvl4TeacherInfo(this.token).subscribe((lvl4Res: lvl4Res) => {
+                    this.listResponse.lvl4 = lvl4Res;
                     this.loadSentences();
                 });
                 break;

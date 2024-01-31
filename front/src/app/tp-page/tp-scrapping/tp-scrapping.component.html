@@ -167,6 +167,14 @@
                     </p>
                 </div>
 
+                <div class="text-white font-light my-2 ml-2">
+                    Informations données: <br />
+                    Nom de la personne 1: {{ listResponse.lvl4.p1Name }}<br />
+                    Initiales de la personne 2: {{ listResponse.lvl4.p2Initials }}<br />
+                    Téléphone de la personne 3: {{ listResponse.lvl4.p3Phone }}<br />
+                    Mail de la personne 4: {{ listResponse.lvl4.p4Mail }}<br />
+                </div>
+
                 <div *ngIf="lvl === 5" class="text-white">
                     <div
                         class="animate-typing overflow-hidden whitespace-break-spaces flexmt mx-1 text-white font-light my-2">
