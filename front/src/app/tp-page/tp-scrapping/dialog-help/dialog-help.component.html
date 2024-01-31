@@ -1,0 +1,23 @@
+<div class="h-full justify-center items-start flex-wrap bg-gray-300 text-black overflow-y-hidden">
+    <div class="h-1/6 w-full">
+        <div class="flex items-center h-2/3 bg-gray-500">
+            <p class="ml-5 py-2 text-lg">Help</p>
+            <button (click)="closeDialog()" class="w-7 h-7 right-4 absolute">
+                <img src="/assets/imgJoin/close.png" alt="closeDialog" />
+            </button>
+        </div>
+    </div>
+
+    <div class="h-5/6 w-full overflow-y-auto">
+        <div class="w-6/7 ml-5 mb-10" style="word-break: break-all">
+            Vous devez utiliser ce token pour réaliser le scrapping:
+            <br />
+            <p class="mt-2">token:</p>
+            <p class="text-blue-500 ml-2">"{{ token }}"</p>
+
+            <br /><br />
+            Si vous voulez plus de tutoriels sur le scrapping, vous cliquerez sur les liens suivants:
+            <a href="lien" class="text-blue-500 underline">lien</a>
+        </div>
+    </div>
+</div>

@@ -26,16 +26,7 @@ export class SessionCardComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((password) => {
             if (password) {
-                this.sessionService.joinSession(session, password).subscribe({
-                    next: (session: Session) => {
-                        // TODO: redirect to game page
-                        alert("Vous avez rejoint la session" + session.name);
-                    },
-                    error: (err) => {
-                        console.log(err);
-                        alert("Impossible de rejoindre la session");
-                    },
-                });
+                this.rejoinSession(session, password);
             }
         });
     }
@@ -80,11 +71,19 @@ export class SessionCardComponent implements OnInit {
         });
     }
 
-    rejoinSession(session: Session) {
-        this.sessionService.joinSession(session, "").subscribe({
-            next: (session: Session) => {
-                // TODO: redirect to game page
-                alert("Vous avez rejoint la session" + session.name);
+    rejoinSession(session: Session, password = "") {
+        this.sessionService.joinSession(session, password).subscribe({
+            next: (data) => {
+                console.log(data);
+                alert("Vous avez rejoint la session: " + data.session.name);
+                const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`], {
+                    queryParams: {
+                        token: data.token,
+                        level: data.progression.level,
+                    },
+                });
+                const url = this.router.serializeUrl(urlTree);
+                window.open(url, "_blank");
             },
             error: (err) => {
                 console.log(err);

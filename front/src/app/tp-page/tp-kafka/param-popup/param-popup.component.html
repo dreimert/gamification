@@ -1,0 +1,31 @@
+<div class="flex flex-col h-full overflow-y-auto border-2 border-black">
+    <!-- <img class="object-contain" src="/assets/tpKafka/kafka.png" alt="Icône du TP" /> -->
+    <div class="mt-3 mx-auto text-black text-2xl font-medium font-['Inter'] leading-9">
+        {{ block.name }}<br /><br />
+    </div>
+    <div class="flex flex-row w-5/6 mx-auto">
+        <p class="w-1/2 text-black text-2xl font-medium font-['Inter'] leading-9">Productivité:</p>
+        <p class="w-1/2 text-right text-2xl font-medium font-['Inter'] leading-9">
+            {{ block.type === "warehouse" ? block.productivity + " kg" : block.productivity + " kg/min" }}
+        </p>
+    </div>
+    <div *ngIf="block.type === 'factory'" class="flex flex-row w-5/6 mx-auto">
+        <p class="w-1/2 text-black text-2xl font-medium font-['Inter'] leading-9">Profit:</p>
+        <p class="w-1/2 text-right text-2xl font-medium font-['Inter'] leading-9">
+            {{ block.profit + " $" }}
+        </p>
+    </div>
+    <div class="w-5/6 mx-auto text-black text-2xl font-medium font-['Inter'] leading-9">Code</div>
+    <textarea
+        class="w-5/6 h-1/6 mx-auto rounded-xl border border-zinc-400 border-opacity-80 pl-5"
+        placeholder="Entrez ici votre code"></textarea>
+    <button (click)="saveCode()" class="w-1/6 h-12 ml-auto mr-5 mt-auto mb-2 bg-blueButton rounded-xl text-white">
+        Exécuter
+    </button>
+</div>
+
+<div class="w-1/4 h-1/12 right-10 bottom-3 absolute flex flex-col"></div>
+
+<button (click)="closeDialog()" class="w-10 h-10 right-3 top-3 absolute">
+    <img src="/assets/imgJoin/close.png" alt="closeDialog" />
+</button>
