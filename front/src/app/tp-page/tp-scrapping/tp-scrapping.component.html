@@ -37,7 +37,7 @@
                         (completed)="nextSentence()">
                         5TC:\Niveau_1 > <span class="typing"></span>
                         <input
-                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            *ngIf="i === sentences.length - 1 && sentenceIndex === sentences.length"
                             class="relative bg-black border-none outline-none ml-1"
                             type="text"
                             [(ngModel)]="passcode" />
@@ -74,7 +74,7 @@
                         (completed)="nextSentence()">
                         5TC:\Niveau_2 > <span class="typing"></span>
                         <input
-                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            *ngIf="i === sentences.length - 1 && sentenceIndex === sentences.length"
                             class="relative bg-black border-none outline-none ml-1"
                             type="text"
                             [(ngModel)]="passcode" />
@@ -111,7 +111,7 @@
                         (completed)="nextSentence()">
                         5TC:\Niveau_3 > <span class="typing"></span>
                         <input
-                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            *ngIf="i === sentences.length - 1 && sentenceIndex === sentences.length"
                             class="relative bg-black border-none outline-none ml-1"
                             type="text"
                             [(ngModel)]="passcode" />
@@ -148,7 +148,7 @@
                         (completed)="nextSentence()">
                         5TC:\Niveau_4 > <span class="typing"></span>
                         <input
-                            *ngIf="i === sentences.length - 1 && sentenceIndex >= 3"
+                            *ngIf="i === sentences.length - 1 && sentenceIndex === sentences.length"
                             class="relative bg-black border-none outline-none ml-1"
                             type="text"
                             [(ngModel)]="passcode" />
