@@ -481,6 +481,221 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "5A",
+            "ues": [
+                {
+                    "name": "OPT",
+                    "credits": 12,
+                    "courses": [
+                        {
+                            "name": "Satellites et localisation",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SAT",
+                            "teacher": "FJR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Satellites et localisation projet",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-PRJSAT",
+                            "teacher": "FJR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Communications Quantiques",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-CQN",
+                            "teacher": "GCO",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Simulation Avancée des Réseaux",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SAR",
+                            "teacher": "RZA",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Sécurité des Protocoles Réseaux",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SPR",
+                            "teacher": "BWE",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Cloud IoT",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-CIT",
+                            "teacher": "FML",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Réseaux de Diffusion de Contenus",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-CDN",
+                            "teacher": "RZA",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Analyse de Risque en sécurité de l'information",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-ARC",
+                            "teacher": "DCR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Sécurité des réseaux et des systèmes",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SRS",
+                            "teacher": "MSE",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Sécurité et vie privée",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SVP",
+                            "teacher": "MUC",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Systèmes embarqués pour le traitement du signal audio en temps-réel",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-AUD",
+                            "teacher": "TIR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Blockchain et Monnaies électronique",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-BTC",
+                            "teacher": "RDE",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Conteneurisation / virtualisation",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-AWS",
+                            "teacher": "CUF",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Projet Robotique - Embarqué",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-PRJREB",
+                            "teacher": "SIO",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Systèmes Multi-Robots",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-SMR",
+                            "teacher": "SIO",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "IA pour la Robotique",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-IAR",
+                            "teacher": "SIO",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Elastic Kibana Beats",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-ELK",
+                            "teacher": "FSR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Développement Mobile",
+                            "credits": 2,
+                            "code": "TC-5-S1-EC-DMO",
+                            "teacher": "FSR",
+                            "hours": 32,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        }
+                    ]
+                },
+                {
+                    "name": "PRO1",
+                    "credits": 11,
+                    "courses": [
+                        {
+                            "name": "Projet Innovant (Réunions Pre-MVP)",
+                            "credits": 3,
+                            "code": "TC-5-S1-EC-PILS-PRE",
+                            "teacher": "FSR",
+                            "hours": 360,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Projet Innovant (Réunions MVP)",
+                            "credits": 4,
+                            "code": "TC-5-S1-EC-PILS-MVP",
+                            "teacher": "FSR",
+                            "hours": 20,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Projet Innovant (Pitch-Poster)",
+                            "credits": 4,
+                            "code": "TC-5-S1-EC-PILS-RET",
+                            "teacher": "FSR",
+                            "hours": 20,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        }
+                    ]
+                },
+                {
+                    "name": "STAGE",
+                    "credits": 30,
+                    "courses": [
+                        {
+                            "name": "Stage en entreprise",
+                            "credits": 16,
+                            "code": "TC-5-S1-EC-STA-ENT",
+                            "teacher": "REV",
+                            "hours": 706,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Rapport de stage",
+                            "credits": 7,
+                            "code": "TC-5-S1-EC-STA-RAP",
+                            "teacher": "REV",
+                            "hours": 20,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        },
+                        {
+                            "name": "Soutenance de stage",
+                            "credits": 7,
+                            "code": "TC-5-S1-EC-STA-SOU",
+                            "teacher": "REV",
+                            "hours": 20,
+                            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae eros vitae nisl ultricies aliquam."
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
