@@ -127,11 +127,14 @@ pm2 start app.js --name syd-backend
 Build the frontend:
 
 ```bash
-npm run build
+npm run build -- --configuration production
 ```
 
-Copy the `dist/front/browser` folder to the server.
+Then edit the permissions of the `browser` folder:
 
+```bash
+chmod -R a+rx /home/gamification/gamification/front/dist/front/browser/
+``` 
 
 ## PM2 Configuration
 
