@@ -136,14 +136,20 @@ app.get("/test", isAuthenticated, function (req, res) {
 
 app.use("/api", mainRouter);
 
-https
-    .createServer(
-        {
-            key: fs.readFileSync(process.env.CERTIFICATE_KEY_PATH || "./selfsigned.key"),
-            cert: fs.readFileSync(process.env.CERTIFICATE_PATH || "./selfsigned.crt"),
-        },
-        app,
-    )
-    .listen(port, () => {
+if (process.env.ENV === "dev") {
+    https
+        .createServer(
+            {
+                key: fs.readFileSync(process.env.CERTIFICATE_KEY_PATH || "./selfsigned.key"),
+                cert: fs.readFileSync(process.env.CERTIFICATE_PATH || "./selfsigned.crt"),
+            },
+            app,
+        )
+        .listen(port, () => {
+            logger.info("Server is running at port " + port);
+        });
+} else {
+    app.listen(port, () => {
         logger.info("Server is running at port " + port);
     });
+}
