@@ -204,7 +204,7 @@ gradeRouter.post("/removeLevelGrade/:sessionId", isAuthenticated, async (req, re
 gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req, res) => {
     if (req.user.isTeacher()) {
         try {
-            const progression = await Progression.findById(req.params.progressionId);
+            const progression = await Progression.findById(req.params.progressionId).populate("sessionId");
             if (!progression) {
                 return res.status(404).json({ message: "Progression not found" });
             }
@@ -212,6 +212,9 @@ gradeRouter.post("/editStudentLevel/:progressionId", isAuthenticated, async (req
                 return res.status(400).json({ message: "Level is missing" });
             }
             progression.level = req.body.level;
+            if (!progression.teacherGradeOverride) {
+                progression.grade = progression.sessionId.indexGrades.get(req.body.level.toString());
+            }
             await progression.save();
             return res.status(200).json({ message: "Level edited" });
         } catch (err) {
