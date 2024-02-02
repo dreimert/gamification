@@ -83,7 +83,8 @@ export class SessionCardComponent implements OnInit {
     rejoinSession(session: Session, password = "") {
         this.sessionService.joinSession(session, password).subscribe({
             next: (data) => {
-                console.log(data);
+                // console.log(data);
+                this.sessions.find((s: Session) => s.id == session.id)!.joined = true;
                 alert("Vous avez rejoint la session: " + data.session.name);
                 const urlTree = this.router.createUrlTree([`/tp/${data.session.id}`], {
                     queryParams: {

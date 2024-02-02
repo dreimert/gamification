@@ -190,7 +190,7 @@ sessionRouter.post("/:id/join", isAuthenticated, async (req, res) => {
         if (!req.body.password) {
             return res.status(400).json({ message: "Missing password" });
         }
-        if (session.validatePassword(req.body.password)) {
+        if (await session.validatePassword(req.body.password)) {
             session.students.push(req.user.id);
             await session.save();
             const progression = new Progression({

@@ -73,6 +73,7 @@ passport.deserializeUser(async function (id, done) {
         }
         return done(null, false);
     } catch (e) {
+        logger.error(e);
         return done(e);
     }
 });

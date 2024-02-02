@@ -289,7 +289,7 @@ scrappingRouter.post(
 
 scrappingRouter.get("/lvl3/scrap", lvl3Middleware, (req, res) => {
     const data = getDataFromFile("lvl3_data.json");
-    generateISBN(data, req.user.id + req.tpSession.id);
+    generateISBN(data, req.user.id + req.tpSession.id + "book");
     data.forEach((book) => {
         book.id = obfuscateString(book.isbn.toString(), req.user.id + req.tpSession.id);
     });
@@ -299,7 +299,7 @@ scrappingRouter.get("/lvl3/scrap", lvl3Middleware, (req, res) => {
 
 scrappingRouter.get("/lvl3/scrap/:id", lvl3Middleware, (req, res) => {
     const data = getDataFromFile("lvl3_data.json");
-    generateISBN(data, req.user.id + req.tpSession.id);
+    generateISBN(data, req.user.id + req.tpSession.id + "book");
     const id = deobfuscateString(req.params.id);
     const book = data.find((b) => b.isbn.toString() === id);
     if (!book) {
