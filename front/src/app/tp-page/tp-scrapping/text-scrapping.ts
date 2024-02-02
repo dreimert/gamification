@@ -69,6 +69,12 @@ export const infoToBeChanged = {
     'lvl1_info': "#lvl1_info#",
     'lvl2_info': "#lvl2_info#",
     'lvl3_info': "#lvl3_info#",
-    // 'lvl4_info': "#lvl4_info#",
+    // 'lvl4_info': {
+    //     p1Name: "p1Name",
+    //     p2Initials: "p2Initials",
+    //     p3Phone: "p3Phone",
+    //     p4Mail: "p4Mail",
+    // },
+    // 'lvl4_info': "#lvl4_info#"
 };
 

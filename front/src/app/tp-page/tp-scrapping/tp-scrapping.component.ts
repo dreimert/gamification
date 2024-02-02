@@ -37,6 +37,12 @@ export class TpScrappingComponent implements OnInit {
             p4Mail: "",
         },
     };
+    displayInSentence = {  //informations that need to be displayed in the sentences
+        lvl1: "",
+        lvl2: "",
+        // there is nothing to display for lvl3
+        // for lvl4 the list of information will appear entirely after the dialog but not between the sentences
+    }
     passcode: string = "";
     codeCorrect: boolean = false;
     codeEntered: boolean = false;
@@ -101,12 +107,14 @@ export class TpScrappingComponent implements OnInit {
             case 1:
                 this.tpService.getLvl1Code(this.token).subscribe((lvl1Code: lvl1Code) => {
                     this.listResponse.lvl1 = lvl1Code.teacherInitials;
+                    this.displayInSentence.lvl1 = lvl1Code.teacherInitials;
                     this.loadSentences();
                 });
                 break;
             case 2:
                 this.tpService.getLvl2Course(this.token).subscribe((lvl2Code: lvl2Course) => {
                     this.listResponse.lvl2 = lvl2Code.courseCode;
+                    this.displayInSentence.lvl2 = lvl2Code.courseCode;
                     this.loadSentences();
                 });
                 break;
@@ -298,7 +306,7 @@ export class TpScrappingComponent implements OnInit {
             if (this.sentences[i].includes(infoToBeChanged[index_info as keyof typeof infoToBeChanged])) {
                 console.log("if:", this.sentences[i]);
                 let wordToReplace = new RegExp(infoToBeChanged[index_info as keyof typeof infoToBeChanged], 'g');
-                let newWord = this.listResponse.lvl1; 
+                let newWord = this.displayInSentence[index as keyof typeof this.displayInSentence]; 
                 this.sentences[i] = this.sentences[i].replace(wordToReplace, newWord); 
                 console.log("changed:",this.sentences[i]);
             }
