@@ -21,34 +21,41 @@ with the following content:
 
 - Frontend: 
 ```nginx
-server{
+server {
     listen 80 default_server;
-    server_name syd.insa-lyon.fr; # Change this to the domain name of your server
-    return 301 https://syd.insa-lyon.fr$request_uri; # Change this to the domain name of your server
+    server_name tc-syd-02.insa-lyon.fr;
+    return 301 https://tc-syd-02.insa-lyon.fr$request_uri;
 }
 
-server{
-    listen 443 ssl default_server;
-    server_name syd.insa-lyon.fr; # Change this to the domain name of your server
-    ssl_certificate /etc/ssl/certs/server.crt; # Change this to the path of the certificate
-    ssl_certificate_key /etc/ssl/certs/server.key; # Change this to the path of the certificate key
+server {
+    listen 443 ssl;
+    server_name tc-syd-02.insa-lyon.fr;
+
+    ssl_certificate /etc/ssl/certs/tc-syd-02_insa-lyon_fr.crt;
+    ssl_certificate_key /etc/ssl/certs/tc-syd-02_insa-lyon_fr.key;
+
     gzip on;
     gzip_types      text/plain application/json;
-    root   /app/front; # Change this to the path of the frontend
+
+    root /home/gamification/gamification/front/dist/front/browser/;
 
     location / {
       index  index.html;
       try_files $uri $uri/ /index.html;
     }
+
     error_page   500 502 503 504  /50x.html;
+
     location = /50x.html {
       root   /usr/share/nginx/html;
     }
+
     location ~* (\.html|\/sw\.js)$ {
       expires -1y;
       add_header Pragma "no-cache";
       add_header Cache-Control "public";
     }
+
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|json)$ {
       expires 1y;
       add_header Cache-Control "public, immutable";
@@ -59,22 +66,25 @@ server{
 ```nginx
 server{
     listen 80;
-    server_name api.syd.insa-lyon.fr; # Change this to the domain name of the backend
-    return 301 https://api.syd.insa-lyon.fr$request_uri; # Change this to the domain name of the backend
+    server_name api.tc-syd-02.insa-lyon.fr;
+    return 301 https://api.tc-syd-02.insa-lyon.fr$request_uri;
 }
 
 server{
     listen 443 ssl;
-    server_name api.syd.insa-lyon.fr; # Change this to the domain name of the backend
-    ssl_certificate /etc/ssl/certs/server.crt; # Change this to the path of the certificate
-    ssl_certificate_key /etc/ssl/certs/server.key; # Change this to the path of the certificate key
+    server_name api.tc-syd-02.insa-lyon.fr;
+    ssl_certificate /etc/ssl/certs/tc-syd-02_insa-lyon_fr.crt;
+    ssl_certificate_key /etc/ssl/certs/tc-syd-02_insa-lyon_fr.key;
     gzip on;
     gzip_types      text/plain application/json;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
-        proxy_pass https://127.0.0.1:3000;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_pass http://127.0.0.1:3000;
     }
 }
 ```
@@ -106,8 +116,6 @@ MONGO_URI=mongodb://user:password@localhost:27017/syd
 ENV=prod
 ACCESS_TOKEN_SECRET=a strong secret
 COOKIE_SECRET=another strong secret
-CERTIFICATE_PATH=path to the certificate
-CERTIFICATE_KEY_PATH=path to the certificate key
 ```
 
 Install the dependencies:
@@ -119,7 +127,7 @@ npm install
 Start the backend:
 
 ```bash
-pm2 start app.js --name syd-backend
+pm2 start ./src/app/app.js --name syd-backend
 ```
 
 ## Frontend Configuration
@@ -127,11 +135,14 @@ pm2 start app.js --name syd-backend
 Build the frontend:
 
 ```bash
-npm run build
+npm run build -- --configuration production
 ```
 
-Copy the `dist/front/browser` folder to the server.
+Then edit the permissions of the `browser` folder:
 
+```bash
+chmod -R a+rx /home/gamification/gamification/front/dist/front/browser/
+``` 
 
 ## PM2 Configuration
 
