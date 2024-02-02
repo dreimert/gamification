@@ -17,6 +17,7 @@
                         (completed)="nextSentence()">
                         5TC:\Accueil> <span class="typing"></span>
                     </ngx-typed-js>
+
                 </div>
                 <p *ngIf="sentenceIndex === sentences.length">{{ userName }}:\Accueil> {{ passcode }}</p>
                 <p *ngIf="codeEntered && !codeCorrect" class="text-red-400 mx-1 font-medium">
