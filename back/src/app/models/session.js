@@ -133,7 +133,7 @@ sessionSchema.methods.serializeStudent = function (userID) {
  */
 sessionSchema.methods.serialize = sessionSchema.methods.serializeStudent;
 
-sessionSchema.methods.validatePassword = async function (password) {
+sessionSchema.methods.validatePassword = function (password) {
     const hash = crypto.pbkdf2Sync(password, this.salt, this.iterations, 64, "sha512").toString("hex");
     return this.password === hash;
 };
