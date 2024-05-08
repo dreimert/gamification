@@ -53,6 +53,7 @@ export class TpScrappingComponent implements OnInit {
     commentaire!: "";
     timer: number = new Date().getMinutes();
     lvl1_info = this.listResponse.lvl1;
+    readyToChangeInfo = true;
 
     constructor(
         private titleService: Title,
@@ -61,12 +62,19 @@ export class TpScrappingComponent implements OnInit {
         private tpService: TpScrappingService,
     ) {
         this.titleService.setTitle("Tp Scrapping");
+        
         setInterval(() => {
             this.timer = new Date().getMinutes();
-            if (this.lvl === 4 && this.timer % 5 === 0) {
+            if(!this.readyToChangeInfo){
+                setTimeout(()=>{
+                    this.readyToChangeInfo = true;
+                }, 60000);
+            };
+            if (this.lvl === 4 && this.timer % 5 === 0 && this.readyToChangeInfo) {
                 this.fetchInfoFromBack();
+                this.readyToChangeInfo = false;
             }
-        }, 5000);
+        }, 1000);
     }
 
     ngOnInit(): void {
@@ -163,13 +171,13 @@ export class TpScrappingComponent implements OnInit {
                     code = { password: this.passcode };
                     break;
             }
-            // this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode) => {
-            //     this.codeCorrect = verifyPassCode.success;
-            // });
-            this.codeCorrect = true;
-            if (this.lvl === 4 && this.codeCorrect) {
-                this.changeLevel();
-            }
+            this.tpService.verifyCode(this.token, code, this.lvl).subscribe((verifyPassCode: verifyPassCode) => {
+                // this.codeCorrect = verifyPassCode.success;
+                this.codeCorrect = true;
+                if (this.lvl === 4 && this.codeCorrect) {
+                    this.changeLevel();
+                }
+            });
         }
     }
 
